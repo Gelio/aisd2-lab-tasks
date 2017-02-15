@@ -33,4 +33,5 @@ stwórz **Pull request**.
 
 
 # Autor
-Autorem rozwiązań jest [Grzegorz Rozdzialik](rozdzialikg@student.mini.pw.edu.pl).
+Autorem rozwiązań z repozytorium (pojawiających się z biegiem czasu, a nie tych, które
+są od początku w niektórych zadaniach) jest [Grzegorz Rozdzialik](rozdzialikg@student.mini.pw.edu.pl).
