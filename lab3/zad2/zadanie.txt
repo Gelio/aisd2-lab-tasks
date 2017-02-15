@@ -1,0 +1,52 @@
+Nowo otwarta linia lotnicza Air Super Duper 2 ma swoj¹ siedzibê w 
+Warszawie. Linia otwiera swoje przedstawicielstwa w innych miastach,
+ustanawiaj¹c przy tym nowe po³¹czenia lotnicze.
+
+Zarz¹d przyj¹³ nastêpuj¹cy sposób postêpowania:
+- na zebraniu zarz¹du wybierane jest miasto A o wspó³rzêdnych (x,y), w 
+którym zostanie otwarte przedstawicielstwo
+- nastêpnie wybierane jest miasto B, w którym:
+    a) istnieje ju¿ przedstawicielstwo (mo¿e to byæ te¿ Warszawa)
+    b) znajduje siê najbli¿ej miasta A (chodzi o odleg³oœæ Euklidesow¹)
+- ustanawiane jest po³¹czenie lotnicze miêdzy A i B, a w A otwiera siê 
+nowe przedstawicielstwo.
+
+Po roku prê¿nej dzia³alnoœci okaza³o siê, ¿e taki sposób konstruowania 
+sieci po³¹czeñ nie by³ najlepszy i trzeba by³o to wczeœniej przemyœleæ. 
+Co gorsza, umowy z lotniskami przewiduj¹ ogromne kary za zmiany po³¹czeñ.
+Jedynym co mo¿na zrobiæ, to przenieœæ siedzibê ASD2, bo aby z pewnych 
+miejsc dolecieæ do Warszawy, potrzeba bardzo wielu przesiadek. Celem 
+jest znalezienie takiego miasta, ¿e
+- istnieje w nim przedstawicielstwo ASD2
+- odleg³oœæ (liczona w przesiadkach) do najdalszego lotniska jest jak 
+najmniejsza. (œciœlej lot bez przesiadki to odleg³oœæ 1, lot z 1 przesiadk¹ to
+odleg³oœæ 2,  lot z 2 przesiadkami to odleg³oœæ 3 i tak dalej).
+
+Jeœli wiêcej ni¿ jedno miasto spe³nia te wymagania, za³o¿onych zostanie 
+kilka siedzib (w tych w³aœnie miastach) i spotkania zarz¹du bêd¹ odbywaæ 
+siê w nich po kolei.
+
+Napisz program, który skonstruuje sieæ po³¹czeñ (na opisanych wczeœniej zasadach),
+a nastêpnie znajdzie miasta, w których bêdzie mieœciæ siê nowa siedziba linii.
+
+
+Do napisania s¹ funkcje:
+- CreateNetwork
+Wejœcie: tablica wspó³rzednych miast.
+Warszawa jest pierwszym elementem tablicy (czyli ma indeks 0)
+Funkcja odpowiednio tworzy graf airline (zgodnie z zasadami powy¿ej)
+
+- FindNewBase
+Funkcja znajduje po³o¿enie nowej siedziby linii, czyli wierzcho³ki, dla których najwiêksza odleg³oœæ (w grafie)
+od dowolnego wierzcho³ka jest najmniejsza mo¿liwa. Wierzcho³ki zwracane s¹ w postaci tablicy indeksów
+(odpowiadaj¹cym indeksom miast w tablicy, na podstawie której tworzony by³ graf)
+
+- GetMaximumDistance
+Funkcja znajduje odleg³oœæ (w grafie) pomiêdzy danym wierzcho³kiem (start) a wierzcho³kiem, który le¿y od niego najdalej.
+
+
+Punktacja:
+CreateNetwork: 1
+FindNewBase: 2
+GetMaximumDistance: 1
+dokoñczenie w domu: 1

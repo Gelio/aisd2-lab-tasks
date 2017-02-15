@@ -1,0 +1,37 @@
+W parku zwanym Ogrodem Matematyków znajdują się ścieżki i place. Każda
+ścieżka w tym parku ma długość 1 km i łączy dwa place. Żaden plac nie
+znajduje się w połowie ścieżki. Matematycy bardzo lubią przechadzać się
+po swoim parku, jednak wiosenne deszcze utrudniają tę formę spędzania
+czasu.
+
+Ogród Matematyków jest umieszczony w pewnej, niekoniecznie euklidesowej
+przestrzeni i stanowi spójną całość. Oznacza to, że graf reprezentujący
+park nie musi być planarny, ale jest spójny. Ponadto park na pewno jest
+niezdegenerowany -- zawiera przynajmniej jedną ścieżkę.
+
+Matematyk, kiedy zorientuje się, że ma zacząć padać deszcz udaje
+się do najbliższego szałasu, aby schronić się przed deszczem. 
+Od momentu, kiedy matematyk zorientował się, że ma zacząć padać, do
+pierwszych kropel deszczu upływa dokładnie tyle czasu, żeby przejść 1km.
+W momencie rozpoczęcia deszczu matematyk może się znajdować zarówno na jednym
+z placów jak i w dowolnym punkcie ścieżki między placami.
+
+Szałasy są bardzo duże i nie można ich stawiać przy ścieżkach, jedynymi
+miejscami, gdzie mieści się szałas są place.
+
+Napisać program, który pozwoli zaplanować optymalne rozstawienie
+szałasów na placach. Optymalne ustawienie, to takie, które zapewnia, że
+z każdego miejsca parku da się zdążyć dojść do szałasu przed deszczem
+oraz wymagające do tego najmniejszej możliwej liczby szałasów.
+
+Do rozwiązania zadania należy użyć algorytmu z powrotami.
+
+Punktacja:
+ - małe testy poprawne, duże testy przekraczają czas -  2 pkt
+lub
+ - wszystkie testy poprawne                          -  4 pkt.
+
+
+oraz 
+ - część domowa - 1p (oczywiście muszą działać wszystkie testy)
+

@@ -1,0 +1,11 @@
+﻿
+1. (2 pkt) Pewien król postanowił dowiedzieć się jak daleko sięga jego władza.
+W tym celu polecił przygotować listę miast, którymi rządzi i wyznaczyć miasta leżące na granicy obszaru jego władzy.
+Polecił też znaleźć najbardziej od siebie oddalone miasta, którymi rządzi.
+
+
+3. (2 pkt) Złe duchy w chińskich wierzeniach poruszają się tylko po linii prostej.
+Chiński władca budując świątynie pragnie, aby nie była ona sprofanowana przez złego ducha.
+Nakazał zatem otoczyć ją fragmentami murów. Mury mają różną długość i są rozrzucone wokół świątyni.
+Zadaniem jest sprawdzenie, czy istnieje półprosta z nieskończoności do ołtarza, co oznaczałoby sprofanowanie świątyni.
+ 

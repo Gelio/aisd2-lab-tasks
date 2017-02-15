@@ -1,0 +1,75 @@
+Szlaki turystyczne na zboczu góry
+
+W odleg³ej i egzotycznej krainie znajduje siê góra, na której zboczu zbudowano kilka miast.
+Wszystko by³o piêknie (kwitn¹ce drzewa roztacza³y s³odk¹ woñ, a stada koczkodanów biega³y po targowiskach) do czasu,
+gdy unijna komisja ds. rozwoju regionu nie zadecydowa³a o dofinansowaniu turystyki w naszej krainie.
+Powsta³ pomys³ wybudowania szlaków turystycznych, z których ka¿dy mia³by zawieraæ siê w jednym mieœcie
+b¹dŸ przechodziæ przez kilka miast i koñczyæ hotelem. Ponadto, chcemy ¿eby ka¿de miasto mia³o dostêp
+do dok³adnie jednego szlaku (bo co za du¿o, to niezdrowo) oraz ¿eby kazdy ze szlaków szed³ z góry na dó³.
+Oczywiœcie s¹ ró¿ne koncepcje, jak nale¿y optymalnie zaplanowaæ te szlaki.
+
+A) Koncepcja "najmniejsza liczba szlaków"
+W tej wersji interesuje nas znalezienie rozwi¹zania, w którym ca³kowita liczba szlaków jest najmniejsza
+(bo ka¿dy dodatkowy szlak przek³ada siê na utrudnienia dla kadry zarz¹dczej).
+Ponadto, je¿eli optymalnych rozwi¹zañ jest wiêcej ni¿ jedno, chcemy wybraæ to o najmniejszej mo¿liwej
+sumie d³ugoœci szlaków (rzecz jasna sumujemy d³ugoœci odcinków pomiêdzy miastami).
+
+B) Koncepcja "najni¿szy koszt szlaków"
+W tej wersji koszem rozwi¹zania jest suma kosztów sk³adaj¹cych siê na nie szlaków.
+Ka¿dy szlak kosztuje nas proporcjonalnie do d³ugoœci odcinków miêdzy odwiedzanymi miastami,
+plus koszt postawienia hotelu w ostatnim mieœcie. Szukamy rozwi¹zania o najni¿szym koszcie.
+
+Formalniej:
+Mapa krainy jest dana jako skierowany, wa¿ony graf acykliczny (gdzie krawêdzie ³¹cz¹ miasta,
+miêdzy którymi mo¿na wybudowaæ fragment szlaku, a wagi informuj¹ o koszcie takiego po³¹czenia).
+Ponadto, w punkcie B, dostajemy te¿ tablicê kosztów hoteli.
+
+A) metoda int minimumNumberOfTrails(IGraph g, out int totalCost, out IGraph trails)
+zwraca minimaln¹ liczbê szlaków, a przez parametry wyjœciowe - koszt znalezionego rozwi¹zania i graf,
+sk³adaj¹cy siê z krawêdzi grafu g wziêtych do tego rozwi¹zania.
+
+B) metoda int minimumCostOfTrails(IGraph g, int[] vcosts, out IGraph trails)
+zwraca minimalny koszt rozwi¹zania. Parametr wyjœciowy jak wy¿ej.
+
+Punktacja:
+1p prawid³owy wynik w A)
+1p prawid³owy koszt w A)
+1p prawid³owy graf w A)
+1p podpunkt B), wszystko
+1p czêœæ domowa
+
+Przyk³ad:
+(wyobra¿amy sobie, ¿e wszystkie krawêdzie skierowane s¹ w prawo)
+
+      4
+     / \       8
+    /   \
+   1-----5---7
+  / \   /
+ /   \ /
+0-----3----6
+     /
+    /
+   2
+
+Proste krawêdzie kosztuj¹ 10, ukoœne 25, a ka¿de z miast 30.
+
+A) Mamy trzy szlaki: 0->1->4->5->7, 2->3->6, 8
+   koszt = 120
+
+B) Mamy szlaki: 1->5->7, 0->3->6, 2, 4, 8
+   koszt = 190
+   
+Nie ma innych równie dobrych rozwiazañ.
+
+Wskazówka:
+
+A)
+Wystarczy zbudowaæ graf dwudzielny, w którym ka¿demu wierzcho³kowi v grafu g odpowiadaj¹ jego dwie kopie
+- wierzcho³ek v_out oraz v_in - a ka¿da krawêdŸ uv przechodzi na krawêdŸ u_out v_in.
+Korzystaj¹c z minCostMaxFlow wyznaczamy najtañsze najliczniejsze skojarzenie w zbudowanym grafie
+i odtwarzamy z niego rozwi¹zanie.
+
+B)
+Tu dzia³a podobny pomys³, musimy tylko uwzglêdniæ koszty postawienia hoteli oraz w jakiœ sposób zapewniæ,
+¿eby do ka¿dego miasta wchodzi³ tylko jeden szlak.

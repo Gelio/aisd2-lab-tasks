@@ -1,0 +1,68 @@
+Lab4
+
+W związku ze zbliżającą się wiosną, komitet Młodych i Nowoczesnych
+Ichtiologów postanowił urządzić konkurs na najładniejszą trzcinę do
+zasadzenia stawie rybnym. Ponieważ wszystkie trzciny są do siebie
+podobne, przez długi czas nikt nie potrafił wskazać kryterium według
+jakiego będą one oceniane. W końcu zapadła decyzja, że zostanie
+wylosowana pewna liczba k (>= 0 i mniejsza od liczby trzcin
+biorących udział) i najładniejszą zostanie uznana trzcina, która jest
+k-ta z kolei ze wzgłedu na wysokość (liczymy pozycję od 0).
+
+Każdy uczestik konkursu ma prawo zgłosić dowolną liczbę trzcin
+wsadzonych w jedną podłużną skrzynkę. Podłużne skrzynki są tak wąskie,
+że trzciny wsadzone do skrzynek ustawione są w jednej linii. Dodatkowo
+organizatorzy konkursu, aby ułatwić roztrzygnięcie, nakazali
+uczestnikom wsadzić trzciny według wysokości od najniższej, do
+najwyższej. 
+
+Niestety na konkurs zostało zgłoszonych tak dużo okazów, że
+organizatorzy potrzebują programu komputerowego, który wyznaczy
+zwycięzcę. 
+
+Napisać program, który dla podanej listy skrzynek (posortowanych tablic
+wysokości trzcin) i podanej wartości k, wskaże na którym miejscu i w
+której skrzynce znajduje się k-ta trzcina według wysokości. W
+przypadku, gdy jest ich kilka -- wskazać dowolną.
+
+Nie można przesadzać trzcin w skrzynkach (modyfikować tablic
+wejściowych).
+
+Rozwiązanie ma działać w czasie O(m log(n)), gdzie m -- liczba
+skrzynek, n -- max(długość tablicy) i w pamięci O(m) (nie licząc danych
+wejściowych).
+
+Założenia:
+ - w konkursie jest przynajmniej jedna skrzynka
+ - żadna ze skrzynek nie jest pusta
+
+Podpowiedzi:
+ * Możemy zdefiniować górną i dolną medianę. W przypadku tablicy o nieparzystej
+   liczbie elementów, będzie to po prostu mediana. W przypadku parzystej liczby
+   elementów, dolna mediana to mniejsza z środkowych wartości, a górna -- większa
+ * Jeśli k-ta liczba jest mniejsza od mediany całego ciągu, to na pewno
+   jest mniejsza od największej z median górnych pojedynczych tablic
+ * Jeśli k-ta liczba jest większa od mediany całego ciągu, to na pewno
+   jest większa od najmniejszej z median dolnych pojedynczych tablic
+
+Można zatem szukać zwycięzcy, odrzucając fragmenty tablic
+na pewno nie zawierające rozwiązania.
+
+Uwaga!! Odrzucenie wartości przed k, spowoduje że k-ta liczba w starym zadaniu
+stanie się k-x liczbą w nowym 
+(gdzie x to liczba odrzuconych poprzedzających k-tą liczbę elementów)
+
+Odrzucając kolejne fragmenty tablic, w końcu dojdziemy do momentu, gdy 
+jest tylko jedna tablica z nieusuniętymi elementami. Znalezienie k-tej 
+wartości w posortowanej tablicy jest trywialne.
+
+===========================
+
+Punktacja:
+ 1) Poprawna wysokośc dla łatwych testów (0,1,2) -- 1 punkt
+ 2) Poprawny numer tablicy i pozycja w tablicy -- 1 punkt
+ 3) Poprawny wyniki dla pozostałych testów -- 2 punkty
+ 4) Część domowa -- 1 punkt
+
+
+

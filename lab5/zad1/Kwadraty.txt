@@ -1,0 +1,20 @@
+
+Kwadratowy kraj.
+
+Za morzami za lasami istnieje kwadratowy kraj. W kwadratowym kraju żyją kwadratowi ludzie.
+Jest tam też kwadratowy parlament, który stanowi kwadratowe prawo. Parlament postanowił,
+że każdy mieszkaniec kwadratowego kraju może kupić ziemię (sprzedawaną oczywiście w formie kwadratowych działek).
+Metr kwadratowy działki kosztuje jeden Kwadrat (Kwadraty to lokalna waluta).
+Długości boków działek są zawsze liczbami naturalnymi.
+
+Pewien mieszkaniec kwadratowego państwa chce zainwestować swoje N kwadratów w ziemię.
+Oczywiście może to zrobić kupując N działek o boku długości 1 metra.
+Jako potwierdzenie zakupu otrzymuje się kwadratowy certyfikat.
+Nasz bohater nie chce trzymać zbyt wielu certyfikatów więc chciałby kupić jak najmniejszą liczbę działek.
+
+Twoim zadaniem jest napisać program, który rozwiąże problem naszego bohatera.
+
+Punktacja:
+Rozwiązanie oparte o twierdzenie Lagrange'a 1p.
+Rozwiązanie oparte o programowanie dynamiczne 3p. (w tym 1p. za poprawne podanie wielkości działek)
+Dopracowanie w domu 1p.

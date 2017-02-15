@@ -1,0 +1,68 @@
+Unbounded Knapsack Problem:
+Test: u1
+Limit: 23
+Value: 80
+Efficiency: 282, ok: 300
+Knapsack:
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 2, Value: 7
+Weight: 3, Value: 10
+TEST PASSED
+
+Test: u2
+Limit: 23
+Value: 5
+Efficiency: 29, ok: 100
+Knapsack:
+Weight: 20, Value: 5
+TEST PASSED
+
+Test: u3
+Limit: 23
+Value: 99
+Efficiency: 352, ok: 400
+Knapsack:
+Weight: 1, Value: 4
+Weight: 6, Value: 25
+Weight: 8, Value: 35
+Weight: 8, Value: 35
+TEST PASSED
+
+Discreet Knapsack Problem:
+Test: d1
+Limit: 10
+Value: 26
+Efficiency: 119, ok: 200
+Knapsack:
+Weight: 3, Value: 10
+Weight: 2, Value: 7
+Weight: 3, Value: 5
+Weight: 2, Value: 4
+TEST PASSED
+
+Test: d2
+Limit: 23
+Value: 7
+Efficiency: 57, ok: 100
+Knapsack:
+Weight: 20, Value: 7
+TEST PASSED
+
+Test: d3
+Limit: 23
+Value: 100
+Efficiency: 352, ok: 400
+Knapsack:
+Weight: 8, Value: 33
+Weight: 7, Value: 30
+Weight: 6, Value: 30
+Weight: 2, Value: 7
+TEST PASSED

@@ -1,0 +1,21 @@
+
+Zadanie polega na zbadaniu czy w zadanej N-elementowej tablicy
+znajduje się element dominujący, czyli taki który występuje w niej ponad N/2 razy. 
+
+Jedyną dostępną operacją jest sprawdzenie równości dwóch elementów.
+(Wynika z tego, między innymi, że elementów nie można posortować.)
+
+Punktacja
+
+algorytm o złożonośći kwadratowej    -  1 pkt
+algorytm o złożoności n*log(n)       -  3 pkt
+część domowa (dopracowanie całości)  -  1 pkt
+
+Wskazówka do wersji O(n*log(n))
+Użyj strategii dziel i zwyciężaj.
+- podziel tablicę na połowy
+- każdy z podproblemów rozwiąż rekurencyjne
+  znajdujac jego ewentualny element dominujący i liczbą jego wystąpień
+- jesli w którymś z podproblemow znaleziono element dominujacy,
+  policz jego wystąpienia w drugiej podtablicy
+

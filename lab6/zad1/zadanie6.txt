@@ -1,0 +1,9 @@
+
+Napisaæ dwie funkcje
+1) wyznaczaj¹c¹ najwiêksz¹ klikê w grafie
+2) sprawdzaj¹c¹ czy dwa grafy s¹ izomorficzne
+Zastosowaæ algorytmy z powrotami (backtracking).
+
+Kazda z funkcji po 2 pkt, czêœæ domowa 1 pkt.
+
+Uwaga: pobraæ now¹ wersjê biblioteki graph.dll

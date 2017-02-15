@@ -1,0 +1,47 @@
+
+
+Zadanie polega na znalezieniu otoczki wypuk³ej zbioru punktów algorytmem Quickhull 
+w przestrzeni dwuwymiarowej. 
+
+
+Kolejne jego kroki przedstawiaj¹ siê nastêpuj¹co:
+
+1)	ZnajdŸ punkty A i B (zwane skrajnymi) o odpowiednio najmniejszej 
+	i najwiêkszej wartoœci wspó³rzêdnej x (w przypadku równoœæi wspó³rzêdnych x
+	porównujemy wspó³rzêdne y),
+
+2)	Podziel zbiór punktów na dwa podzbiory, z których pierwszy sk³ada siê 
+	z punktów le¿¹cych po lewej stronie prostej przechodz¹cej przez punkty A i B, 
+	a drugi podzbiór stanowi¹ pozosta³e punkty,
+
+3)	Dla ka¿dego z dwóch podzbiorów wykonuj nastêpuj¹ce czynnoœci:
+	
+	a) wyznacz punkt C najbardziej oddalony od prostej przechodz¹cej przez punkty 
+	   skrajne,
+
+	b) wyznacz podzbiór punktów le¿¹cych na lewo od prostej przechodz¹cej 
+	   przez A i C oraz podzbiór punktów le¿¹cych na lewo od prostej przechodz¹cej 
+	   przez C i B (punkty le¿¹ce po prawej stronie tych prostych mo¿na wykluczyæ
+           z dalszej analizy),
+
+	c) jeœli dany podzbiór nie jest pusty, to powróæ do kroku 3a.
+
+
+
+Na wynikow¹ listê punktów sk³adaj¹ siê wszystkie znalezione w trakcie dzia³ania algorytmu 
+punkty skrajne oraz punkty najbardziej oddalone. Przyjmujemy, ¿e kolejnoœæ punktów 
+na liœcie wynikowej nie jest istotna. 
+
+
+
+Animacjê obrazuj¹c¹ dzia³anie algorytmu na przyk³adowych danych mo¿na znaleŸæ 
+w za³¹czonym pliku GIF.
+
+
+
+Punktacja:
+----------
+3p. – poprawne wyniki dla testu 1 lub 2,
+4p. - maksymalnie 2 b³êdne wyniki w testach,
+5p. - poprawne wyniki wszystkich testów.
+

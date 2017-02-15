@@ -1,0 +1,18 @@
+Ustawianie ksi¹¿ek w stos:
+
+Dany jest zbiór ksi¹¿ek.
+Ka¿da ksi¹¿ka ma trzy wymiary (wysokoœæ, szerokoœæ i gruboœæ).
+Zadanie polega na ustawieniu jak najwy¿szego stosu z ksi¹¿ek przy czym
+ksi¹¿ka x mo¿e le¿eæ na ksi¹¿ce y wtedy i tylko wtedy
+gdy x ma mniejsz¹ szerokoœæ i wysokoœæ ni¿ y.
+Wysokoœæ stosu to suma gruboœci wszystkich ksi¹¿ek w stosie.
+
+Punktacja:
+A) 2p. Prawid³owe obliczenie maksymalnej wysokoœci stosu (w dowolny sposób)
+B) 1p. Wyznaczenie optymalnego stosu (sekwencji ksi¹¿ek)
+C) 2p. (w domu) Rozwi¹zanie optymalne przechodz¹ce testy wydajnoœciowe
+
+Uwaga: zamiast A i B mo¿na (za 1p.) napisaæ algorytm zach³anny
+(wraz z wyznaczeniem sekwencji ksi¹¿ek), który oczywiœcie nie zawsze
+znajdzie rozwi¹zanie optymalne, ale powinien byæ "sensowny"
+(nie mo¿na braæ "pierwszych z brzegu" ksi¹¿ek)

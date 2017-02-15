@@ -1,0 +1,39 @@
+
+Problem plecakowy (Programowanie dynamiczne)
+
+Dane:
+Lista przedmiotów (Thing) o okreœlonej wadze (Weight) oraz wartoœci (Value)
+Pojemnoœæ plecaka (limit)
+
+Szukane:
+Najwiêksza mo¿liwa wartoœc przedmiotów spakowanych do plecaka.
+Lista przedmiotów spakowanych do plecaka
+
+1) Unbounded_Knapsack_Problem
+Ka¿dego przedmiotu mo¿emy u¿yæ nieograniczon¹ iloœæ razy.
+
+2) Discrete_Knapsack_Problem
+Ka¿dego przedmiotu mo¿emy u¿yæ co najwy¿ej raz.
+
+
+Punktacja:
+
+Unbounded_Knapsack_Problem
+- zwracana poprawna wartoœæ - 1.5
+- zwracana lista przedmiotów - 1
+
+Discrete_Knapsack_Problem
+- zwracana poprawna wartoœæ - 1.5
+- zwracana lista przedmiotów - 1
+
+
+Wskazówki:
+
+1) Unbounded_Knapsack_Problem
+Zdefiniowaæ pomocnicz¹ tablicê jednowymiarow¹ P.
+W P[i] pamiêtaæ najwiêksz¹ mo¿liw¹ wartoœæ, otrzyman¹ przy za³o¿eniu rozmiaru plecaka nie wiêkszego ni¿ i.
+
+2)Discrete_Knapsack_Problem
+Zdefiniowaæ pomocnicz¹ tablicê dwuwymiarow¹ P.
+W P[i][j] pamiêtaæ najwiêksz¹ mo¿liw¹ wartoœæ, otrzyman¹ przy za³o¿eniu rozmiaru plecaka nie wiêkszego ni¿ i 
+oraz przy wykorzystaniu pierwszych j przedmiotów.

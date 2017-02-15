@@ -1,0 +1,55 @@
+
+Algorytm Karpa-Millera-Rosenberga
+
+Wersja jednowymiarowa
+
+Dane:
+tekst y (dlugosc n), wzorzec x (dlugosc m)
+
+Algorytm:
+
+utworz tekst yx
+utworz tablice haszowana hnr
+
+dla kazdego i
+    nr[i]= numer znaku yx[i]
+for ( p=1 ; p<=m/2 ; p=2*p )
+    {
+    wyczysc tablice haszowana hnr
+    utworz nowa tablice numerow nrn
+    wypelnij tablice haszowana hnr ( klucz: para nr[i],nr[i+p]
+                                     wartosc: unikalny identyfikator pary)
+    wypelnij nowa tablice numerow
+        nrn[i] = hnr[para(nr[i],nr[i+p])]
+    nr = nrn;
+    }
+na podstawie tablicy nr znajdz wystapienia wzorca x
+
+
+Wersja dwuymiarowa
+
+Dane:
+tablica y (rozmiar n1 na n2), wzorzec x (rozmiar m1 na m2)
+
+utworz tablice yx (n1 na n2+m2)
+    // pierwsze n2 kolumn to tablica y
+    // gorne m1 wierszy pozostalych kolumn to wzorzec x
+    // reszta - nieuzywana
+    // czyli lewy gorny rog wzorca to element xy[0,n2]
+
+algorytm analogiczny do wersji jednowymiarowej, ale zamiast par uzywamy czworek
+
+
+Punktacja
+
+na zajeciach
+ 2 pkt - dziala przyklad 1
+ 3 pkt - dzialaja przyklady 1 i 2
+ 4 pkt - dzialaja przyklady 1, 2 i 3
+ 5 pkt - dzialaja przyklady 1, 2, 3 i 4
+
+dodatkowo - czesc domowa
+ 1 pkt - w pelni dopracowana wersja jednowymiarowa
+ 2 pkt - w pelni dopracowane wersje jednowymiarowa i dwuwymiarowa
+
+Mozna dostac 7 pkt na 5 mozliwych !

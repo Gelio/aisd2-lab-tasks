@@ -1,0 +1,30 @@
+Podzia³em zbioru [n]={1,2,3,...,n} nazywamy rodzinê roz³¹cznych podzbiorów (bloków)  A1,..,Ak, takich ¿e:
+1. Ka¿dy Ai jest niepusty
+2. A1 u A2 u ... u Ak = [n]
+
+Podzia³ jest MA£Y, jeœli ka¿dy zbiór Ai ma licznoœæ nie przekraczaj¹c¹ n/2.
+UWAGA: Dla n=1 przyjmujemy ¿e podzia³ {1} jest ma³y.
+
+Rekurencyjny algorytm generowania WSZYSTKICH podzia³ów zbioru:
+	G[n] - zbiór podzia³ów zbioru [n]
+	
+	warunek brzegowy:	
+	G[1] = {{1}}
+
+	krok rekurencyjny:
+
+	G[n-1] = {b1,b2,b3,...,bm }
+	G[n] =  {
+			b1 u {n},b2,b3,...,bm
+			b1,b2 u {n},b3,...,bm
+			b1,b2,b3 u {n},...,bm
+			...
+			b1,b2,b3,...,bm u {n}
+			b1,b2,b3,...,bm, {n}
+			}
+			
+Punktacja:
+1.0 pkt : ³adne wypisywanie podzia³ów
+1.5 pkt : poprawne znajdowanie podzia³ów
+1.0 pkt : ograniczenie siê do ma³ych podzia³ów
+1.5 pkt : optymalnoœæ rozwi¹zania (brak niepotrzebnych operacji, wczesne wykrywanie du¿ych podzia³ów)	

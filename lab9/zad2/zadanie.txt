@@ -1,0 +1,41 @@
+W wielkim lesie jest mrowisko, w którym mrówki przechowują zapasy na
+zimę. Ponieważ zimy są długie i mroźne, należy rozpocząć zbieranie
+zapasów możliwie szybko.  Mrowisko można reprezentować jako
+graf. Wierzchołki reprezentują skrzyżowania lub końce ścieżek,
+krawędzi reprezentują tunele. Pewne wierzchołki grafu są wyróżnione:  
+ - wejścia do mrowiska
+ - jamy do przechowywania prowiantu
+
+Królowa mrowiska ma bardzo dużo mrówek mogących transportować zapasy z
+powierzchni ziemi, przez wejścia, do jam docelowych, problemem jednak
+są tunele -- są bardzo wąskie -- jednokierunkowe i mają ograniczoną
+przepustowość. Z każdym tunelem skojarzona jest liczba, która mówi jak
+dużo towarów w jednostce czasu można nim przetransportować.
+
+Królowa dysponuje też niewielką liczbą budowniczych, którzy są w
+stanie wybudować dokładnie jeden tunel o przepustowości jeden albo
+poszerzyć istniejący tunel o 1.
+Ze względu na delikatną budowę mrowiska, nie jest możliwe zbudowanie
+lub zmiana bezpośredniego tunelu z wejścia do jam magazynowych, taki
+tunel spowodowałby zawalenie się całego mrowiska!!
+Budowniczy mogą budować tylko pozostałe tunele.
+
+Zadanie:
+
+Napisać program, który dla zadanego mrowiska stwierdzi, czy istnieje
+tunel, który może poprawić przepustowość całości i wskazać, które
+wierzchołki grafu powinien on połączyć. 
+ 
+Punktacja:
+ - 5 pkt. - wszystkie testy poprawne, czasy wszystkich obliczen zbliżone (lub lepsze) od poziomu 1
+ - 4 pkt. - wszystkie testy poprawne, czasy wszystkich obliczen nie gorsze od poziomu 2
+ - 3 pkt. - testy 0-5 poprawne, czasy obliczeń nieznacznie gorsze od poziomu 2, test 6 może być przerwany z powodu zbyt dlugich obliczeń
+ - 2 pkt. - testy 0-5 poprawne, czasy obliczeń wyraznie gorsze od poziomu 2, test 6 przerwany z powodu zbyt dlugich obliczeń
+ - 1 pkt. - obliczone jedynie przepływy przed rozbudową (dla wszystkich testów)
+ 
+UWAGA: Testu 5 nie wolno zakomentować (to ukrywa nie tylko zbyt długi czas obliczń, ale również ewentualny wyjątek,
+a wyjątek jest NIEDOZWOLONY !)
+
+Podpowiedzi:
+do stwierdzenia, czy da się rozszerzyć sieć można zbadać cechy znalezionego przepływu
+(np. które krawędzie są w pełni wypełnione, a które nie)

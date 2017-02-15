@@ -1,0 +1,46 @@
+
+Algorytmy i Struktury Danych - laboratorium 7
+Programowanie Dynamiczne
+
+1. TrianglePath.FindPath
+Dla trójk¹ta znaleŸæ œcie¿kê o najmniejszej wadze prowadz¹c¹ od podstawy do wierzcho³ka.
+Nale¿y wykorzystaæ algorytm programowania dynamicznego. 
+Z punktu trójk¹ta mo¿na poruszaæ siê tylko w górê i tylko do punktu s¹siaduj¹cego z aktualnym .
+Np. dla trójk¹ta
+   3
+  7 5
+ 2 4 6
+8 9 5 3
+
+minmaln¹ œcie¿k¹ jest 5->4->-5->3 o wadze 17. Jeœli œcie¿ek o minimalnej wadze jest kilka nale¿y zwróciæ wszystkie. 
+Trójk¹t jest opisany jako tablica tablic, gdzie w wierszu 0 znajduje siê podstawa trójk¹ta,
+a w wierszu n-1 jeden element bêd¹cy wierzcho³kiem.
+8 9 5 3
+ 2 4 6
+  7 5
+   3
+Jako rozwi¹zanie nale¿y zwróciæ tablicê indeksów elementów nale¿¹cych do œcie¿ki w kolejnych wierszach
+poczynaj¹c od podstawy, a koñcz¹c na wierzcho³ku, dla powy¿szego trójk¹ta bêdzie to
+2, 1, 1, 0
+
+2.  SeamCarvin - http://www.youtube.com/watch?v=6NcIJXTlugc
+SeamCavin.CalculateSeam:
+Dla tablicy prostok¹tnej znaleŸæ œcie¿kê minimaln¹ prowadz¹c¹ od pewnego elementu w wieszu 0 do elementu w wierszu n-1.
+(n to liczba wierszy).
+Nale¿y wykorzystaæ algorytm programowania dynamicznego.
+Z elementów (wierzcho³ków) w wierszu i mo¿na poruszaæ siê tylkow do s¹siaduj¹cych elementów (wierzcho³ków) w wierszu i+1.
+Tzn z punktu t[i,j] mo¿na pójœæ do t[i+1,j-1], t[i+1,j] i t[i+1,j+1].
+Np. dla tablicy
+1 2 3 1
+2 3 6 8
+8 6 5 1
+9 5 6 2
+rozwi¹zaniem jest 1->6->1->2 z wag¹ = 10.
+Jeœli rozwi¹zañ jest kilka nale¿y zwróciæ jedno z nich wraz z wag¹ minimalnej œcie¿ki. 
+Opis rozwi¹zania nale¿y zwróciæ identyczne jak dla punktu pierwszego (dla powy¿szego przyk³adu [3, 2, 3, 3]).
+
+Punktacja
+1. Œcie¿ka dla trójk¹ta  - 2 punkty,
+     1 punkt za znalezienie minimalnej wagi scie¿ki + 1 za znajdywanie samych scie¿ek (wszystkich).
+2. SeamCavin - 2 punkty
+3. W domu - 1 punkt

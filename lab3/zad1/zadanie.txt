@@ -1,0 +1,33 @@
+
+Korzystaj¹c z biblioteki Graph napisaæ nastêpuj¹ce funkcje:
+
+1) Funkcja LineGraph zwracaj¹ca graf krawêdziowy podanego grafu.
+
+2) Funkcja TopologicalSort_V0 zwracaj¹ca tablice z now¹ numeracj¹ wierzcho³ków
+spe³niaj¹c¹ warunki sortowania topologicznego.
+Parametr mo¿e byæ grafem posiadajacym cykl - tak¹ sytuacjê trzeba wykryæ i zwróciæ null.
+
+3) Funkcja TopologicalSort_DFS zwracaj¹ca tablice z now¹ numeracj¹ wierzcho³ków
+spe³niaj¹c¹ warunki sortowania topologicznego.
+Parametr z za³o¿enia jest grafem acyklicznym (nie trzeba tego badaæ).
+
+Punktacja
+- Line Graph           -   2 pkt (w tym 0.5 pkt opisy wierzcho³ków)
+- TopologicalSort_V0   -   1 pkt
+- TopologicalSort_DFS  -   1 pkt
+- czêœæ domowa         -   1 pkt
+
+UWAGA:
+Sortowanie topologiczne grafu (skierowanego) polega na uporz¹dkowaniu wierzcho³ków grafu w taki sposób,
+aby ka¿dy wierzcho³ek mia³ mniejszy numer ni¿ wszyscy jego s¹siedzi.
+Mo¿emy to zrobic tylko wtedy, gdy graf nie posiada cykli.
+
+WSKAZÓWKA do punktu 2):
+a) Ka¿dy graf acykliczny skierowany posiada przynajmniej jeden wierzcho³ek o stopniu wejœciowym równym zero.
+b) Jeœli z grafu acyklicznego usuniemy jeden wierzcho³ek (wraz w incydentnymi krawêdziami) to pozosta³a
+czêœæ grafu nadal jest grafem acyklicznym 
+
+WSKAZÓWKA do punktu 3):
+a) W DFS dla danego wierzcho³ka wykonywana jest seria wywo³añ rekurencyjnych dla jego jeszcze nieodwiedzonych s¹siadów.
+Po powrocie z tych wywo³añ wszyscy s¹siedzi s¹ ju¿ odwiedzeni.
+b) Metoda DFSearchAll ma (miêdzy innymi) parametry preVisit i postVisit.

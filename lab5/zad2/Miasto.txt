@@ -1,0 +1,33 @@
+
+Bajtlandia jest bardzo uporządkowanym miastem (w kształcie prostokąta).
+System dróg w Bajtlandi jest oczywiście równie uporządkowany
+- wszystkie drogi prowadzą z południa na północ lub ze wschodu na zachód.
+Skrzyżowania znajdują się w dokładnie określonych odstępach (powstaje siatka, której elementami są kwadraty).
+Młody student Bajtek mieszka na południowo wschodnim krańcu miasta a studiuje na północno zachodnim krańcu.
+Bajtek często spóźnia się na uczelnie i ma z tego powodu dużo problemów.
+Nie chce wstawać wcześniej bo jest strasznym śpiochem - szukając rozwiązania tego problemu odkrył,
+że w Bajtlandii między niektórymi skrzyżowaniami są skróty, którymi można przejść.
+Bajtek nie umie wybrać najkrótszej drogi, dlatego zgłosił się do Ciebie z prośbą o napisanie programu,
+który znajdzie wszystkie najkrótsze drogi do uniwersytetu.
+
+Zadania polega na napisaniu programu dla Bajtka.
+
+Wejście:
+Wielkość miasta (wraz z odległością między skrzyżowaniami i długością skrótu)
+Lista skrzyżowań ze skrótami
+Odległości między skrzyżowaniami i długośĆ skrótu są dodatnie
+
+Wyjście:
+Lista najkrótszych dróg.
+
+Punktacja:
+Długość najkrótszej drogi           - 2p
+Lista wszystkich najkrótszych dróg  - 2p (za wyznaczenie tylko jednej z najkrótszych dróg 1p)
+Dokończenie w domu - 1p
+
+Wymagana złożoność pamięciowa:   width * height
+Wymagana złożoność czasowa
+ - obliczenie długości najkrótszej drogi:      width * height
+ - wyznaczenie wszystkich najkrótszych dróg:   zależna od liczby takich dróg (a może ich być dużo)
+width i height oznaczają rozmiary miasta
+

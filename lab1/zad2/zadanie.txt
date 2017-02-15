@@ -1,0 +1,29 @@
+
+Napisaæ 3 implementacje kolejki priorytetowej
+
+1) LazyPriorityQueue - "leniwa" implementacja (zwyk³a lista)
+- operacja wstawiania ma z³o¿onoœæ sta³¹
+- operacja pobierania ma z³o¿onoœæ liniow¹
+
+2) EagerPriorityQueue - "gorliwa" implementacja (lista posortowana)
+- operacja wstawiania ma z³o¿onoœæ liniow¹
+- operacja pobierania ma z³o¿onoœæ sta³¹
+
+3) HeapPriorityQueue - implementacja za pomoc¹ kopca binarnego
+- operacja wstawiania ma z³o¿onoœæ logarytmiczn¹
+- operacja pobierania ma z³o¿onoœæ logarytmiczn¹
+
+Ka¿da z implementacji w przypadku próby pobrania/pokazania maksymalnego elementu z pustej kolejki
+(metody GetMax i ShowMax) powinna zg³aszaæ wyj¹tek InvalidOperationException (to klasa standardowa)
+z komunikatem "Access to empty queue".
+
+Mo¿na korzystaæ ze standardowych kolekcji C#, ale z zachowaniem wymaganych w zadaniu z³o¿onoœci.
+Nie mo¿na za³o¿yæ, ¿e ka¿da pojedyncza operacja na kolekcji (wywo³anie metody) ma z³o¿onoœæ sta³¹.
+Trzeba umieæ wyt³umaczyæ z³o¿onoœæ obliczeniow¹ rozwi¹zania.
+
+Punktacja:
+- LazyPriorityQueue  -  1p
+- EagerPriorityQueue -  1p
+- HeapPriorityQueue  -  2p
+- czêœæ domowa       -  1p
+

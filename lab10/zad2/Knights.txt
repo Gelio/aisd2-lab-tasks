@@ -1,0 +1,18 @@
+Smoki i Rycerze:
+W dalekiej krainie pełnej smoków i mężnych rycerzy zaginęła księżniczka.
+Nikt nie wie gdzie jest więc król wyznaczył ogromną nagrodę za jej odnalezienie.
+Pewien rycerz podjął próbę odnalezienia księżniczki. Jest jednak bardzo sprytny i postanowił opracować taką trasę
+by uniknąć spotkania z jakimkolwiek smokiem gdyż te są bardzo niebezpieczne.
+Jednocześnie nie chce się napracować więc chce odwiedzać, każde miejsce bez smoka dokładnie raz.
+Świat, w którym rycerz szuka księżniczki przypomina prostokątną szachownicę,
+a rycerze umieją skakać między polami tej wielkiej szachownicy tak jak koniki w szachach
+(jedno pole w jednym kierunku i dwa w kierunku prostopadłym).
+Rycerz startuje z zamku, który mieści się w lewym górnym rogu szachownicy (pole [0,0] - oczywiście w zamku nie ma smoków.
+Twoim zadaniem jest opracowanie dla rycerza trasy tak by odwiedził wszystkie pola poza tymi, na których stoją smoki,
+dokładnie raz (nie ma obowiązku powrotu do pola startowego)
+
+Punktacja:
+- 2p - Stwierdzenie czy ścieżka istnieje przy założeniu, że nie ma żadnych smoków (testy 0-5).
+- 1p - Stwierdzenie czy ścieżka istnieje z danymi smokami (testy 6-10)
+- 1p - Zwrócenie poprawnej ścieżki
+- 1p - czesc domowa

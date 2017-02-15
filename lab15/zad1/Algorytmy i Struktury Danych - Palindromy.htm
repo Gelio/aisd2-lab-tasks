@@ -1,0 +1,212 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="pl">
+<title>Algorytmy i Struktury Danych 2- Palindromy</title>
+>
+</head>
+
+<body>
+
+<table style="border-collapse: collapse" width="100%" border="0" cellpadding="0">
+  <tbody><tr>
+    Autor artykułu: mgr Jerzy Wałaszek</td>
+  </tr>
+  </tbody></table>
+<h1 class="main">Wyszukiwanie palindromów</h1>
+<hr color="#336699" size="1">
+
+<div class="bl2">
+  <p>&nbsp;</p></div>
+<div class="bl1">
+<h3>Problem</h3>
+<p class="bl2">W łańcuchu <i>s</i> znaleźć wszystkie palindromy o długości 
+większej od 1.</p>
+<p class="bl2"><br>
+</p>
+<p class="bl1">Przez <span class="b">palindrom</span> <span class="rem">
+(ang. palindrome)</span> rozumiemy łańcuch znakowy <i>s</i>, który czyta się tak 
+samo w obu kierunkach.</p>
+<p class="bl1"><b>Przykład:</b></p>
+<p class="bl2">ABBCBBA &#8211; jest palindromem</p>
+<p class="bl2">ABBCABA &#8211; nie jest palindromem</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Palindromy pojawiają się w genetyce <span class="rem">(łańcuchy 
+DNA, RNA)</span>, w tekstach, muzyce, matematyce, geometrii, fizyce itd. Stąd 
+duże zainteresowanie informatyków w efektywnych algorytmach ich znajdowania. W 
+badaniach genetycznych często szuka się tzw. <span class="b">przybliżonych 
+palindromów</span> (<span class="rem">ang. aproximate palindromes),</span> tzn. 
+palindromów, w których do <i>k</i>-znaków może być błędnych, czyli nie 
+pasujących do <span class="b">dokładnego palindromu</span> <span class="rem">
+(ang. exact palindrome)</span>. Takie palindromy występują w łańcuchach DNA, w 
+których wystąpiły różnego rodzaju błędy genetyczne. Problemem palindromów 
+przybliżonych nie zajmujemy się w tym opracowaniu.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl1">Wprowadźmy symbol <i>s</i><sup>R</sup>, który oznacza łańcuch 
+znakowy o odwróconej kolejności znaków w stosunku do łańcucha <i>s</i>.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl1"><b>Przykład:</b></p>
+<p class="bl2"><i>s</i><sup>&nbsp; </sup>&nbsp;= ABCD<br>
+<i>s</i><sup>R</sup> = DCBA</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Łańcuch <i>s</i> jest palindromem, jeśli da się rozłożyć na dwa 
+podłańcuchy <i>w</i> i <i>w</i><sup>R</sup> wg poniższego schematu:</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl2"><i>s</i> = <i>ww</i><sup>R</sup> &#8211; <span class="b">palindrom 
+parzysty</span> <span class="rem">(ang. even palindrome)</span>, lub<br>
+<i>s</i> = <i>w</i>X<i>w</i><sup>R</sup> &#8211; <span class="b">palindrom nieparzysty</span> 
+<span class="rem">(ang. odd palindrome)</span>, 
+gdzie X jest dowolnym symbolem alfabetu.</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1"><b>Przykład:</b></p>
+<p class="bl2">ABCDDCBA &#8211; palindrom parzysty &#8594; ABCD + DCBA<br>
+ABCDADCBA &#8211; palindrom nieparzysty &#8594; ABCD + A + DCBA</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Zauważ, iż zgodnie z tą definicją palindromem jest każdy łańcuch 
+pusty &#8211; rozkłada się na dwa puste podłańcuchy &#8211; oraz każdy łańcuch jednoliterowy 
+&#8211; rozkłada się na znak X i dwa puste podłańcuchy. Ponieważ są to przypadki 
+trywialne, w zadaniu wprowadzono zastrzeżenie, iż wyszukiwane palindromy muszą 
+być co najmniej dwuznakowe.</p>
+<p class="bl1">&nbsp;</p>
+
+<h4><a name="roz2">Algorytm Manachera</a></h4>
+<p class="bl1">Rrozwiązanie problemu wyszukiwania wszystkich 
+palindromów w łańcuchu znakowym <i>s</i> opiera się na własnościach palindromów. 
+Przedstawiony tutaj algorytm został opracowany w 1975 przez <span class="b">
+Glenna Manachera</span> z Computer Center and Department of Information 
+Engineering, University of Illinois, Chicago, IL. Do opisu algorytmu Manachera 
+wprowadzimy kilka nowych pojęć.</p>
+<p class="bl1">Niech <i>p</i><sub>P</sub> będzie palindromem parzystym o postaci
+<i>p</i><sub>P</sub> = <i>ww</i><sup>R</sup>, gdzie <i>w</i> jest niepustym 
+podłańcuchem.<br>
+Niech <i>p</i><sub>N</sub> będzie palindromem nieparzystym o postaci <i>p</i><sub>N</sub> 
+= <i>w</i>X<i>w</i><sup>R</sup>.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl2">Promieniem <i>r<sub>p</sub></i> palindromu <i>p</i> będziemy 
+nazywali długość podsłowa <i>w</i>, czyli&nbsp; <i>r<sub>p</sub></i> = |<i>w</i>|</p>
+<p class="bl2">Palindrom parzysty <i>p</i><sub>P</sub> posiada zawsze długość |<i>p</i><sub>P</sub>| 
+= 2<i>r<sub>p</sub></i>. Palindrom nieparzysty <i>p</i><sub>N</sub> posiada 
+zawsze długość |<i>p</i><sub>N</sub>| = 2<i>r<sub>p</sub></i> + 1.</p>
+<p class="bl2">Środkiem palindromu <i>p</i> jest pozycja <i>i<sub>s</sub></i> =
+<i>r<sub>p</sub></i> &#8211; jest to pozycja pierwszego znaku za słowem <i>w</i>
+<span class="rem">(można również definiować środek palindromu jako pozycję 
+ostatniego znaku podsłowa w, lecz sądzę, iż nasz sposób jest lepszy, gdyż nie 
+wymaga wprowadzania żadnych zmian dla palindromów nieparzystych)</span> Dla 
+palindromu parzystego środek wypadnie na pierwszym znaku <i>w</i><sup>R</sup>, 
+natomiast dla palindromu nieparzystego środek wypadnie na znaku X:</p>
+<p class="bl2">&nbsp;</p>
+	<div class="bl1">
+<p class="bl2"><i>p</i><sub>P</sub>[<i>r<sub>p</sub></i>] = <i>w</i><sup>R</sup>[0]<br>
+<i>p</i><sub>N</sub>[<i>r<sub>p</sub></i>] = X</p>
+	</div>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Algorytm Manachera nie wyznacza wszystkich palindromów, jak robi 
+to algorytm naiwny, lecz maksymalne palindromy, których środki występują na 
+kolejnych pozycjach znakowych przeszukiwanego łańcucha <i>s</i>. Dzięki takiemu 
+podejściu redukujemy złożoność obliczeniową fazy przeszukiwania łańcucha s. 
+Mając maksymalny palindrom możemy bez problemów wyznaczyć zawarte w nim 
+podpalindromy. Wykorzystujemy tutaj własność symetrii palindromu:</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl1"><b>Przykład:</b></p>
+<div align="center">
+  <table style="border-collapse: collapse" border="1" cellpadding="4" cellspacing="0">
+    <tbody><tr>
+      <td bgcolor="#666666"><i><font color="#FFFFFF">r<sub>p</sub></font></i></td>
+      <td bgcolor="#666666"><font color="#FFFFFF">palindrom parzysty</font></td>
+      <td bgcolor="#666666"><font color="#FFFFFF">palindrom nieparzysty</font></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td style="text-align: center">ABCDDCBA</td>
+      <td style="text-align: center">ABCDADCBA</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td style="text-align: center">BCDDCB</td>
+      <td style="text-align: center">BCDADCB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td style="text-align: center">CDDC</td>
+      <td style="text-align: center">CDADC</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td style="text-align: center">DD</td>
+      <td style="text-align: center">DAD</td>
+    </tr>
+  </tbody></table>
+  <p>&nbsp;</p></div>
+<p class="bl1">Dla danego łańcucha <i>s</i> algorytm Manachera tworzy tablicę 
+dwuwymiarową R.:</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl2">R[0,...] &#8211; promienie palindromów parzystych<br>
+R[1,...] &#8211; promienie palindromów nieparzystych</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Indeksy tych tablic określają kolejne pozycje znakowe w łańcuchu
+<i>s</i>, natomiast elementy tablic zawierają maksymalne promienie palindromów o 
+środkach na danej pozycji znakowej.</p>
+<p class="bl1">Używając w odpowiedni sposób tablicy R 
+oraz własności symetrii palindromu algorytm Manachera wykorzystuje sprytnie 
+informację o wcześniej wyznaczonych promieniach palindromów maksymalnych do 
+wyszukiwania następnych palindromów. Otóż po wyznaczeniu promienia <i>r<sub>p</sub></i> 
+palindromu na pozycji <i>i</i>-tej w łańcuchu <i>s</i>, sprawdzane są promienie 
+palindromów na kolejnych pozycjach poprzedzających pozycję <i>i</i>-tą w 
+obszarze podsłowa <i>w</i> &#8211; tutaj algorytm wymaga dwóch wersji &#8211; osobnej dla 
+palindromów parzystych i osobnej dla nieparzystych. Zasada jest identyczna dla 
+obu wersji. Rozważmy zatem możliwe przypadki <span class="rem">(dla palindromu 
+parzystego)</span>:</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl4">
+<img src="Algorytmy%20i%20Struktury%20Danych%20-%20Palindromy_pliki/0060_01.gif" width="640" border="0" height="176"></p>
+<p class="bl4">
+&nbsp;</p>
+<p class="bl2">Na pozycji <i>i</i> - <i>k</i>, <i>k</i> = 1,2,...,<i>r<sub>p</sub></i>, 
+promień palindromu wynosi 0 &#8211; czyli nie istnieje palindrom o środku na pozycji<nobr>
+<i>i</i> - <i>k</i>.</nobr> Skoro tak, to przez symetrię wnioskujemy, iż na 
+pozycji<nobr> lustrzanej <i>i</i> + <i>k</i></nobr> również nie będzie żadnego 
+palindromu. Pozycja<nobr> <i>i</i> + <i>k</i></nobr> możne zostać pominięta przy 
+dalszym wyszukiwania palindromów.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl4">
+<img src="Algorytmy%20i%20Struktury%20Danych%20-%20Palindromy_pliki/0060_02.gif" width="640" border="0" height="176"></p>
+<p class="bl4">
+&nbsp;</p>
+<p class="bl2">Na pozycji <i>i</i> - <i>k</i> jest palindrom o promieniu <i>r</i> 
+&lt; <i>r<sub>p</sub></i> - <i>k</i>. Taki palindrom w całości zawiera się wewnątrz 
+rozważanego palindromu i co więcej, nie styka się z jego brzegiem. Poprzez 
+symetrię wnioskujemy, iż na pozycji <nobr><i>i</i> + <i>k</i></nobr> również 
+musi występować taki sam palindrom, którego już dalej nie da się rozszerzyć. 
+Pozycji <nobr><i>i</i> + <i>k</i></nobr> nie musimy już dalej sprawdzać.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl4">
+<img src="Algorytmy%20i%20Struktury%20Danych%20-%20Palindromy_pliki/0060_03.gif" width="640" border="0" height="163"></p>
+<p class="bl4">
+&nbsp;</p>
+<p class="bl2">Na pozycji <nobr><i>i</i> - <i>k</i></nobr> jest palindrom o 
+promieniu <i>r</i> &gt; <i>r<sub>p</sub></i> - <i>k</i>. Taki palindrom wykracza z 
+lewej strony poza obszar rozważanego palindromu. Na pozycji <nobr><i>i</i> + <i>
+k</i></nobr> znajduje się palindrom o promieniu r = r<sub>p</sub> - k i 
+palindromu tego nie da się już rozszerzyć. Wyjaśnienie tego faktu jest bardzo 
+proste &#8211; gdyby palindrom na pozycji <nobr><i>i</i> + <i>k</i></nobr> posiadał 
+większy promień niż wyliczone r, to również z uwagi na symetrię przeglądany 
+palindrom posiadałby promień większy od <i>r<sub>p</sub></i>, a przecież jest to 
+palindrom maksymalny. Pozycję <nobr><i>i</i> + <i>k</i></nobr> również możemy 
+pominąć.</p>
+<p class="bl1">&nbsp;</p>
+<p class="bl4">
+<img src="Algorytmy%20i%20Struktury%20Danych%20-%20Palindromy_pliki/0060_04.gif" width="640" border="0" height="163"></p>
+<p class="bl4">
+&nbsp;</p>
+<p class="bl2">Pozostał ostatni przypadek &#8211; na pozycji <nobr><i>i</i> - <i>k</i></nobr> 
+występuje palindrom o promieniu <i>r</i> = <i>r<sub>p</sub></i> - <i>k</i>. Taki 
+sam palindrom musi być na pozycji <nobr><i>i</i> + <i>k</i>,</nobr> jednakże w 
+tym przypadku palindrom ten może być rozszerzalny. Pozycję <nobr><i>i</i> + <i>k</i></nobr> 
+musimy zatem sprawdzić na obecność palindromu o promieniu większym od <i>r</i>.</p>
+<p class="bl2">&nbsp;</p>
+<p class="bl1">Z powyższych rozważań otrzymujemy następujący algorytm działający 
+w czasie liniowym O(<i>n</i>):</p>
+<p class="bl1">&nbsp;</p>
+
+
+
+</body></html>

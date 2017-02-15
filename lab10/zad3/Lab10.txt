@@ -1,0 +1,37 @@
+Zadanie polega na stwierdzeniu czy w rozgrywkach futbolowych w danym momencie sezonu istnieje jeszcze mo¿liwoœæ
+aby dana dru¿yna zwyciê¿y³a.
+Dla uproszczenia zadania przyjmujemy, ze mecze nie mog¹ siê zakoñczyæ remisem a ostatczn¹ wygrana przypada zespo³owi,
+który wygra³ najwiêksz¹ liczbê meczy. W przypadku takiej samej liczby wygranych meczy na koniec sezony wszystkie
+zespo³y wygrywaj¹.
+
+Dane:
+    Lista zespo³ów z tabel¹ ile meczy dany zespó³ wygra³ i ile zosta³o jeszcze do rozegrania z ka¿dym innym zespo³em.
+    Nr zespo³u którego szanse na koñcowe zwyciêstwo sprawdzamy (id).
+Wyjœcie:
+    Czy dany zespó³ mo¿e jeszcze wygraæ, jeœli tak nale¿y podaæ przyk³adowy rozk³ad meczy prowadz¹cy do wygranej.
+
+Wskazówki:
+    Problem mo¿na rozwi¹zaæ licz¹c maksymalny przep³yw w pewnym grafie.
+    Graf nale¿y zbudowaæ nastêpuj¹co:
+        Ÿród³o s po³¹czone z wierzcho³kami reprezentuj¹cymi ka¿d¹ mo¿liw¹ parê zespo³ów nie zawieraj¹c¹ zespo³u
+        dla którego sprawdzamy szanse,
+        ka¿dy wierzcho³ek reprezentuj¹cy parê i-j jest po³¹czony z wierzcho³kiem reprezentuj¹cym i
+        oraz z wierzcho³kiem reprezentuj¹cym j,
+        ka¿dy wierzcho³ek reprezentuj¹cy dru¿ynê po³¹czony jest z ujœciem t.
+    Wagi krawêdzi:
+        s -> i-j : liczba meczy do rozegrania miêdzy i a j
+        i-j -> i : nieskoñczonoœæ
+        i-j -> j : nieskoñczonoœæ
+        i -> t : liczba meczy wygranych przez id + liczba meczy do rozegrania przez id - liczba meczy wygranych przez i.
+    
+    Po policzeniu maksymalnego przep³ywu w takim grafie nale¿y sprawdzic czy wszystkie krawêdzie wychodz¹ce ze ¿ród³a
+    s¹ nasycone.
+    Jeœli tak to rozpatrywana dru¿yna mo¿e nadal wygraæ wpp. jest to niemo¿liwe.
+    Z powy¿szego grafu mo¿na tak¿e zbudowaæ przyk³adowy rozk³ad meczy.
+
+Punktacja:
+Na zajêciach
+- wersja bez przyk³adowego rozk³adu (tylko odpowiedŸ tak/nie) 2 pkt
+- wersja z przyk³adowym rozk³adem 2 pkt.
+W domu
+- wersja dopracowana 1pkt.

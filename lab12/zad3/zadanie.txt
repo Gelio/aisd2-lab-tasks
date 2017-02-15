@@ -1,0 +1,15 @@
+Celem zadania jest napisanie funkcji obliczaj¹cej odleg³oœæ edycyjn¹ miêdzy napisami,
+z uwzglêdnieniem wyszczególnionych w opisie funkcji dozwolonych operacji edycyjnych o ró¿nych kosztach.
+
+Punktacja:
+2 pkt - obliczenie odleg³oœci edycyjnej (sumarycznego kosztu ci¹gu przekszta³ceñ) i liczby operacji
+        z uwzglednieniem jedynie dodawania, usuwania i zamieniania znaków
+        (bez operacji powielenia i transpozycji oraz bez odtworzenia ci¹gu przekszta³ceñ)
+        (przyklady 1-4 i 8-9)
+3 pkt - to co na 2 pkt oraz dodatkowo odtworzenie ci¹gu przekszta³ceñ
+4 pkt - to co na 3 pkt oraz dodatkowo operacja powielenia (przyk³ad 5) lub transpozycji znaków (przyk³ad 6)
+        (uwzgledniane przy liczeniu kosztow i przy odtwarzaniu ciagu przekszta³ceñ)
+5 pkt - wszystkie operacje, liczenie kosztow i odtwarzaniu ciagu przekszta³ceñ, wszystkie przyklady
+
+W pliku wyniki.txt poprawne wyniki, w zale¿noœci od implementacji ci¹gi przekszta³ceñ mog¹ siê ró¿niæ,
+koszt i liczba zmian pozostaj¹ takie same!

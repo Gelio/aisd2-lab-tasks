@@ -1,0 +1,63 @@
+
+	Budujemy daszek
+
+Bob Budowniczy chce wybudowaæ daszek nad œcie¿k¹ od swojego domku do wychodka.
+Daszek bêdzie sk³ada³ siê z d³ugich fragmentów, z których ka¿dy musi opieraæ siê koñcami o s³upki
+(a dok³adniej - o szczyty s³upków).
+Ka¿dy z takich fragmentów kosztuje tysi¹c z³otych i nie mo¿e byæ d³u¿szy ni¿ d metrów. 
+Fragmentów nie mo¿na ci¹æ ani sklejaæ (œcislej jesli fragment jest zbyt d³ugi, to mo¿na go przyci¹æ,
+ale odciêty kawa³ek trzeba wyrzuciæ - nie wolno wykorzystaæ go w innym miejscu). 
+
+Bob wkopa³ ju¿ wszystkie s³upki (wszystkie umieszczone s¹ w linii prostej), a teraz (dopiero teraz!)
+zastanawia siê, jak powinien zaplanowaæ daszek ¿eby kosztowa³ jak najmniej.
+Poprosi³ o pomoc kilku pracowników wydzia³u MiNI,
+którzy niniejszym zlecaj¹ to zadanie dzielnym studentom drugiego roku informatyki.
+
+Mamy dane:
+ - Tablicê odleg³oœci, zawieraj¹c¹ odleg³oœci s³upków od domu Boba (zak³adamy, ¿e jest ona posortowana rosn¹co)
+ - Tablicê wysokoœci, zawieraj¹c¹ wysokoœci s³upków (wszystkie nie mniejsze ni¿ 0)
+ - Ograniczenie d na d³ugoœæ jednego fragmentu daszku
+(dane s¹ podawane jako argumenty konstruktora klasy DaszekPlanner)
+
+Wyznacz:
+ a. Minimalny koszt daszku przykrywaj¹cego ca³¹ œcie¿kê, w tysi¹cach z³otych (metoda KosztDaszku)
+ b. S³upki, na których (koñcami) bêd¹ opiera³y siê fragmenty daszku o minimalnym koszcie (parametr wyjœciowy)
+ c. Minimalny koszt ³adnego daszku (metoda KosztLadnegoDaszku). £adny daszek to taki, który zakrywa wszystkie s³upki
+ d. S³upki, na których bêd¹ opiera³y siê (koñcami) fragmenty najtañszego ³adnego daszku (parametr wyjœciowy)
+
+W czasie O(n^2). Mo¿esz za³o¿yæ, ¿e poszukiwany daszek zawsze istnieje. S³upki numerujemy od zera.
+
+Formalniej: 
+  - daszek to krzywa kawa³kami liniowa, ³¹cz¹ca szczyty zerowego i ostatniego s³upka,
+  gdzie ka¿dy "liniowy kawa³ek" ³¹czy szczyty pewnych dwóch s³upków i jest nie d³u¿szy ni¿ d,
+  która przecina siê z ka¿d¹ pionow¹ prost¹ w co najwy¿ej jednym punkcie.
+
+  - ³adny daszek to daszek spe³niaj¹cy dodatkowy warunek, ¿e je¿eli w pewnym punkcie x
+  znajduje siê s³upek o wysokoœci y, wysokoœæ daszku w punkcie x jest równa przynajmniej y.
+
+Przyk³ad:
+Mamy s³upki w odleg³oœci 0, 1, 3, 4, 7 oraz wysokoœci 0, 3, 4, 7, 3 i ograniczenie d=5.99
+Odpowiedzi:
+ a. 2
+ b. 0, 2, 4
+ c. 3
+ d. 0, 1, 3, 4
+Wyjaœnienie:
+ a-b. Potrzebujemy dwóch fragmentów daszku: jeden z nich opieramy o zerowy i drugi s³upek, 
+      drugi - o s³upki drugi i czwarty. Zauwa¿my, ¿e pierwszy s³upek wystaje ponad daszek, 
+      a trzeci nie jest u¿ywany.
+ c-d. ¯eby pierwszy s³upek nie wystawa³, musimy oprzeæ o niego fragment daszku. Kolejne fragmenty opieraj¹ siê 
+      o slupki: pierwszy i trzeci oraz trzeci i czwarty. Nie ma innego optymalnego rozwi¹zania.
+
+Punktacja:
+ podpunkty a-d po 1p
+ czêœæ domowa 1p
+
+Wskazówki:
+1) Zadanie mo¿na rozwi¹zaæ stosuj¹c programowanie dynamiczne,
+   wyznaczaj¹c tablicê kosztów pokrycia kawa³ków œcie¿ki od pocz¹tku do kolejnych s³upków.
+2) Rozwi¹zanie podpunktów c-d wymaga sprawdzania, czy s³upki na których chcemy oprzeæ fragment 
+   daszku "widz¹ siê". Dodanie tego warunku nie spowoduje wzrostu z³o¿onoœci, je¿eli zrobimy to sprytnie:
+   w odpowiednim miejscu bêdziemy przechodziæ tablicê w odwrotnej kolejnoœci, pamiêtaj¹c który z napotkanych 
+   s³upków jest widoczny pod najwiêkszym k¹tem (czyli zas³ania najwiêcej). 
+   Mo¿na wykorzystaæ twierdzenie Talesa, ale uwaga na b³êdy zaokr¹gleñ.

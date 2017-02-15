@@ -1,0 +1,110 @@
+
+Czêœæ pierwsza
+
+Bob Budowniczy chce namalowaæ ma swoim domu d³ugi napis.
+W tym celu zamierza przygotowaæ odpowiedni szablon z wyciêtymi literami,
+który bêdzie potem przyk³ada³ w odpowiednich miejscach do œciany.
+Gdy szablon jest przy³o¿ony do œciany musimy namalowaæ wszystkie znajduj¹ce
+siê na nim litery (nie da siê czêœci nie namalowaæ).
+Mo¿na natomiast niektóre litery malowaæ wielokrotnie (ró¿ne przy³o¿enia
+szablonu mog¹ siê na siebie nak³adaæ).
+Litery na szablonie znajduj¹ siê ko³o siebie (czyli szablon jest
+pods³owem ca³ego napisu).
+
+Bob jako dobry in¿ynier chce równie¿ aby koszty jego pracy by³y jak najni¿sze.
+I dlatego chce przygotowaæ mo¿liwie jak najkrótszy szablon
+(bo szablon im d³u¿szy tym dro¿szy).
+
+Pomó¿ Bobowi i napisz program, ktory wyznacza d³ugoœæ takiego najkrótszego
+szablonu oraz miejsca (indeksy w napisie), w których nale¿y go do œciany przy³o¿yæ.
+
+Przyk³ad
+Dla napisu:
+
+ababbababbabababbabaababbababbaba
+
+Rozwi¹zaniem jest:
+
+ababbaba
+     ababbaba
+            ababbaba
+                    ababbaba
+                         ababbaba
+
+Czyli d³ugoœæ szablonu 8, a indeksy {0,5,12,20,25}
+                    
+Wskazówka 1
+Szablon na pewno musi pasowaæ do pocz¹tku napisu oraz do koñca napisu.
+A zatem jest ....... tak, jest prefikso-sufiksem znanym z algorytmu KMP !
+(albo niew³aœciwym prefikso-sufiksem czyli ca³ym napisem)
+
+Ale nie ka¿dy prefikso-sufiks jest szablonem.
+Niestety algorytm badanj¹cy wszytkie prefikso-sufiksy mo¿e dla d³ugich napisów 
+dzia³aæ zbyt wolno.
+
+Na szczêœcie dostaliœmy drug¹ wskazówkê i nie bêdziemy musieli szczegó³owo badaæ
+wszystkich prefikso-sufiksów.
+
+Wskazówka 2
+Jeœli a i b s¹ prefikso-sufiksami tekstu t
+oraz |a|<=2*|b| (|x| oznacza d³ugoœæ x)
+oraz a jest szablonem t
+to b równie¿ jest szablonem t.
+
+
+Czêœæ druga
+
+Bajki nie bêdzie bo treœæ zadania zrobi³aby siê za d³uga.
+
+Definicja
+Dwa s³owa x i y (o d³ugoœci n) s¹ cyklicznie równowa¿ne wtedy i tylko wtedy gdy
+istnieje takie k, ¿e
+   y[0..n-1] == x[k..n-1]:x[0..k-1]
+
+Innaczej mówi¹c y mo¿na otrzymaæ z x przez przeniesienie k pocz¹tkowych znaków x na koniec.
+Na przyk³ad
+  x = abcdefgh
+jest cyklicznie równowa¿ne z
+  y = defghabc
+(dla k = 3).
+
+Zadanie
+Zbadaæ czy dwa s³owa x i y s¹ cyklicznie równowa¿ne, wyznaczyæ k (z³o¿onoœæ czasowa liniowa).
+
+A) z wykorzystaniem algorytmu KMP (czyli z dodatkow¹ liniow¹ pamiêcia)
+
+B) wprost (ze sta³¹ z³o¿onoœci¹ pamiêciow¹)
+
+Robi siê to tak:
+
+i oznacza indeks startowy w pierwszym s³owie
+j oznacza indeks startowy w drugim s³owie
+n oznacza d³ugoœæ s³ów
+k oznacza liczbê zgadzaj¹cych siê znaków w obu s³owach (poczynaj¹c od ich indeksów startowych) + 1
+  czyli x[i..i+k-1]==y[j..j+k-1], a x[i+k]!=y[j+k]
+
+i=j=0;
+dopóki ( i<n oraz j<n oraz k<n )
+    wyznacz k
+    jeœli j<=n 
+        jeœli x[i+k]>y[j+k]
+            i+=k
+        w przeciwnym razie
+            j+=k
+zwróc wynik
+
+Wynik zale¿y od i, j, k, n - a jak to ju¿ Pañstwa zadanie.
+
+Punktacja
+A) Szablon
+   2 pkt za testy podstawowe
+oraz dodatkowo
+   1 pkt za testy wydajnosci
+B) Rownowa¿noœæ cykliczna
+   1 pkt za wersjê z wykorzytaniem KMR (wszystkie testy OK)
+oraz
+   2 pkt za wersjê bezpoœredni¹ (wszystkie testy OK)
+lub
+   1 pkt za wersjê bezpoœredni¹ z komunikatami "dobrze ropoznano rownowaznosc, ale zle przesuniecie"
+
+Razem 5 pkt + 1 bonusowy z testy wydajnosci szablonu

@@ -1,0 +1,243 @@
+
+*******************1*******************
+
+Tekst1: abcdefghij, tekst2: abc dfghijk
+changes: 3 (3)
+cost: 11 (11)
+
+0 abcdefghij
+1 abcdefghijk
+2 abcdfghijk
+3 abc dfghijk
+
+**********
+
+changes: 3 (3)
+cost: 10 (10)
+
+0 abc dfghijk
+1 abc dfghij
+2 abc defghij
+3 abcdefghij
+
+*******************2*******************
+
+Tekst1: abcdef, tekst2: 
+changes: 6 (6)
+cost: 18 (18)
+
+0 abcdef
+1 abcde
+2 abcd
+3 abc
+4 ab
+5 a
+6 
+
+**********
+
+changes: 6 (6)
+cost: 24 (24)
+
+0 
+1 f
+2 ef
+3 def
+4 cdef
+5 bcdef
+6 abcdef
+
+*******************3*******************
+
+Tekst1: Ala ma kota, tekst2: Aga zna Robka
+changes: 6 (6)
+cost: 28 (28)
+
+0 Ala ma kota
+1 Ala ma kotka
+2 Ala ma kobka
+3 Ala ma Robka
+4 Ala mna Robka
+5 Ala zna Robka
+6 Aga zna Robka
+
+**********
+
+changes: 6 (6)
+cost: 26 (26)
+
+0 Aga zna Robka
+1 Aga zna Roba
+2 Aga zna Rota
+3 Aga zna kota
+4 Aga za kota
+5 Aga ma kota
+6 Ala ma kota
+
+*******************4*******************
+
+Tekst1: aaaa, tekst2: bbb
+changes: 4 (4)
+cost: 18 (18)
+
+0 aaaa
+1 aaa
+2 aab
+3 abb
+4 bbb
+
+**********
+
+changes: 4 (4)
+cost: 19 (19)
+
+0 bbb
+1 bbba
+2 bbaa
+3 baaa
+4 aaaa
+
+*******************5*******************
+
+Tekst1: Ala ma kota, tekst2: Allla ma kottaa
+changes: 4 (4)
+cost: 12 (12)
+
+0 Ala ma kota
+1 Ala ma kotaa
+2 Ala ma kottaa
+3 Alla ma kottaa
+4 Allla ma kottaa
+
+**********
+
+changes: 4 (4)
+cost: 12 (12)
+
+0 Allla ma kottaa
+1 Allla ma kotta
+2 Allla ma kota
+3 Alla ma kota
+4 Ala ma kota
+
+*******************6*******************
+
+Tekst1: Cezksi bald, tekst2: Czeski blad
+changes: 3 (3)
+cost: 15 (15)
+
+0 Cezksi bald
+1 Cezksi blad
+2 Cezski blad
+3 Czeski blad
+
+**********
+
+changes: 3 (3)
+cost: 15 (15)
+
+0 Czeski blad
+1 Czeski bald
+2 Czeksi bald
+3 Cezksi bald
+
+*******************7*******************
+
+Tekst1: ca, tekst2: abc
+changes: 3 (3)
+cost: 11 (11)
+
+0 ca
+1 c
+2 bc
+3 abc
+
+**********
+
+changes: 3 (3)
+cost: 10 (10)
+
+0 abc
+1 ab
+2 a
+3 ca
+
+*******************8*******************
+
+Tekst1: na blya ww zo, tekst2: Anna byla w zoo
+changes: 5 (5)
+cost: 18 (18)
+
+0 na blya ww zo
+1 na blya ww zoo
+2 na blya w zoo
+3 na byla w zoo
+4 nna byla w zoo
+5 Anna byla w zoo
+
+**********
+
+changes: 5 (5)
+cost: 17 (17)
+
+0 Anna byla w zoo
+1 Anna byla w zo
+2 Anna byla ww zo
+3 Anna blya ww zo
+4 Ana blya ww zo
+5 na blya ww zo
+
+*******************9*******************
+
+Tekst1: Chodzmy stad wreszcie, tekst2: Musimy dokonczyc zadanie
+changes: 20 (20)
+cost: 85 (85)
+
+0 Chodzmy stad wreszcie
+1 Chodzmy stad wreszcnie
+2 Chodzmy stad wreszcanie
+3 Chodzmy stad wreszcdanie
+4 Chodzmy stad wreszcadanie
+5 Chodzmy stad wreszczadanie
+6 Chodzmy stad wreszc zadanie
+7 Chodzmy stad wreszyc zadanie
+8 Chodzmy stad wreczyc zadanie
+9 Chodzmy stad wrnczyc zadanie
+10 Chodzmy stad wonczyc zadanie
+11 Chodzmy stad konczyc zadanie
+12 Chodzmy stadokonczyc zadanie
+13 Chodzmy stdokonczyc zadanie
+14 Chodzmy sdokonczyc zadanie
+15 Chodzmy dokonczyc zadanie
+16 Chodmy dokonczyc zadanie
+17 Choimy dokonczyc zadanie
+18 Chsimy dokonczyc zadanie
+19 Cusimy dokonczyc zadanie
+20 Musimy dokonczyc zadanie
+
+**********
+
+changes: 20 (20)
+cost: 82 (82)
+
+0 Musimy dokonczyc zadanie
+1 Musimy dokonczyc zadaie
+2 Musimy dokonczyc zadie
+3 Musimy dokonczyc zaie
+4 Musimy dokonczyc zie
+5 Musimy dokonczyc ie
+6 Musimy dokonczycie
+7 Musimy dokonczcie
+8 Musimy dokonszcie
+9 Musimy dokoeszcie
+10 Musimy dokreszcie
+11 Musimy dowreszcie
+12 Musimy d wreszcie
+13 Musimy ad wreszcie
+14 Musimy tad wreszcie
+15 Musimy stad wreszcie
+16 Musizmy stad wreszcie
+17 Musdzmy stad wreszcie
+18 Muodzmy stad wreszcie
+19 Mhodzmy stad wreszcie
+20 Chodzmy stad wreszcie

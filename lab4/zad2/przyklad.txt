@@ -1,0 +1,67 @@
+Przykład:
+
+Tablice: [1,2,3,4,5], [6,7,8,12,14,15], [9,10,11,13]
+k = 6
+
+Przebieg algorytmu:
+
+1.
+  k=6, c=15 (c -- liczba elementów w aktualnie rozważanym zadaniu)
+  sprawdzamy czy k jest za czy przed medianą:
+  k<15/2 -- będziemy odrzucać elementy z końca, więc znajdujemy górne mediany
+  [1,2,*3*,4,5], [6,7,8,*12*,14,15], [9,10,*11*,13]
+  max(górne mediany) = 12. Odrzucamy elementy na prawo od górnej mediany tablicy 2
+  (włącznie z tą medianą).
+  Ponieważ odrzucaliśmy elementy z końca -- k sie nie zmienia.
+
+2. 
+  k=6, c=12, [1,2,3,4,5] [6,7,8] [9,10,11,13]
+  k>=12/2 -- będziemy odrzucać elementy z początku -- znajdujemy done mediany
+  [1,2,*3*,4,5], [6,*7*,8], [9,*10*,11,13]
+  min = 3. Odrzucamy elementy z pierwszej tablicy. Ponieważ zmniejszamy liczbę
+  elementów przed k -- musimy odpowiednio zmienić samo k! (żeby w zmniejszonym zadaniu
+  k wskazywało na tę samą liczbę). odrzucamy 3 elementy, więc k-=3.
+
+3. 
+  k=3, c=9
+  [4,5] [6,7,8] [9,10,11,13]
+  k<9/2 -- elementy z końca
+  [4,*5*], [6,*7*,8], [9,10,*11*,13]
+  max -- 11.
+
+4.
+  k=3, c=7
+  [4,5] [6,7,8] [9,10]
+  k>=7/2 (dzielenie całkowite)
+  [*4*,5] [6,*7*,8] [*9*,10]
+  min = 4
+  więc k-=1
+5. 
+  k=2, c=6
+  [5] [6,7,8] [9,10]
+  k<6/2
+  [*5*] [6,*7*,8] [9,*10*]
+  max -- 10
+
+6.
+  k=2 c=5
+  [5] [6,7,8] [9]
+  k>=5/2 (dzielenie całkowite)
+  [5] [6,7,8] [9]
+  min median dolnych: 5, odrzucamy jeden element z początku: k-=1
+  Odrzuciliśmy wszystkie elementy z tablicy 1, odrzucamy tablicę
+
+7. 
+  k=1, c=4
+  [6,7,8] [9]
+  k<4/2
+  max median górnych: 9.
+  Odrzuciliśmy wszystko z tablicy 3. Odrzucamy tablicę.
+
+8. 
+  k=1, została jedna tablica [6,7,8]. Bierzemy k-ty element tablicy (indeksujemy od 0)
+
+return 6
+
+
+  

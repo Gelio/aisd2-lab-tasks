@@ -1,0 +1,51 @@
+Zach³anne strategie kolorowania grafów.
+Implementujemy cztery strategie kolorowania:
+1. Simple Greedy
+2. Smallest Last
+3. DSatur
+4. Incremental
+
+-------------------
+
+1. Simple Greedy.
+Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci rosn¹cych indeksów.
+
+2. Smallest Last.
+Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci stworzonej przez procedurê:
+
+	1. L - pusta lista
+	2. Dopóki w G s¹ wierzcho³ki
+		2.1. Wybierz wierzcho³ek v najmniejszego stopnia w G
+		2.2. Wstaw go do listy L
+		2.3. Usuñ v z grafu
+	3. Zwróæ L w odwrotnej kolejnoœci.
+
+W punkcie 2.1, w przypadku wierzcho³ków równego stopnia, wybieramy ten o mniejszym indeksie.
+Oczywiœcie powy¿szy algorytm opisuje tylko koncepcjê - grafu nie wolno zmieniæ !
+
+2. DSatur.
+Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci malej¹cego nasycenia.
+Nasyceniem grafu nazywamy liczbê kolorów zablokowanych dla danego wierzcho³ka w aktualnym czêœciowym kolorowaniu
+(czyli wierzcho³ek, który ma 100 s¹siadów niepokolorowanych i trzech s¹siadów pokolorowanych kolorem 1 ma nasycenie 1).
+W przypadku dwóch wierzcho³ków o równym nasyceniu, wybieramy ten o mniejszym indeksie.
+
+3. Incremental
+W ka¿dym kroku wybieramy maksymalny zbiór niezale¿ny i kolorujemy go jednym kolorem.
+Wybrany zbiór ma byæ najmniejszy leksykograficznie.
+
+----------------------
+
+Kolorowanie reprezentowane jest jako tablica o n elementach, i-ty element
+tablicy odpowiada kolorowi wierzcho³ka i. Kolorujemy zaczynaj¹c od 1
+(0 oznacza niepokolorowany wierzcho³ek).
+
+-------------------
+
+Punktacja:
+SG  0.5
+SL  1.0
+DS  1.5
+Inc 1.0
+Praca domowa 1.0
+
+Aby uzyskaæ maksymaln¹ liczbê punktów za dan¹ metodê, wynik musi byæ poprawny a implementacja efektywna.

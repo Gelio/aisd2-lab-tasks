@@ -1,0 +1,30 @@
+
+Uzupełnić plik sort.h o 3 algorytmy sortowania.
+
+Dwa z nich mają to być "proste" algorytmy, a jeden "zaawansowany"
+(uwzględniamy jedynie sortowania oparte na porównaniach).
+Algorytmy zaawansowane to: quicksort, shellsort i dowolny inny
+zaakceptowany jako zaawansowany przez prowadzacego.
+
+Sortowanie od najmniejszego do największego (będzie sprawdzane automatycznie).
+
+Na zajęciach można dostać 3 pkt.
+ - algorytm zaawansowany   - 1p
+ - oba proste              - 1p
+ - reszta programu (main)  - 1p
+ 
+Dodatkowe 2 pkt - sprawozdanie.
+Termin przysyłania sprawozdania:  24.02.2012 godz. 8.00.
+Do sprawozdania należy dołączyć plik sort.h
+
+Pliki sprawozdania i sort.h należy spakować do pliku nazwa_konta.zip
+(nazwa_konta to konto na serwerze student.mini.pw.edu.pl,
+np. student Jan Kowalski, który ma konto kowalskij@student.mini.pw.edu.pl
+nazywa swój plik kowalskij.zip)
+i wysłać mailem do swojego prowadzacego (nie przysyłać całego projektu
+- jedynie tekst sprawozdania i sort.h).
+
+Uwaga: W przypadku algorytmu quicksort zadbać o to, aby nawet dla "niekorzystnych"
+danych nie powodował błedów wykonania (dotyczy to wersji ze sprawozdania, wersja "zajęciowa"
+nie musi być na to odporna).
+

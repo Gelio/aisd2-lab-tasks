@@ -1,0 +1,25 @@
+Rozwi¹zujemy problem SplittingSet.
+Dany jest zbiór S [0,...,n-1] i rodzina jego podzbiorów F.
+Zadanie polega na sprawdzeniu, czy elementy S da siê pokolorowaæ
+na dwa kolory (1 i 2) w taki sposób, ¿eby ¿aden zbiór z F nie by³
+jednokolorowy.
+
+Do przechowywania kolorów elementów nale¿y u¿ywaæ struktury Colors - ma automatyczne 
+zliczanie operacji pokolorowania.
+
+public bool Split(List<HashSet<int>> sets, Colors colors)
+Wartoœæ zwracana - true jeœli istnieje takie kolorowanie, false jeœli nie.
+colors - znalezione kolorowanie lub same zera, jeœli kolorowanie nie istnieje.
+
+Punktacja:
+
+Na zajeciach
+- wersja bez optymalizacji za 2pkt (wraz z podaniem kolorowania)
+- wersja z optymalizacj¹ za kolejne 2 pkt.
+W domu
+- wersja dopracowana 1pkt. 
+
+Przyk³ad optymalizacji:
+jeœli w F jest zbiór {1,2,3} i elementy 1 i 2 pokolorowaliœmy kolorem 1,
+to wiadomo, ¿e element 3 musi mieæ kolor 2.
+Wszystkie inne optymalizacje s¹ te¿ mile widziane.

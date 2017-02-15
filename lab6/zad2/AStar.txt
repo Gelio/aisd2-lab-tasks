@@ -1,0 +1,16 @@
+
+Zaimplementowac algorytm A* w wersji z Open i Close.
+
+Dla wierzcho³ka v wstawianego do Open dodaæ opis
+   description[v]="open";
+
+Dla wierzcho³ka v wstawianego do Close dodaæ opis
+   description[v]="close";
+
+Punktacja
+- obliczenie odleg³oœci od Ÿród³a do celu  - 3p
+- wyznaczenie œcie¿ki                      - 1p
+- czêœæ domowa                             - 1p
+
+Uwaga: ostatnie 3 przyk³ady to powtórzone pierwsze 3 przyk³ady,
+ale z zerowymi oszacowaniami odleg³oœci do celu (A* sprowadza siê do algorytmu Dijkstry)
