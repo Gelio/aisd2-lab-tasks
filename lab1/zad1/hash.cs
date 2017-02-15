@@ -57,23 +57,82 @@ namespace ASD
         // wyszukiwanie w tablicy elementu v - zwraca true jesli element v jest w tablicy
         public bool Search(int v)
         {
-            // TODO !!!!!!!!!!
-            return false; // zmienic !!!
+            accessCount++;
+            int pos = hash(v, Size);
+            int k = 1;
+            int initialValue = table[pos];
+            while (table[pos] != empty && table[pos] != v && (table[pos] != initialValue || k == 1))
+            {
+                accessCount++;
+                int step = shift(v, k++) % Size;
+                pos = (pos + step) % Size;
+            }
+                
+
+            return table[pos] == v;
         }
 
         // wstawianie do tablicy elementu v - zwraca false jesli v juz jest w tablicy
         // jesli zapelnienie tablicy >= alfa rozmiar tablicy jest podwajany (elementy są przenoszone)
         public bool Insert(int v)
         {
-            // TODO !!!!!!!!!!
-            return false; // zmienic !!!
+            if (Search(v))
+                return false;
+
+            double tableFill = (double)(ElemCount + 1) / (double)Size;
+            if (tableFill >= alfa)
+            {
+                // Podwójne zwiększenie rozmiaru tablicy
+                HashTable enlargedTable = new HashTable(hash, shift, Size * 2, alfa);
+                for (int i = 0; i < Size; i++)
+                {
+                    if (table[i] >= 0)
+                        enlargedTable._insertWithoutDuplicateCheck(table[i]);
+                }
+                table = enlargedTable.table;
+            }
+
+            _insertWithoutDuplicateCheck(v);
+            return true;
         }
 
         // usuwanie elementu v z tablicy - zwraca false jesli elementu v nie ma w tablicy
         public bool Remove(int v)
         {
-            // TODO !!!!!!!!!!
-            return false; // zmienic !!!
+            if (!Search(v))
+                return false;
+
+            elemCount--;
+            accessCount++;
+            int pos = hash(v, Size);
+            int k = 1;
+            while (table[pos] != v)
+            {
+                accessCount++;
+                int step = shift(v, k++) % Size;
+                pos = (pos + step) % Size;
+            }
+                
+
+            table[pos] = deleted;
+            return true;
+        }
+
+        private void _insertWithoutDuplicateCheck(int v)
+        {
+            elemCount++;
+            accessCount++;
+            int pos = hash(v, Size);
+            int k = 1;
+            while (table[pos] != deleted && table[pos] != empty)
+            {
+                accessCount++;
+                int step = shift(v, k++) % Size;
+                pos = (pos + step) % Size;
+            }
+
+
+            table[pos] = v;
         }
 
         // Funkcje haszujace - dla wszystkich
@@ -84,8 +143,8 @@ namespace ASD
         // Najprostsze haszowanie modulo
         public static int ModHash(int v, int size)
         {
-            // TODO !!!!!!!!!!
-            return 0; // zmienic !!!
+            // Krok musi być co najmniej 1, stąd to "żonglowanie" jedynkami
+            return (v % (size - 1)) + 1;
         }
 
         // haszowanie multiplikatywne
@@ -94,8 +153,10 @@ namespace ASD
             // a = (sqrt(5)-1)/2 = 0.6180339887
             // wynik = czesc_calkowita(size*(czesc_ulamkowa(v*a)))
 
-            // TODO !!!!!!!!!!
-            return 0; // zmienic !!!
+            double a = 0.6180339887;
+            double product = v * a;
+            double fractionPart = product - Math.Floor(product);
+            return ((int)Math.Floor(size * fractionPart) % (size - 1)) + 1;
         }
 
         // Funkcje rozwiazywania kolizji - dla wszystkich
@@ -122,8 +183,10 @@ namespace ASD
         // (dla kazdego klucza krok musi byc wzglednie pierwszy z rozmiarem tablicy)
         public static int Shifth(int v, int k)
         {
-            // TODO !!!!!!!!!!
-            return 0; // zmienic !!!
+            // Nie jestem pewny tego rozwiązania, zamiast k można użyć maksymalnej 
+            // długości tablicy haszującej (1000 powinno być okej), ale to rozwiązanie
+            // wtedy nie ma zbytnio sensu
+            return HashTable.ModHash(v, k + 1);
         }
 
     } // class HashTable

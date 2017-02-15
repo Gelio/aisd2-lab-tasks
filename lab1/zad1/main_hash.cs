@@ -23,7 +23,9 @@ class Lab01
                 Random r = new Random(34);
                 cit = cif = cst = csf = crt = crf = 0;
                 Console.WriteLine();
-                for (int i = 0; i < 1000000; ++i)
+                // Trzeba było zmienić ilość operacji na 1000, ponieważ do tej liczby sumuje się
+                // liczba operacji w outpucie z wyników
+                for (int i = 0; i < 1000; ++i)
                     switch (r.Next() % 3)
                     {
                         case 0:
@@ -46,6 +48,15 @@ class Lab01
                             break;
                     }
                 Console.WriteLine(hashm[h] + " - " + shiftm[s]);
+                // Ktoś pozmieniał wyniki, gdy sam uruchomiłem program miałem parzystą liczbę wstawień,
+                // podczas gdy tutaj jest liczba nieparzysta. Zatem nie wyniki nie są miarodajne i nie należy
+                // na nie patrzeć. Być może zostało użyte inne ziarno losowości (zmienna r) i stąd różnice.
+
+                // Ogólnie w każdym teście wyniki powinny być takie same, bo bez względu na funkcję mieszającą
+                // i sposób rozwiązywania kolizji te same dane się tak samo zachowywać.
+
+                // Aktualne rozwiązanie prawdopodobnie zawiera błędy, ponieważ nie w każdym wariancie są takie
+                // same wyniki.
                 Console.WriteLine("  {0,5} udanych wstawien      - powinno byc 187,  {1}", cit, cit == 187);
                 Console.WriteLine("  {0,5} nieudanych wstawien   - powinno byc 148,  {1}", cif, cif == 148);
                 Console.WriteLine("  {0,5} udanych wyszukiwan    - powinno byc 133,  {1}", cst, cst == 133);
