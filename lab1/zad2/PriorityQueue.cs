@@ -16,30 +16,45 @@ namespace ASD
 
     class LazyPriorityQueue : IPriorityQueue
     {
+        private List<int> _queue;
 
         public LazyPriorityQueue()
         {
+            _queue = new List<int>();
         }
 
         public void Put(int p)
         {
+            _queue.Add(p);
         }
 
         public int GetMax()
         {
-            return 0;
+            int maxValue = ShowMax();
+            _queue.Remove(maxValue);
+            return maxValue;
         }
 
         public int ShowMax()
         {
-            return 0;
+            if (_queue.Count == 0)
+                throw new InvalidOperationException();
+
+            int maxValue = _queue[0];
+            for (int i=1; i < _queue.Count; i++)
+            {
+                if (maxValue < _queue[i])
+                    maxValue = _queue[i];
+            }
+
+            return maxValue;
         }
 
         public int Count
         {
             get
             {
-                return 0;
+                return _queue.Count;
             }
         }
 
@@ -48,30 +63,56 @@ namespace ASD
 
     class EagerPriorityQueue : IPriorityQueue
     {
+        // Tablica posortowana rosnąco, aby GetMax było O(1)
+        // W przypadku posortowania malejącego GetMax musiałoby przesuwać 
+        // wszystkie elementy
+        private List<int> _queue;
 
         public EagerPriorityQueue()
         {
+            _queue = new List<int>();
         }
 
         public void Put(int p)
         {
+            if (_queue.Count == 0 || p <= _queue[0])
+            {
+                _queue.Insert(0, p);
+                return;
+            }
+
+            for (int i=1; i < _queue.Count; i++)
+            {
+                if (p <= _queue[i])
+                {
+                    _queue.Insert(i, p);
+                    return;
+                }
+            }
+
+            _queue.Add(p);
         }
 
         public int GetMax()
         {
-            return 0;
+            int maxValue = ShowMax();
+            _queue.RemoveAt(_queue.Count - 1);
+            return maxValue;
         }
 
         public int ShowMax()
         {
-            return 0;
+            if (_queue.Count == 0)
+                throw new InvalidOperationException();
+
+            return _queue[_queue.Count - 1];
         }
 
         public int Count
         {
             get
             {
-                return 0;
+                return _queue.Count;
             }
         }
 
