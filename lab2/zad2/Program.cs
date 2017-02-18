@@ -30,7 +30,7 @@ namespace ASD
             wykonajTest(ladny, odl0, wys0, 5.99, ladny?3:2, sprawdz_tab ? (ladny ? rozw0ladny : rozw0brzydki) : null);
 
             double[] odl = { 0, 2, 4, 10, 12 };
-            double[] wys = { 10, 4, 0, 3, 8 };
+            double[] wys = { 10, 4, 0, 3, 8 };  // prawdopodobnie błąd w zadaniu, zobacz komentarz w funkcji KosztDaszku
             int[] rozw = { 0, 2, 4 };
             Console.Write("Test 1:\t");
             wykonajTest(ladny, odl, wys, 11, 2, sprawdz_tab ? rozw : null);
