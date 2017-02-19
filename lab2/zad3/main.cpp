@@ -11,13 +11,13 @@ void test(int n)
 	int s;
 
 	partitions = generateSmallPartitions(n);
-	s = partitions.size();	
-	cout<< endl<<endl<<"Male podzialy zbioru ["<<n<<"]:"<<endl;
-	for (int i=0; i< s; ++i)
+	s = partitions.size();
+	cout << endl << endl << "Male podzialy zbioru [" << n << "]:" << endl;
+	for (int i = 0; i < s; ++i)
 	{
-		cout<<i+1<<". ";
+		cout << i + 1 << ". ";
 		partitions[i].print();
-		cout<<endl;
+		cout << endl;
 	}
 
 }
@@ -26,9 +26,9 @@ void test(int n)
 void main()
 {
 	test(5);
-	cout<<endl<<"powinno byc 26 malych z 52 wszystkich";
+	cout << endl << "powinno byc 26 malych z 52 wszystkich";
 
 	test(6);
-	cout<<endl<<"powinno byc 166 malych z 203 wszystkich";
-	cout<<endl;
+	cout << endl << "powinno byc 166 malych z 203 wszystkich";
+	cout << endl;
 }
