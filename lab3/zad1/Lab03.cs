@@ -44,8 +44,8 @@ class Lab03
 
         }
 
-        desc = description;     // zmienic
-        return t;  // zmienic (wynikiem ma byc calkiem inny graf !!!)
+        desc = description;
+        return t;
     }
 
     /// <summary>
