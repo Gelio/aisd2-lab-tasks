@@ -19,33 +19,32 @@ class Lab03
     {
         Graph t = new AdjacencyMatrixGraph(false, graph.EdgesCount);
         int[,] vert = new int[graph.VerticesCount, graph.VerticesCount];
-        for (int i = 0; i < graph.VerticesCount; i++) for (int j = 0; j < graph.VerticesCount; j++) vert[i, j] = -1;
-        int k = 0;
-        string[] description = new string[graph.EdgesCount];
+        for (int i = 0; i < graph.VerticesCount; i++)
+            for (int j = 0; j < graph.VerticesCount; j++)
+                vert[i, j] = -1;
+        desc = new string[graph.EdgesCount];
 
+        // Tworzymy wierzchołki grafu krawędziowego
+        int k = 0;
         for (int v = 0; v < graph.VerticesCount; ++v)
         {
-
             foreach (Edge e1 in graph.OutEdges(v))
                 if (vert[e1.From, e1.To] == -1)
                 {
-                    description[k] = e1.From.ToString() + "-" + e1.To.ToString();
+                    desc[k] = e1.From.ToString() + "-" + e1.To.ToString();
                     vert[e1.From, e1.To] = vert[e1.To, e1.From] = k++;
-
                 }
         }
 
+        // Dodajemy krawędzie grafu krawędziowego
         for (int v = 0; v < graph.VerticesCount; ++v)
         {
-
             foreach (Edge e1 in graph.OutEdges(v))
                 foreach (Edge e2 in graph.OutEdges(e1.To))
-                    if (vert[e1.From, e1.To] != vert[e2.From, e2.To])
+                    if (e1.From != e2.To) // Sprawdzamy, czy to nie jest ta sama krawędź
                         t.AddEdge(vert[e1.From, e1.To], vert[e2.From, e2.To]);
-
         }
 
-        desc = description;
         return t;
     }
 
