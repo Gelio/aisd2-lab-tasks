@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace ASD.Graphs
 {
@@ -75,6 +76,10 @@ namespace ASD.Graphs
                     if (toVertex > del)
                         toVertex -= 1;
 
+                    // Podobnie jak przy dodawaniu, krawędź w grafach nieskierowanych dodajemy tylko raz
+                    if (!g.Directed && fromVertex > toVertex)
+                        continue;
+
                     newGraph.AddEdge(fromVertex, toVertex);
                 }
             }
@@ -95,7 +100,48 @@ namespace ASD.Graphs
         /// </remarks>
         public static Graph Complement(this Graph g)
         {
-            return g.Clone(); // zmienic !
+            int verticesCount = g.VerticesCount;
+            double edgeWeight = double.NaN;
+            Graph newGraph = g.IsolatedVerticesGraph();
+
+            for (int v = 0; v < verticesCount; v++)
+            {
+                bool[] shouldEdgeBeAdded = new bool[verticesCount];
+                if (!g.Directed)
+                {
+                    // Nie dodajemy krawędzi "do tyłu" w grafach nieskierowanych
+                    for (int i = 0; i <= v; i++)
+                        shouldEdgeBeAdded[i] = false;
+                    for (int i = v + 1; i < verticesCount; i++)
+                        shouldEdgeBeAdded[i] = true;
+                }
+                else
+                {
+                    for (int i = 0; i < verticesCount; i++)
+                        shouldEdgeBeAdded[i] = true;
+                    // Nie dodajemy pętli
+                    shouldEdgeBeAdded[v] = false;
+                }
+
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (edgeWeight.IsNaN())
+                        edgeWeight = e.Weight;
+                    if (edgeWeight != e.Weight)
+                        throw new ArgumentException("Graf jest grafem ważonym.");
+
+                    shouldEdgeBeAdded[e.To] = false;
+                }
+
+                for (int i = 0; i < verticesCount; i++)
+                {
+                    if (shouldEdgeBeAdded[i])
+                        newGraph.AddEdge(v, i);
+                }
+                    
+            }
+
+            return newGraph;
         }
 
         /// <summary>Domknięcie grafu</summary>
