@@ -157,7 +157,43 @@ namespace ASD.Graphs
         /// </remarks>
         public static Graph Closure(this Graph g)
         {
-            return g.Clone(); // zmienic !
+            int verticesCount = g.VerticesCount;
+            double edgeWeight = double.NaN;
+            Graph newGraph = g.IsolatedVerticesGraph();
+
+            for (int v = 0; v < verticesCount; v++)
+            {
+                bool[] shouldEdgeBeAdded = new bool[verticesCount];
+                for (int i = 0; i < verticesCount; i++)
+                    shouldEdgeBeAdded[i] = false;
+
+                Predicate<Edge> updateEdgesToBeAdded = e =>
+                {
+                    if (edgeWeight.IsNaN())
+                        edgeWeight = e.Weight;
+                    if (edgeWeight != e.Weight)
+                        throw new ArgumentException("Graf jest grafem ważonym.");
+
+                    // W nieskierowanych nie dodajemy krawędzi "do tyłu"
+                    if (g.Directed || e.From < e.To)
+                        shouldEdgeBeAdded[e.To] = true;
+
+                    return true;
+                };
+
+                g.GeneralSearchFrom<EdgesStack>(v, null, null, updateEdgesToBeAdded);
+
+                // Wykluczamy ewentualną pętlę
+                shouldEdgeBeAdded[v] = false;
+
+                for (int i = 0; i < verticesCount; i++)
+                {
+                    if (shouldEdgeBeAdded[i])
+                        newGraph.AddEdge(v, i);
+                }
+            }
+
+            return newGraph;
         }
 
         /// <summary>Badanie czy graf jest dwudzielny</summary>
