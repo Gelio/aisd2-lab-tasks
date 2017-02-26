@@ -37,8 +37,9 @@
     <RootNamespace>Graf_krawędziowy</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Graph">
-      <HintPath>.\Graph.dll</HintPath>
+    <Reference Include="Graph, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Graph.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
