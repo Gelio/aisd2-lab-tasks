@@ -95,8 +95,13 @@ namespace Lab03
                 Console.WriteLine("Domknięcie g2 + K1 ma {0} (powinno być 4) krawędzi", h2.EdgesCount);
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
 
+                // Prawdopodobnie chodziło o graf g2, bo on jest dwudzielny
+                // Klasy dwudzielności: {0, 2}, {1, 3{
+                Console.WriteLine("\nCzy g2 jest dwudzielny ?: {0} (powinno być True)", g2.IsBipartite());
+                Console.WriteLine("# licznik: {0}", Graph.Counter);
 
-                Console.WriteLine("\nCzy h2 jest dwudzielny ?: {0} (powinno być False)", g2.IsBipartite());
+                // Obstawiam, że w takim razie wynik false powinien być dla h2
+                Console.WriteLine("\nCzy h2 jest dwudzielny ?: {0} (powinno być False)", h2.IsBipartite());
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
             }
             catch (Exception e)

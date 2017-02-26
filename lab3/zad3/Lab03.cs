@@ -205,7 +205,32 @@ namespace ASD.Graphs
         /// </remarks>
         public static bool IsBipartite(this Graph g)
         {
-            return false; // zmienic !
+            int verticesCount = g.VerticesCount;
+            for (int v=0; v < verticesCount; v++)
+            {
+                int[] distanceFromV = new int[verticesCount];
+                for (int i = 0; i < verticesCount; i++)
+                    distanceFromV[i] = -1;
+                distanceFromV[v] = 0;
+
+                Predicate<Edge> updateDistanceFromV = e =>
+                {
+                    if (distanceFromV[e.To] > -1)
+                    {
+                        // Cykle muszą być długości parzystej w grafie dwudzielnym
+                        if ((distanceFromV[e.To] + distanceFromV[e.From] + 1) % 2 != 0)
+                            return false;
+                    }
+
+                    distanceFromV[e.To] = distanceFromV[e.From] + 1;
+                    return true;
+                };
+
+                if (!g.GeneralSearchFrom<EdgesQueue>(v, null, null, updateDistanceFromV))
+                    return false;
+            }
+
+            return true;
         }
 
     }
