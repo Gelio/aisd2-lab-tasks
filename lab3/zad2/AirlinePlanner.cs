@@ -83,14 +83,27 @@ namespace zadanie3
 
         public int GetMaximumDistance(int start)
         {
-            // uzupełnij
-
             // można wykorzystać przeszukiwanie wszerz
             // rozważ użycie metody GeneralSearchFrom
 
             // Zabronione jest korzystanie z metod rozszerzających zdefiniowanych w klasie ShortestPathsGraphExtender !!!!
 
-            return 0; // zmień
+            int maxDistance = 0;
+            int verticesCount = airline.VerticesCount;
+            int[] distances = new int[verticesCount];
+            for (int i = 0; i < verticesCount; i++)
+                distances[i] = -1;
+
+            Predicate<Edge> updateDistance = e =>
+            {
+                distances[e.To] = distances[e.From] + 1;
+                if (distances[e.To] > maxDistance)
+                    maxDistance = distances[e.To];
+                return true;
+            };
+            airline.GeneralSearchFrom<EdgesQueue>(start, null, null, updateDistance);
+
+            return maxDistance;
         }
 
         public void Show()
