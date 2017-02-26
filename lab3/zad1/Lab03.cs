@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ASD.Graphs;
 
 class Lab03
@@ -60,30 +61,53 @@ class Lab03
     /// </remarks>
     public static int[] TopologicalSort_V0(Graph graph)
     {
-        Graph t = graph.Clone();
-        int[] ord = new int[graph.VerticesCount];
-        for (int i = 0; i < ord.Length; i++) ord[i] = -1;
+        // Metoda podobna do BFS, zaczynamy od wierzchołków, do których nie da się wejść
+        // (mają InDegree == 0)
+        int[] order = new int[graph.VerticesCount];
+        for (int i = 0; i < order.Length; i++)
+            order[i] = -1;
 
-        int key = 0;
-
-        while (key < t.VerticesCount)
+        List<int> startingVerticies = new List<int>();
+        for (int v = 0; v < graph.VerticesCount; v++)
         {
-            bool deleted = false;
-            for (int v = 0; v < t.VerticesCount; ++v)
-                if (t.InDegree(v) == 0 && ord[v] == -1)
-                {
-                    ord[v] = key++;
-                    foreach (Edge e in t.OutEdges(v)) t.DelEdge(e);
-                    deleted = true;
-                }
-
-            if (deleted == false) return null;
+            if (graph.InDegree(v) == 0)
+                startingVerticies.Add(v);
         }
 
+        foreach (int v in startingVerticies)
+        {
+            bool[] vertexVisited = new bool[graph.VerticesCount];
+            for (int i = 0; i < vertexVisited.Length; i++)
+                vertexVisited[i] = false;
 
-        //for(int i = 0; i < ord.Length; i++) Console.WriteLine("{0}. {1}",i, ord[i]);
+            EdgesQueue edgesPending = new EdgesQueue();
 
-        return ord;  // zmienic
+            // Dodajemy wszystkie krawędzie od wierzchołka początkowego
+            foreach (Edge e in graph.OutEdges(v))
+                edgesPending.Put(e);
+            vertexVisited[v] = true;
+            // Początkowy wierzchołek ma numer 0 w kolejności
+            order[v] = 0;
+
+            while (!edgesPending.Empty)
+            {
+                Edge e = edgesPending.Get();
+                if (vertexVisited[e.To] && order[e.From] > order[e.To])
+                    return null;
+                vertexVisited[e.To] = true;
+
+                // Jeżeli wierzchołek ma już numer, to nie idziemy do niego
+                if (order[e.To] > -1)
+                    continue;
+                
+                // Ustawiamy kolejność i dodajemy wszystkie krawędzie
+                order[e.To] = order[e.From] + 1;
+                foreach (Edge outEdge in graph.OutEdges(e.To))
+                    edgesPending.Put(outEdge);
+            }
+        }
+
+        return order;
     }
 
     /// <summary>
@@ -98,7 +122,24 @@ class Lab03
     /// </remarks>
     public static int[] TopologicalSort_DFS(Graph graph)
     {
-        return null;  // zmienic
+        int[] order = new int[graph.VerticesCount];
+        for (int i = 0; i < order.Length; i++)
+            order[i] = -1;
+
+        Predicate<int> setVertexOrder = v =>
+        {
+            int minNeighborOrder = graph.VerticesCount;
+            foreach (Edge e in graph.OutEdges(v))
+                minNeighborOrder = Math.Min(minNeighborOrder, order[e.To]);
+
+            order[v] = minNeighborOrder - 1;
+            return true;
+        };
+
+        int counter = 0;
+        graph.DFSearchAll(null, setVertexOrder, out counter);
+
+        return order;
     }
 }
 
