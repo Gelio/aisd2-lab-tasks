@@ -21,10 +21,10 @@ class Test
         g.AddEdge(2, 3);
         g.AddEdge(3, 4);
         g.AddEdge(4, 3);
-        // ge.Export(g, null, "G");
+        ge.Export(g, null, "G");
 
         Graph lg = Lab03.LineGraph(g, out desc);
-        // ge.Export(lg, desc, "LG");
+        ge.Export(lg, desc, "LG");
 
         Graph[] g2 = new Graph[3];
         g2[0] = new AdjacencyMatrixGraph(true, 4);
