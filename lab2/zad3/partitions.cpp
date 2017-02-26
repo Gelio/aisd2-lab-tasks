@@ -97,7 +97,7 @@ vector<Partition> generatePartitions(int n)
 	}
 	
 	// Krok rekurencyjny
-	vector<Partition> basePartitions = generateSmallPartitions(n - 1);
+	vector<Partition> basePartitions = generatePartitions(n - 1);
 	vector<Partition> result;
 	for (int i = 0; i < basePartitions.size(); i++) {
 		vector<Partition> extendedPartitions = basePartitions[i].extend(n);

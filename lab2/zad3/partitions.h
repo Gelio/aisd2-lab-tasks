@@ -16,5 +16,6 @@ public:
 	vector<Partition> extendSmallOnly(int n, int maxSize);
 };
 
+vector<Partition> generatePartitions(int n);
 vector<Partition> generateSmallPartitions(int n);
 vector<Partition> generateSmallPartitionsRecursive(int n, int maxSize);
