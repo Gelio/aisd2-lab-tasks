@@ -1,5 +1,5 @@
 ﻿using System;
-using ASD.Graph;
+using ASD.Graphs;
 
 namespace Lab03
 {
@@ -12,9 +12,9 @@ namespace Lab03
             try
             {
                 var rgg = new RandomGraphGenerator(123);
-                IGraph h1, h2;
-                IGraph g1 = new AdjacencyMatrixGraph(false, 5);
-                IGraph g2 = new AdjacencyListsGraph(true, 4);
+                Graph h1, h2;
+                Graph g1 = new AdjacencyMatrixGraph(false, 5);
+                Graph g2 = new AdjacencyListsGraph<SimpleAdjacencyList>(true, 4);
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
 
                 g1.AddEdge(0, 1);
@@ -58,7 +58,7 @@ namespace Lab03
                 Console.WriteLine("\nCzy h1 jest dwudzielny ?: {0} (powinno być False)", h1.IsBipartite());
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
 
-                h1 = rgg.BipariteGraph(typeof(AdjacencyMatrixGraph),30,50,0.5);
+                h1 = rgg.BipariteGraph(typeof(AdjacencyMatrixGraph), 30, 50, 0.5);
                 Console.WriteLine("\nCzy nowy h1 jest dwudzielny ?: {0} (powinno być True)", h1.IsBipartite());
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
 
@@ -99,7 +99,7 @@ namespace Lab03
                 Console.WriteLine("\nCzy h2 jest dwudzielny ?: {0} (powinno być False)", g2.IsBipartite());
                 Console.WriteLine("# licznik: {0}", Graph.Counter);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
