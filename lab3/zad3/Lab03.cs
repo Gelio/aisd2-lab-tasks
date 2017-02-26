@@ -19,7 +19,25 @@ namespace ASD.Graphs
         /// </remarks>
         public static Graph AddVertex(this Graph g)
         {
-            return g.Clone(); // zmienic !
+            int originalVerticesCount = g.VerticesCount;
+            Graph newGraph = g.IsolatedVerticesGraph(g.Directed, originalVerticesCount + 1);
+            for (int v=0; v < originalVerticesCount; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    // W nieskierowanych dodajemy tylko krawędzie od wierzchołka o niższym indeksie
+                    // do wierzchołka o wyższym indeksie, żeby uniknąć podwójnego dodawania krawędzi
+                    if (!g.Directed)
+                    {
+                        if (e.From > e.To)
+                            continue;
+                    }
+
+                    newGraph.AddEdge(e);
+                }
+            }
+
+            return newGraph;
         }
 
         /// <summary>Usuwanie wierzchołka z grafu</summary>
@@ -37,7 +55,31 @@ namespace ASD.Graphs
         /// </remarks>
         public static Graph DeleteVertex(this Graph g, int del)
         {
-            return g.Clone(); // zmienic !
+
+            int originalVerticesCount = g.VerticesCount;
+            Graph newGraph = g.IsolatedVerticesGraph(g.Directed, originalVerticesCount - 1);
+            for (int v = 0; v < originalVerticesCount; v++)
+            {
+                if (v == del)
+                    continue;
+
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    int fromVertex = e.From;
+                    int toVertex = e.To;
+                    if (toVertex == del)
+                        continue;
+
+                    if (fromVertex > del)
+                        fromVertex -= 1;
+                    if (toVertex > del)
+                        toVertex -= 1;
+
+                    newGraph.AddEdge(fromVertex, toVertex);
+                }
+            }
+
+            return newGraph;
         }
 
         /// <summary>Dopełnienie grafu</summary>
