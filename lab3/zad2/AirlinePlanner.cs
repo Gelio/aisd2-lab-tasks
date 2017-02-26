@@ -45,14 +45,40 @@ namespace zadanie3
 
         public int[] FindNewBase()
         {
-            // uzupełnij
+            int verticesCount = airline.VerticesCount;
+            List<int> verticesLeft = new List<int>(verticesCount);
+            for (int i=0; i < verticesCount; i++)
+                verticesLeft.Add(i);
+
+            Graph clonedAirline = airline.Clone();
 
             // najprostszy algorytm polega na powtarzaniu procesu
             //  - wyznaczania liści w grafie (drzewie)
             //  - usuwania liści
             // dopóki pozostały wiecej niż 2 nie usunięte wierzchołki
 
-            return new int[0]; // zmień
+            List<int> leavesIndices = new List<int>();
+            while (verticesLeft.Count > 2)
+            {
+                leavesIndices.Clear();
+                for (int i = 0; i < verticesLeft.Count; i++)
+                {
+                    int v = verticesLeft[i];
+                    if (clonedAirline.OutDegree(v) == 1)
+                        leavesIndices.Add(i);
+                }
+
+                for (int i = leavesIndices.Count - 1; i >= 0; i--)
+                {
+                    int leafIndex = leavesIndices[i];
+                    int leaf = verticesLeft[leafIndex];
+                    verticesLeft.RemoveAt(leafIndex);
+                    foreach (Edge e in clonedAirline.OutEdges(leaf))
+                        clonedAirline.DelEdge(e);
+                }
+            }
+
+            return verticesLeft.ToArray();
         }
 
         public int GetMaximumDistance(int start)

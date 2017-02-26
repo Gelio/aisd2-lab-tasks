@@ -41,7 +41,7 @@ namespace zadanie3
             foreach (var i in centers)
                 Console.Write("{0}, ", ap.GetMaximumDistance(i));
             Console.Write(" powinno być wszędzie {0}\n", max_dist2);
-            if (num < 5) ap.Show();
+            // if (num < 5) ap.Show();
         }
 
         static void Main(string[] args)
