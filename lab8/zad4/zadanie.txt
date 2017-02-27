@@ -1,0 +1,60 @@
+
+Dzisiejsze zadanie polega na zaimplementowaniu algorytmu przybli¿onego dla rozwi¹zania
+wariantu gry "Hey, That's My Fish!".
+
+Gra jest jednoosobowa i polega na zebraniu jak najwiêkszej liczby ryb z siatki z³o¿onej 
+z szeœciok¹tów (jeden szeœciok¹t to jedna kra). Siatka jest u³o¿ona jak w pliku hex_grid.jpg
+
+Zasady gry:
+- na pojedynczej krze mo¿e byæ od 1 do 3 ryb (nasze rybki nie lubi¹ zimnej wody i chc¹ siê poopalaæ na krach)
+- gracz posiada skoñczon¹ liczbê pingwinów (lub wcale)
+- pingwiny wspó³dzia³aj¹, tzn. zbieraj¹ ryby do jednej puli
+- pole, na którym jest 0 ryb, nie mo¿e byæ zajêta (jest to tzw. "dziura")
+- pingwin opuszczaj¹c krê zabiera z niej ryby, które wliczaj¹ siê do puli
+  (gdy opuszcza krê tworzy siê "dziura" - kra jest zatapiana).
+- pingwin mo¿e siê poruszaæ w wybranym kierunku do samego koñca (do brzegu siatki lub do kry
+  po³o¿onej bezpoœrednio przed "dziur¹" lub innym pingwinem)
+- pingwin mo¿e siê poruszaæ w jednym z 6 kierunków
+  . ograniczeniem zakresu ruchu jest brzeg siatki, dziura lub inny pingwin
+  . pingwin nie mo¿e skrêcaæ w trakcie wykonywania ruchu
+- pingwiny zbieraj¹ ryby a¿ do momentu, gdy wszystkie nie mog¹ siê ju¿ ruszyæ (koniec dzia³ania algorytmu)
+
+Algorytmy:
+
+1. (GreedyAlgorithm1)
+   Spoœród wszystkich mo¿liwych ruchów wybieramy, ten w którym zbierzemy najwiêcej ryb
+   (gdy opuœcimy krê na któr¹ w³aœnie wchodzimy).
+   Jeœli weg³ug tego kryterium jest kilka ruchów równie dobrych jako kolejne kryteria przyjmujemy
+   - numer pingwina (mniejszy lepszy)
+   - numer kierunku (mniejszy lepszy)
+   - d³ugoœæ ruchu (mniejsza lepsza)
+
+2. (GreedyAlgorithm2)
+   Spoœród wszystkich mo¿liwych "najd³u¿szych" ruchów wybieramy, ten w którym zbierzemy najwiêcej ryb
+   (gdy opuœcimy krê na któr¹ w³aœnie wchodzimy).
+   Jeœli weg³ug tego kryterium jest kilka ruchów równie dobrych jako kolejne kryteria przyjmujemy
+   - numer pingwina (mniejszy lepszy)
+   - numer kierunku (mniejszy lepszy)
+
+"Najd³u¿sze" ruchy w danym kierunku to takie w których dochodzimy do bariery (brzeg planszy, dziura, inny pingwin)
+i dalej ruszyæ siê nie mo¿emy.
+
+Punktacja:
+3p - jeden algorytm (dowolny)
+4p - oba algorytmy
+
+Wskazówka:
+- badanie licznych kryteriów wyboru najlepszego ruchu zaimplementowaæ sprytnie
+  (tak naprawdê badaæ tylko jedno najwa¿niejsze kryterium)
+
+Uwagi:
+- algorytmy ró¿ni¹ siê jedynie tym, ¿e w pierwszym rozwa¿amy wszystkie ruchy, a w drugim "najd³u¿sze"
+- do wyœwietlania w konsoli planszy przyda siê ustawienie w pliku Program.cs zmiennej showBoard na true
+- do wyœwietlania w konsoli ruchów pingwinów przyda siê ustawienie w pliku Program.cs zmiennej showMoves na true
+- na pocz¹tkowej planszy mog¹ znajdowaæ siê "dziury"
+
+Metody do wykorzystania:
+* Point GetNeighbour() w klasie Board
+* bool IsPenguinAtField() w klasie Board
+* int MovePenguin() w klasie Board
+* bool IsValid() w strukturze Point

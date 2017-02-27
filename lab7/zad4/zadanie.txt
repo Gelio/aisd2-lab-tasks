@@ -1,0 +1,62 @@
+# Dobór zapachów
+
+Sieć perfumerii Amoniakalne Substancje Drażniące² przyjęła strategię
+marketingową polegającą na przyciąganiu klientów za pomocą zapachów
+rozpylanych w sklepach. 
+
+Poważnym problemem jest jednak dobór zapachów, które należy rozpylić. 
+Specjaliści ds. marketingu, technik sprzedaży i konserwacji linoleum
+wybrali grupę M potencjalnych klientów sklepu, która będzie grupą
+testową. Sieć dysponuje N zapachami. Każdy z klientów ma jeden z
+trzech stosunków do danego zapachu: negatywny, pozytywny, neutralny. 
+Poziom zadowolenia klienta to: 
+ liczba zapachów pozytywnych - liczba zapachów negatywnych
+rozpylonych w sklepie. 
+
+Ci sami specjaliści ustalili również próg zadowolenia, po osiągnięciu
+lub przekroczeniu którego marketing uznaje klienta za przekonanego do
+zakupu.
+
+## Zadanie
+
+
+### Etap 1
+Stosując technikę algorytmu z powrotami, mając dane zapachy, klientów i
+oczekiwany poziom zadowolenia obliczyć czy istnieje mieszanka
+zapachów, która pozwala wszystkim osiągnąć wymagany poziom i jeśli
+tak, podać tę mieszankę.  
+
+ - testy podstawowe (1p)
+ - testy wydajnościowe (1p)
+
+### Etap 2
+W przypadku, gdy nie istnieje mieszanka zapachów pozwalająca wszystkim
+osiągnąć wymagane zadowolenie, podać maksymalną liczę klientów,
+których można usatysfakcjonować i mieszankę dającą taki efekt.
+
+ - testy podstawowe (1p)
+ - testy wydajnościowe (1p)
+
+## Uwagi
+
+ + W algorytmie z powrotami próbować ustalić stan (obecny, nieobecny)
+   każdego zapachu po kolei. 
+ + Aby poprawić wydajność rozwiązania, można szacować z góry poziom
+   zadowolenia, przy częściowym ustaleniu stanu zapachów.
+ + Aby otrzymać punkty za testy wydajnościowe, wszystkie muszą
+   przejść. (Nie jest specjalnie trudne uzyskanie wystarczającej
+   wydajności za małe przypadki testowe, a takie testowane są
+   najpierw. Tylko kilka przypadków jest dużych i sprawia faktyczną
+   trudność). 
+
+## Uwagi techniczne
+
+ + Na początku metody Main znajdują się dwie zmienne. Jedna z nich
+   kontroluje wyświetlanie zwróconego przypisania w przypadku błędu, 
+   druga decyduje, czy wyjątki wyrzucone przez program będą
+   przechwytywane. 
+ + Zakładamy, że dane wejściowe są poprawne.
+ + Jeśli rozwiązanie jest niejednoznaczne (istnieje więcej niż jedno
+   przypisanie zapachów, które daje zwrócony wynik), zwrócić dowolne z
+   nich.
+

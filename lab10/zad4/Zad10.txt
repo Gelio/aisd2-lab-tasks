@@ -1,0 +1,11 @@
+
+Punktacja
+
+Klika
+- 2 pkt - wszystkie testy poprawne
+- 1 pkt - zwyk³e testy poprawne, w testach wydajnoœci dozwolony "Timeout" ("Fail" niedozwolony)
+
+Izomorfizm
+- 2 pkt - wszystkie testy poprawne
+- 1 pkt - zwyk³e testy poprawne, w testach wydajnoœci dozwolony "Timeout" ("Fail" niedozwolony)
+

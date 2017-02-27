@@ -1,0 +1,38 @@
+
+Specjalne liczby to liczby, w których cyfry (od 1 do 9) ustawione s¹ w porz¹dku nierosn¹cym (np 9999877777652, 542 itp)
+oraz dodatkowo dwie cyfry stoj¹ce obok siebie s¹ albo takie same albo maj¹ ró¿n¹ parzystoœæ
+(zatem 9999877777652 jest specjalna, ale 542 ju¿ nie bo 4 i 2 stoj¹ obok siebie i obie s¹ parzyste).
+
+Zadanie:
+
+Czêœæ 1
+ZnajdŸ liczbê n-cyfrowych liczb specjalnych metod¹ rekurencyjn¹.
+Obliczenia przeprowadŸ modulo 10000 aby unikn¹æ nadmiaru arytmetycznego.
+
+Czêœæ 2
+Rozwi¹¿ to samo zadanie, tym razem u¿ywaj¹c programowania dynamicznego.
+
+Czêœæ 3
+Rozwi¹¿ u¿ywaj¹c programowania dynamicznego uogólnion¹ wersjê problemu. Tym razem nie liczymy liczby specjalnych liczb.
+Funkcja jako parametr dostaje dodatkowo tablicê booli 9x9 (ca³y czas u¿ywamy cyfr 1 - 9).
+W tej tablicy jeœli na pozycji [i, j] jest true to cyfra i + 1 mo¿e wystêpowaæ przed cyfr¹ j + 1,
+jeœli na pozycji [i, j] jest false to nie mo¿e. 
+ZnajdŸ liczbê n-cyfrowych liczb spe³niaj¹cych wymogi zdefiniowane w tablicy booli.
+Obliczenia przeprowadŸ modulo 10000 aby unikn¹æ nadmiaru arytmetycznego.
+
+Punktacja
+Czêœæ 1       -  1 pkt.
+Czêœæ 2       -  2 pkt.
+Czêœæ 3       -  1 pkt.
+Czêœæ domowa  -  1 pkt.
+
+Wskazówka
+W metodzie programowania dynamicznego mo¿e siê przydaæ 2-wymiarowa tablica,
+której wiersze (od 0 do 8) odpowiadaj¹ cyfrom (od 1 do 9).
+Czemu odpowiadaj¹ kolumny to ju¿ trzeba samemu wymyœliæ.
+
+Uwaga
+Wprowadzenie obliczeñ modulo 10000 ma jedynie znaczenie techniczne, bez tego pojawi³by siê nadmiar arytmetyczny.
+To nie ma wp³ywu na istotê algorytmu, po prostu przy sumowaniu (bo trzeba posumowaæ wyniki z kilku mo¿liwych przypadków)
+trzeba liczyæ modulo 10000 (czyli liczyæ reszty z dzielenia przez 10000).
+
