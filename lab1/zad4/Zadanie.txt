@@ -1,0 +1,81 @@
+
+Zadanie 1
+
+Implementacja prostych struktur danych (kontenerów) do przechowywania liczb typu int.
+
+Wszystkie kontenery korzystaj¹ z wewnêtrznej tablicy do pamiêtania danych.
+Pocz¹tkowy rozmiar tej tablicy to 2.
+Przy próbie wstawienia elementu (metoda Put) do ca³kowicie wype³nionej tablicy
+nale¿y podwoiæ jej rozmiar (i oczywiœcie nie utraciæ przy tym ¿adnych informacji).
+Czyli pojemnoœæ kontenera ograniczona jest jedynie wielkoœci¹ dostêpnej pamiêci.
+Przy próbie odczytu (metoda Get lub Peek) zawartoœci pustego kontenera
+nale¿y zg³osiæ wyj¹tek EmptyException (typ zdefiniowany w Lab01_Main.cs).
+
+
+1) Stos (Stack)
+Wszyscy wiedz¹ jak dzia³a stos.
+
+
+2) Kolejka (Queue)
+Jak wygl¹daj¹ zewnêtrzne objawy dzia³ania kolejki równie¿ wszyscy wiedz¹.
+Ale wewnêtrzna implementacja mo¿e ju¿ byæ ró¿na.
+Ale nie u nas!
+U nas MUSI BYÆ implementacja z "zawijaniem".
+
+Przyk³ad.
+
+Po wstawieniu elementów 1, 2 i 3 wewnêtrzna tablica wygl¹da nastêpujaco
+   1, 2, 3, x
+gdzie x oznacza element niewykorzystany (pocz¹tkowy rozmiar tablicy wynosi 2,
+a przy okazji wstawiania trzeciego elementu rozmiar tablicy zosta³ podwojony
+i jeden element jest niewykorzystany).
+
+Jeœli teraz pobierzemy dwa elementy to wewnêtrzna tablica bêdzie wygl¹d³a nastêpujaco
+   x, x, 3, x
+Miejsa po pobranych elementach staj¹ siê niewykorzystane - nie wolno kopiowaæ
+pozostaj¹cych w kolejce elementów na pocz¹tek (to zbêdna strata czasu).
+
+Po wstawieniu kolejnych dwóch elementów (4 i 5) wewnêtrzna tablica bêdzie wygl¹d³a nastêpujaco
+   5, x, 3, 4
+Przy wstawianiu elementu 5 nie wolno powiêkszaæ tablicy ani kopiowaæ ju¿ bêd¹cych w tablicy
+elementów na pocz¹tek (ani wykonywaæ ¿adnych innych czasoch³onnych, zbêdnych dzia³añ).
+Po osi¹gniêciu koñca tablicy kolejny element nale¿y wstawiæ w zwolnione miejsce na pocz¹tku tablicy
+(to w³aœnie jest "zawijanie").
+Powiekszaæ tablicê mo¿na jedynie gdy jest ca³kowicie zape³niona.
+
+
+3) Leniwa kolejka priorytetowa (LazyPriorityQueue)
+Jak wygl¹daj¹ zewnêtrzne objawy dzia³ania kolejki priorytetowej równie¿ wszyscy wiedz¹.
+Trzeba jedynie uœcisliæ, ¿e w naszej kolejce lepszy priorytet maj¹ elementy wiêksze
+(czyli metoda Put pobiera najwiekszy element z kolejki).
+
+A dlaczego nasza kolejka jest leniwa?
+Bo czasoch³onne operacje odk³adamy na póŸniej.
+Czyli przy wstawianiu (Put) nowy element wstawiamy gdziekolwiek (byle prosto i szybko).
+Za to przy pobieraniu (Get) i podgl¹daniu (Peek) trzeba zbadaæ wszystkie elementy kolejki
+w poszukiwaniu najwiekszego (i byæ mo¿e jeszcze coœ poprzestawiaæ).
+
+
+4) Kolejka priorytetowa zaimplementowania jako kopiec binarny (HeapPriorityQueue)
+Nazwa mówi wszystko (priorytety jak dla kolejki leniwej).
+
+
+Punktacja:
+- Stack              -  0.5
+- Queue              -  1.0
+- LazyPriorityQueue  -  1.0
+- HeapPriorityQueue  -  1.5
+- czêœæ domowa       -  1.0
+
+
+Uwagi
+1) Warto przeczytaæ komentarze przy definicji interfejsu IContainer
+2) W przypadku blêdów w dzia³aniu któregoœ z kontenerów warto ustawiæ
+   odpowiedni¹ zmienn¹ verbose* (def. na pocz¹tku Main) na true,
+   pojawi¹ siê dok³adniejsze informacje dotycz¹ce danego kontenera.
+3) W tych informacjach v oznacza wstawian¹/pobieran¹/podgl¹dan¹ wartoœæ
+   c liczbê elementów w kontenerze (po wykonaniu operacji), a s rozmiar wewnêtrznej tablicy
+4) Wartoœæ v: Ex oznacza, ¿e zosta³ (powinien zostaæ) zg³oszony wyj¹tek EmptyException
+5) Komunikat "Incorrect exception" oznacza, ¿e zosta³ zg³oszony jakiœ inny wyj¹tek
+   (i to jest na pewno Ÿle), po ustawieniu zmiennej maskExceptions na false
+   powy¿szy wyj¹tek "poleci" w standardowy sposób (co mo¿e u³atwiæ zidentyfikowanie b³êdu)

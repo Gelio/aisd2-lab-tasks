@@ -1,0 +1,50 @@
+
+Zadanie "Arbitraż"
+
+Celem zadania jest napisanie aplikacji wspomagającej zarabianie oparte wyłącznie na różnicach
+w cenach wymiany różnych walut (tzw. arbitraż).
+
+Dany jest zbiór walut oraz lista możliwych do wykonania wymian walut. Operacja wymiany
+waluty opisana jest poprzez trójkę: waluta którą sprzedajemy (pierwotna), waluta którą kupujemy (docelowa) i cena
+jednostkowa waluty docelowej wyrażona w walucie pierwotnej. Jeśli istnieje arbitraż, to ostateczny
+zysk jaki możemy osiągnąć z jednostki waluty początkowej jest iloczynem cen poszczególnych wymian w cyklu
+wymian który stanowi arbitraż. Przy arbitrażu cena końcowa będzie większa od ceny początkowej w cyklu.
+Dla uproszczenia do dyspozycji jest jedna jednostka ustalonej waluty początkowej.
+Nie ma ilościowych ograniczeń w wymianie walut.
+Można założyć, że żadna wymiana dotycząca tej samej pary walutowej nie powtórzy się na liście wymian.
+
+Celem zadania jest:
+1. Część pierwsza: 2 pkt
+   Określenie czy istnieje jakikolwiek arbitraż zaczynający i kończący się na wybranej walucie (2 pkt)
+
+   Lista rzeczy do wykonania:
+   - implementacja konstruktora CurrencyGraph
+   - implementacja FordBellmanShortestPaths
+   - implementacja findBestPrice
+   - implementacja findArbitrage (bez wyznaczania cyklu - tylko wynik czy jest arbitraz)
+
+2. Część druga: 2 pkt
+   Znalezienie cyklicznego fragmentu dowolnego arbitrażu, tj. znalezienie takiego cyklicznego ciągu walut
+   do którego można dotrzeć z waluty początkowej i w którym każde okrążenie cyklu daje dodatki zysk.
+   W tym zadaniu nie trzeba znajdować fragmentu arbitrażu dochodzącego do cyklu ani powracającego z cyklu.
+   Zwracany ma być tylko fragment generujący czysty zysk przy każdym okrążeniu.
+
+   Lista rzeczy do wykonania:
+   - FindNegativeCostCycle
+   - findArbitrage (dokonczenie)
+
+UWAGA !!!!!
+   W zadaniu mamy graf z krawedziami będącymi liczbami zmiennopozycyjnymi.
+   A biblioteka umożliwia jedynie operacje na grafach z krawędziami całkowitoliczbowymi.
+   W związku z tym NIE KORZYSTAMY z biblioteki!
+   Wszystko implementujemy samodzielnie!
+
+Wskazówki:
+1. Należy skorzystać a algorytmu Forda-Bellmana w wagami zmiennoprzecinkowymi. Węzły to waluty,
+   krawędzie możliwe wymiany a wagi opisują koszt.
+2. W arbitrażu szukamy cyklu o największym iloczynie kosztów, jednak algorytm Forda-Bellmana oblicza sumy.
+   Problem można przekształcić biorąc zamiast cen wymiany ich zanegowane logarytmy. Wtedy problem szukania arbitrażu
+   równoważny jest szukaniu cyklu ujemnego w grafie skierowanym, co można zrealizować algorytmem Forda-Bellmana.
+3. Do znajdowania wierzchołków znajdujących się w cyklu można użyć pomocniczej tablicy lub hashmapy z flagami
+   czy poszczególne wierzchołki znajdują się w cyklu.
+   

@@ -1,0 +1,77 @@
+
+!!! UWAGA !!! Przeczytaæ uwagi i wskazówki (s¹ na koñcu) !!! UWAGA !!! 
+
+Zadanie ASD2 Lab6:
+
+Stajemy przed trudnym zadaniem organizacji Œwiatowych Dni M³odzie¿y (ŒDM).
+Szacujemy, ¿e na spotkanie z papie¿em przyjdzie nawet kilka milionów osób
+z setek miast rozsianych po ró¿nych czêœciach œwiata.
+Nale¿y wybraæ takie miejsce na organizacjê tej imprezy, aby dojazd do niego by³ sumarycznie jak najtañszy.
+Miasta traktujemy jako wierzcho³ki grafu, krawêdzie jako drogi pomiêdzy miastami, wagi krawêdzi jako d³ugoœæ drogi
+(wagi s¹ nieujemne).
+
+Czêœæ 0:
+Piszemy funkcjê obliczajêc¹ ogólne koszty dojazdu dla wszystkich miast.
+Jako ogólne koszty dojazdu do danego miasta uznajemy sume kosztów, dojazdów do tego miasta ze wszystkich miast.
+Je¿eli nie istnieje œcie¿ka pomiêdzy miastem organizuj¹cym ŒDM a danym miastem to uznajemy,
+¿e ten koszt jest równy 10 000 (sztuczny karny koszt, za brak po³¹czenia).
+
+Czêœæ 1:
+Okazuje siê, ¿e kosztowne s¹ równie¿ przejœcia przez miasta (du¿e miasto, du¿e koszty, ma³e miasto, ma³e koszty).
+Koszty przejazdu podane s¹ w tablicy cityCosts[] (s¹ nieujemne).
+Poniewa¿ uznajemy, ¿e pielgrzymi po dostaniu siê do miasta osi¹gneli cel, nie liczymy kosztu cityCosts miasta,
+które organizuje ŒDM. 
+
+Przyk³adowo
+Je¿eli liczymy œcie¿kê gdzie wierzcho³ek pocz¹tkowy jest taki sam jak koñcowy to koszt jest równy 0. 
+
+Je¿eli mamy:
+miasto A, którego koszt przejscia jest równy 100 i miasto B, którego koszt przejœcia jest równy 7
+oraz œcie¿kê ³¹cz¹c¹ A z B z wag¹ 13 
+to organizacja ŒDM w mieœcie A bêdzie mia³a koszt 20, a w miescie B 113.
+
+Je¿eli do miast A i B do³o¿ymy jeszcze miasto C o koszcie przejœcia 10, ale bez po³¹czenia do A i B
+to wtedy koszt miasta A wynosi 10020, miasta B 10107 a miasta C 20000.
+
+Czêœæ 2:
+Przy szukaniu optymalnej lokalizacji na organizacje SDM warto uwzglednic,
+ze ma³e miasto dostarczy ma³o pielgrzymów a koszt drogi dla ma³ej grupy osób jest mniejszy ni¿ koszt drogi
+dla bardzo wielu osób. Jednym ze sposób na zasymulowanie ten zale¿noœci jest ustalenie zasady,
+¿e je¿eli pielgrzymi wyruszaj¹ z miasta A o koszcie cityCosts[A] i id¹ do miasta C
+to bez wzglêdu na wartoœci wag krawêdzi po których siê przemieszczaj¹ koszt drogi po tej krawêdzi
+nie mo¿e przekroczyæ cityCosts[A]. Podobnie przechodz¹c przez miasta pomiêdzy A i C nie wydadz¹
+na pojedyñcze przejœcie wiêcej ni¿ cityCosts[A].
+
+Odnosz¹c siê do przyk³adu z poprzedniej czêœci zadania:
+
+Je¿eli mamy:
+miasto A, którego koszt przejscia jest równy 100 i miasto B, którego koszt przejœcia jest równy 7
+oraz œcie¿kê ³¹cz¹c¹ A z B z wag¹ 13 
+to organizacja ŒDM w mieœcie A bêdzie mia³a koszt 14 a w miescie B 113.
+
+
+GRAF ŒCIE¯EK
+Dodatkowo w ka¿dej czêœci zadania tworzymy graf œcie¿ek ze wszystkich miast do wybranego docelowego
+(tego o minimalnym koszcie ogólnym). Ma to byæ graf SKIEROWANY o takiej samej liczbie wierzcho³ków jak
+w grafie z danych i o takich samych wagach krawêdzi. Przy czym jeœli z jakiegoœ miasta nie ma œcie¿ki do
+miasta docelowego to dodajemy sztuczn¹ bezposredni¹ krawêdzi o wadze 10000 (jak przy liczeniu kosztów).
+Uwaga: jeœli kilka miast ma ten sam minimalny koszt ogólny to wybieramy to o najmniejszym mumerze.
+
+Uwagi i wskazówki
+1) Dany graf odleg³oœci jest nieskierowany, a wynikowy graf œcie¿ek skierowany - pamiêtaæ o tym.
+2) Aby uwzglêdniæ koszty przejœcia przez miasto trzeba stworzyæ pomocniczy odpowiednio zmodyfikowany graf.
+2a) Nie zawsze pierwszy pomys³ modyfikacji jest najlepszy.
+3) Dla czêœci 1 i 2 (koszty przejœcia przez miasto) optymalne œcie¿ki ze wszystkich wierzcho³ków do jednego wybranego
+ to NIE TO SAMO co œcie¿ki z tego wybranego do pozosta³ych.
+
+Punktacja
+Czêœæ 0  -  1.5 pkt w tym
+- wynik i parametr minCost  -  1.0 pkt
+- parametr paths            -  0.5 pkt
+Czêœæ 1  -  1.5 pkt w tym 
+- wynik i parametr minCost  -  1.0 pkt
+- parametr paths            -  0.5 pkt
+Czêœæ 2  -  1.0 pkt w tym
+- wynik i parametr minCost  -  0.5 pkt
+- parametr paths            -  0.5 pkt
+

@@ -1,0 +1,52 @@
+
+Skreœlanie ci¹gów
+
+Przypuœæmy, ¿e mamy dany ci¹g znaków, który chcemy wytrzeæ.
+Nie jest to jednak tak proste, jak mog³oby siê wydawaæ, bo (z powodu kl¹twy faraona) jesteœmy ograniczeni
+- mo¿emy wycieraæ tylko niektóre znaki oraz niektóre wzorce sk³adaj¹ce siê z dwóch znaków.
+
+Przyk³ady:
+Dla ci¹gu xAAxB oraz wzorców x xA xB AB:
+wycieramy xA, zostaje nam AxB,
+wycieramy x, zostaje AB,
+wycieramy AB i osi¹gamy sukces.
+(Zauwa¿my, ¿e nieprzemyœlane wytarcie xB na pocz¹tku spowoduje, ¿e sukces nie bêdzie mo¿liwy).
+
+Dla ci¹gu ())())(() oraz wzorca () nie da siê osi¹gnaæ sukcesu.
+Po trzykrotnym wytarciu wzorca zostaje nam ci¹g ))( i jest to najkrótszy ci¹g, jaki mo¿emy uzyskaæ.
+
+Zadanie sk³ada siê z trzech czêœci:
+
+1. Dla zadanego ci¹gu znaków oraz listy wzorców okreœl, czy mo¿liwe jest wytarcie wszystkich znaków
+   przez wycieranie podanych wzorców (wartoœæ zwracana przez metodê Erasable).
+
+2. Wyznacz najmniejsz¹ mo¿liw¹ liczbê wytaræ potrzenych do wytarcia wszystkich znaków.
+   Je¿eli nie jest to mo¿liwe, zwróæ int.MaxValue (parametr wyjœciowy crossoutsNumber metody Erasable).
+
+3. Wyznacz d³ugoœæ najkrótszego ci¹gu, jaki mo¿na uzyskaæ przez wycieranie podanych wzorców 
+   (wartoœæ zwracana przez metodê MinimumRemainder).
+
+Punkcjacja:
+Etap 1. 2 punkty,
+Etap 2. 1 punkt,
+Etap 3. 1 punkt.
+
+Wskazówki:
+Zastosuj programowanie dynamiczne.
+
+Dla ka¿dego spójnego fragmentu podanego ci¹gu oblicz, czy fragment ten mo¿e byæ wytarty (skreœlony).
+
+Fragmenty indentyfikuj poprzez indeksy pocz¹tku i koñca.
+
+Fragment tekstu jest wycieralny, je¿eli:
+- jest pusty
+- jest jednym ze wzorców
+- jest konkatenacj¹ dwóch krótszych fragmentów wycieralnych
+- zawiera (spójny) fragment wycieralny, a to co zostaje po jego usunieciu jest jednym ze wzorców
+
+Uwagi:
+1) zastanowiæ siê jak inaczej mo¿na opisaæ ostatni¹ wymienion¹ powy¿ej cechê tekstów wycieralnych
+   to znaczy jakie powinno byæ wzajemne po³o¿enie wycieralnego fragmentu i pozosta³ego wzorca (lub jego czêœci).
+   Niektóre potencjalne po³o¿enia zawieraj¹ siê ju¿ we wczeœniejszych w³asnoœciach (i nie trzeba ich ponownie sprawdzaæ).
+   Jeœli do implementacji sprawdzenia ostatniej cechy potrzebna Ci jest pêtla, to znaczy ¿e nie wybra³eœ najprostszego sposobu.
+2) wygodnie jest skorzystaæ z podanych funkcji pomocniczych comparePattern.

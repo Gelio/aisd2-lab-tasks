@@ -1,0 +1,44 @@
+
+Zadanie 1 (2 pkt) - metoda Task1
+
+Firma Batonix zrobiła przyjęcie dla dzieci pracowników. Firma chce rozdać
+dzieciom batoniki. Jednak dzieci mają swoje upodobania i lubią tylko
+niektóre batoniki (i tylko takie biorą). Firma ma tylko po jednym batoniku
+z każdego rodzaju. Znajdź najlepszy sposób rozdania batoników dzieciom.
+Podaj ile dzieci dostanie batonik, oraz które dziecko dostało jaki
+(najlepszy sposób to taki, dla którego najwiecej dzieci dostało batonik).
+
+Zadanie 2a (1.5 pkt) - metoda Task2 (wynik i parametr happyChildren)
+
+Szczęśliwym trafem firma w swoich zapasach znalazła trochę batoników. Teraz
+jest określona liczba (może być większa od 1) batoników każdego rodzaju. W takiej
+sytuacji rodzice dzieci dali im ograniczenie ile batoników mogą zjeść.
+Każde dziecko może zjeść ograniczoną liczbę batoników (w sumie wszystkich
+rodzajów). Dzieci dalej wybrzydzają i jedzą nie wszystkie batoniki. Powiedz ile
+najwięcej batoników można rozdać dzieciom i które dzieci będą w takim wypadku
+szczęśliwe (szczęsliwe są te dzieci, które dostały tyle batoników ile pozwalają
+im zjeść rodzice, te które dostały mniej są nieszczęśliwe).
+
+Zadanie 2b (0.5 pkt) - metoda Task2 (parametr shoppingList)
+
+Uzupełnij zadanie 2a o informację ile i jakich batoników trzeba dowieźć z magazynu,
+aby wszystkie dzieci były zadowolone.
+
+
+Wskazówka: skonstruować odpowiednią sieć, wyznaczyć maksymalny przepływ
+i na jego podstawie podać odpowiedzi.
+
+Uwaga:
+Można przyjąć, że
+- jest co najmniej jedno dziecko
+- jest co najmniej jeden rodzaj batoników
+- każde dziecko lubi co najmniej jeden rodzaj batoników
+- każdemu dziecku rodzice pozwalają zjeść co najmniej jeden batonik
+Ale
+- niektóre batoniki mogą być niedostępne (liczba dostępnych batoników takiego rodzaju wynosi 0)
+
+Uwaga 2:
+Wyniki zadania 2 weryfikowane są w sposób przybliżony.
+Wynikają z tego następujące wnioski
+- o zaliczeniu zadania decyduje prowadzący (na podstawie analizy kodu)
+- testy które "przechodzą" na zajęciach mogą nie przechodzić w testach domowych (będą dokładniejsze)

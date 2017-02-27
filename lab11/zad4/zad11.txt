@@ -1,0 +1,34 @@
+
+Napisać metodę BottleNeck wykrywającą "wąskie gardła" w sieci przesyłowej,
+czyli krawędzie których przepustowości należy zwiększyć w celu zwiększenia przepływu.
+Oczywiście chcemy minimalizowac koszty rozbudowy sieci (zwiększenia przepustowości)
+Można jedynie rozbudowywać istniejące krawędzie, nie można tworzyć całkiem nowych.
+Szkielet metody jest w pliku BottleNeck.cs
+
+Wskazówki:
+
+A) Skonstruować pomocniczą sieć (z kosztami)
+   - idea pomysłu polega na tym, że każdej krawędzi sieci pierwotnej
+     odpowiadają dwie krawędzie sieci pomocniczej
+1. pierwsza z tych krawędzi ma taką samą przepustowość jak krawędź w sieci pierwotnej
+   (zastanowić się jaki powinna mieć koszt?)
+2. druga z tych krawędzi ma koszt równy kosztowi rozbudowy krawędzi w sieci pierwotnej
+   (zastanowić się jaką powinna mieć przepustowość?)
+3. oczywiście w sieci nie może być dwóch krawędzi pomiędzy tymi samymi wierzchołkami,
+   zatem aby zrealizować wskazówkę A należy zastosować dodatkową "sztuczkę"
+   (np. dodatkowe wierzchołki)
+
+B) pamiętać o przerobieniu sieci z wieloma źródłami/ujściami na sieć
+   o pojedynczym źródłe i ujściu
+
+C) dla sieci pomocniczej zastosować algorytm wyznaczania maksymalnego przepływu o minimalnym koszcie,
+   na podstawie jego wyników można obliczyć wszystkie parametry wyjściowe (i oczywiście wartość
+   zwracaną metody)
+
+Punktacja
+ 1p - prawidłowo przechodzi test 1
+ 2p - prawidłowo przechodzą testy 1 i 2
+ 3p - prawidłowo przechodzą testy 1, 2 i 3
+ 4p - prawidłowo przechodzą testy 1, 2, 3 i 4
+
+ część domowa 1p (muszą przechodzić wszystkie testy, i być może kilka nowych)
