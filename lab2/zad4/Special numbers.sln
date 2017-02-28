@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Special numbers", "Special numbers.csproj", "{D9ADE9FC-178A-4AEA-ADCB-9E8BCE477F62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9ADE9FC-178A-4AEA-ADCB-9E8BCE477F62}.Debug|x86.ActiveCfg = Debug|x86
+		{D9ADE9FC-178A-4AEA-ADCB-9E8BCE477F62}.Debug|x86.Build.0 = Debug|x86
+		{D9ADE9FC-178A-4AEA-ADCB-9E8BCE477F62}.Release|x86.ActiveCfg = Release|x86
+		{D9ADE9FC-178A-4AEA-ADCB-9E8BCE477F62}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
