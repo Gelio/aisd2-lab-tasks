@@ -42,31 +42,18 @@ namespace ASD
         {
             if (n == 0)
                 return 0;
-            int[,] countWithLeadingDigit = new int[n + 1, 10];
-            for (int i = 1; i <= 9; i++)
-                countWithLeadingDigit[1, i] = 1;
-
-            for (int numberLength = 2; numberLength <= n; numberLength++)
+            bool[,] requirements = new bool[9, 9];
+            for (int digit = 1; digit <= 9; digit++)
             {
-                for (int digit = 1; digit <= 9; digit++)
+                int digitParity = digit % 2;
+                for (int nextDigit = 1; nextDigit <= digit; nextDigit++)
                 {
-                    int digitParity = digit % 2;
-                    for (int nextDigit = 1; nextDigit <= digit; nextDigit++)
-                    {
-                        if (digit == nextDigit || digitParity != nextDigit % 2)
-                        {
-                            countWithLeadingDigit[numberLength, digit] += countWithLeadingDigit[numberLength - 1, nextDigit];
-                            countWithLeadingDigit[numberLength, digit] %= mod;
-                        }
-                    }
+                    if (digit == nextDigit || digitParity != nextDigit % 2)
+                        requirements[digit - 1, nextDigit - 1] = true;
                 }
             }
 
-            int lastRowCount = 0;
-            for (int i = 1; i <= 9; i++)
-                lastRowCount += countWithLeadingDigit[n, i];
-
-            return lastRowCount % mod;
+            return SpecialNumbersDP(n, requirements);
         }
 
         // programowanie dynamiczne
@@ -100,7 +87,6 @@ namespace ASD
                 lastRowCount += countWithLeadingDigit[n, i];
 
             return lastRowCount % mod;
-            return 0;
         }
 
     }//class SpecialNumbers
