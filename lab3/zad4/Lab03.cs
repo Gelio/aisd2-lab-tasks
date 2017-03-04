@@ -74,8 +74,51 @@ namespace ASD.Lab03
         //   5) Metoda ma mieć taki sam rząd złożoności jak zwykłe przeszukiwanie (za większą będą kary!)
         public static bool Lab03IsBipartite(this Graph g, out int[] vert)
         {
-            vert = null;  // zmienić
-            return true;  // zmienić
+            if (g.Directed)
+                throw new Lab03Exception();
+
+            int[] assignment = new int[g.VerticesCount];
+            bool isBiparite = true;
+
+            Predicate<Edge> assignVertexToGroup = e =>
+            {
+                if (assignment[e.From] == 0)
+                    assignment[e.From] = 2;
+
+                // Przypisz albo 1 albo 2 w zależności czy wierzchołek znajduje się w odległości parzystej czy nieparzystej
+                // 1 - odległość nieparzysta
+                // 2 - odległość parzysta
+                int nextDistanceParity = 2 - ((assignment[e.From] + 1) % 2);
+
+                if (assignment[e.To] == 0)
+                {
+                    assignment[e.To] = nextDistanceParity;
+                    return true;
+                }
+
+                if (assignment[e.To] == nextDistanceParity)
+                    return true;
+
+                isBiparite = false;
+                return false;
+            };
+
+            g.GeneralSearchAll<EdgesQueue>(null, null, assignVertexToGroup, out int cc);
+            if (!isBiparite)
+            {
+                vert = null;
+                return false;
+            }
+
+            // Wierzchołki izolowane można przypisać do dowolnej grupy, ale trzeba je przypisać
+            for (int i = 0; i < g.VerticesCount; i++)
+            {
+                if (assignment[i] == 0)
+                    assignment[i] = 1;
+            }
+
+            vert = assignment;
+            return true;
         }
 
         // Część 3
