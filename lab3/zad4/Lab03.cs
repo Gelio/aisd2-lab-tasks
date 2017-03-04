@@ -142,8 +142,43 @@ namespace ASD.Lab03
         //   5) Graf wynikowy (drzewo) musi być w takiej samej reprezentacji jak wejściowy
         public static Graph Lab03Kruskal(this Graph g, out double mstw)
         {
-            mstw = 0;       // zmienić
-            return null;  // zmienić
+            if (g.Directed)
+                throw new Lab03Exception();
+
+            PriorityQueue<Edge, double> edgeQueue = new PriorityQueue<Edge, double>((e1, e2) => e1.Value < e2.Value);
+            g.GeneralSearchAll<EdgesQueue>(null, null, e => edgeQueue.Put(e, e.Weight), out int cc);
+
+            mstw = 0;
+            Graph minSpanningTree = g.IsolatedVerticesGraph();
+            int verticesLeft = g.VerticesCount;
+            bool[] vertexAdded = new bool[verticesLeft];
+
+            // Nie mam pojęcia jak to zrobić ze strukturą UnionFind
+            // Błędne wyniki (waga drzewa) może wynikać z tego, że teraz wagi są typu double, a nie int, więc generator liczb losowych
+            // może generować inne liczby.
+            while (!edgeQueue.Empty)
+            {
+                Edge e = edgeQueue.Get();
+                if (vertexAdded[e.From] && vertexAdded[e.To])
+                    continue;
+
+                if (!vertexAdded[e.From])
+                {
+                    vertexAdded[e.From] = true;
+                    verticesLeft--;
+                }
+
+                if (!vertexAdded[e.To])
+                {
+                    vertexAdded[e.To] = true;
+                    verticesLeft--;
+                }
+
+                mstw += e.Weight;
+                minSpanningTree.AddEdge(e);
+            }
+            
+            return minSpanningTree;
         }
 
         // Część 4
@@ -161,7 +196,39 @@ namespace ASD.Lab03
         //      Zadanie jest bardzo łatwe (jeśli wydaje się trudne - poszukać prostszego sposobu, a nie walczyć z trudnym!)
         public static bool Lab03IsUndirectedAcyclic(this Graph g)
         {
-            return false;  // zmienić
+            if (g.Directed)
+                throw new Lab03Exception();
+
+            EdgesStack edgesToVisit = new EdgesStack();
+            bool[] wasVisited= new bool[g.VerticesCount];
+            for (int i=0; i < g.VerticesCount; i++)
+            {
+                if (wasVisited[i])
+                    continue;
+
+                wasVisited[i] = true;
+                foreach (Edge e in g.OutEdges(i))
+                    edgesToVisit.Put(e);
+
+                while (!edgesToVisit.Empty)
+                {
+                    Edge e = edgesToVisit.Get();
+                    if (wasVisited[e.To])
+                        return false;
+
+                    wasVisited[e.To] = true;
+                    foreach (Edge e2 in g.OutEdges(e.To))
+                    {
+                        if (e2.To == e.From)
+                            continue;
+
+                        edgesToVisit.Put(e2);
+                    }
+                        
+                }
+            }
+
+            return true;
         }
 
     }
