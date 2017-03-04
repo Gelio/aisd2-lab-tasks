@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using ASD.Graphs;
 
 namespace ASD.Lab03
@@ -22,7 +23,35 @@ namespace ASD.Lab03
         //   3) Graf wynikowy musi być w takiej samej reprezentacji jak wejściowy
         public static Graph Lab03Reverse(this Graph g)
         {
-            return null;  // zmienić
+            if (!g.Directed)
+                throw new Lab03Exception();
+
+            Graph reversed = g.IsolatedVerticesGraph();
+            bool[] wasVertexInQueue = new bool[g.VerticesCount];
+            Queue<int> verticesToVisit = new Queue<int>();
+
+            for (int i=0; i < g.VerticesCount; i++)
+            {
+                if (wasVertexInQueue[i])
+                    continue;
+
+                verticesToVisit.Enqueue(i);
+                wasVertexInQueue[i] = true;
+                while (verticesToVisit.Count > 0)
+                {
+                    int v = verticesToVisit.Dequeue();
+                    foreach (Edge e in g.OutEdges(v))
+                    {
+                        reversed.AddEdge(e.To, v, e.Weight);
+                        if (!wasVertexInQueue[e.To])
+                        {
+                            verticesToVisit.Enqueue(e.To);
+                            wasVertexInQueue[e.To] = true;
+                        }
+                    }
+                }
+            }
+            return reversed;
         }
 
         // Część 2
