@@ -150,32 +150,24 @@ namespace ASD.Lab03
 
             mstw = 0;
             Graph minSpanningTree = g.IsolatedVerticesGraph();
-            int verticesLeft = g.VerticesCount;
-            bool[] vertexAdded = new bool[verticesLeft];
 
-            // Nie mam pojęcia jak to zrobić ze strukturą UnionFind
-            // Błędne wyniki (waga drzewa) może wynikać z tego, że teraz wagi są typu double, a nie int, więc generator liczb losowych
-            // może generować inne liczby.
+            // Rozwiązanie ze strukturą UnionFind - autor anonimowy
+            UnionFind uf = new UnionFind(g.VerticesCount);
             while (!edgeQueue.Empty)
             {
                 Edge e = edgeQueue.Get();
-                if (vertexAdded[e.From] && vertexAdded[e.To])
-                    continue;
+                int v1 = e.From;
+                int v2 = e.To;
 
-                if (!vertexAdded[e.From])
+                int s1 = uf.Find(v1);
+                int s2 = uf.Find(v2);
+
+                if (s1 != s2)
                 {
-                    vertexAdded[e.From] = true;
-                    verticesLeft--;
+                    mstw += e.Weight;
+                    uf.Union(s1, s2);
+                    minSpanningTree.AddEdge(e);
                 }
-
-                if (!vertexAdded[e.To])
-                {
-                    vertexAdded[e.To] = true;
-                    verticesLeft--;
-                }
-
-                mstw += e.Weight;
-                minSpanningTree.AddEdge(e);
             }
             
             return minSpanningTree;
