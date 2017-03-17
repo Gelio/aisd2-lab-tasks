@@ -14,7 +14,7 @@ namespace AiSD_Lab5
         int _shortcutLength;
         Location[] _shortcuts;
         bool[,] _hasShortcut;  // tablica skrótów
-        Tuple<int, Location>[,] _shortestDistanceFrom;  // tablica najkrótszych odleglości
+        Tuple<int, List<Location>>[,] _shortestDistanceFrom;  // tablica najkrótszych odleglości
 
         /// <summary>
         /// Konstruktor klasy PathFinder
@@ -32,7 +32,11 @@ namespace AiSD_Lab5
             _shortcutLength = shortcutLength;
             _shortcuts = shortcuts;
             _hasShortcut = new bool[_width + 1, _height + 1];
-            _shortestDistanceFrom = new Tuple<int, Location>[_width + 1, _height + 1];
+            _shortestDistanceFrom = new Tuple<int, List<Location>>[_width, _height];
+
+            for (int x = 0; x < _width; x++)
+                for (int y=0; y < _height; y++)
+                    _shortestDistanceFrom[x, y] = new Tuple<int, List<Location>>(int.MaxValue, new List<Location>());
 
             foreach (Location shortcut in _shortcuts)
             {
@@ -53,64 +57,86 @@ namespace AiSD_Lab5
 
 
             // Odległość do samego siebie jest rowna 0
-            _shortestDistanceFrom[_width, _height] = new Tuple<int, Location>(0, null);
+            _shortestDistanceFrom[_width - 1, _height - 1] = new Tuple<int, List<Location>>(0, new List<Location>());
 
-            for (int x = _width; x >= 0; x--)
-                for (int y = _height; y >= 0; y--)
+            for (int x = _width - 1; x >= 0; x--)
+                for (int y = _height - 1; y >= 0; y--)
                 {
-                    if (x == _width && y == _height)
+                    // Omijamy punkt docelowy
+                    if (x == _width - 1 && y == _height - 1)
                         continue;
 
                     // Skąd należy dojść do punktu (x, y), będziemy to aktualizować
                     int currentShortestDistance = int.MaxValue;
-                    Location currentClosestFrom = null;
+                    List<Location> currentClosestFrom = new List<Location>();
 
                     // Sprawdzenie, czy w aktualnym położeniu jest skrot
-                    if (_hasShortcut[x, y])
+                    if (_hasShortcut[x, y] && x < _width - 1 && y < _height - 1)
                     {
-                        currentClosestFrom = _shortestDistanceFrom[x + 1, y + 1].Item2;
+                        currentClosestFrom.Add(new Location(x + 1, y + 1));
                         currentShortestDistance = _shortestDistanceFrom[x + 1, y + 1].Item1 + _shortcutLength;
                     }
 
                     // Sprawdzenie połączenia na południe
-                    if (y < _height && currentShortestDistance > _shortestDistanceFrom[x, y + 1].Item1 + _sideLength)
+                    if (y < _height - 1)
                     {
-                        currentClosestFrom = _shortestDistanceFrom[x, y + 1].Item2;
-                        currentShortestDistance = _shortestDistanceFrom[x, y + 1].Item1 + _sideLength;
+                        int newDistance = _shortestDistanceFrom[x, y + 1].Item1 + _sideLength;
+                        if (currentShortestDistance > newDistance)
+                        {
+                            // Znaleziono lepsze połączenie
+                            currentClosestFrom.Clear();
+                            currentClosestFrom.Add(new Location(x, y + 1));
+                            currentShortestDistance = newDistance;
+                        }
+                        else if (currentShortestDistance == _shortestDistanceFrom[x, y + 1].Item1 + _sideLength)
+                        {
+                            // Znaleziono alternatywne połączenie
+                            currentClosestFrom.Add(new Location(x, y + 1));
+                        }
                     }
 
                     // Sprawdzenie połączenia na wschód
-                    if (x < _width && currentShortestDistance > _shortestDistanceFrom[x + 1, y].Item1 + _sideLength)
+                    if (x < _width - 1)
                     {
-                        currentClosestFrom = _shortestDistanceFrom[x + 1, y].Item2;
-                        currentShortestDistance = _shortestDistanceFrom[x + 1, y].Item1 + _sideLength;
+                        int newDistance = _shortestDistanceFrom[x + 1, y].Item1 + _sideLength;
+                        if (currentShortestDistance > newDistance)
+                        {
+                            currentClosestFrom.Clear();
+                            currentClosestFrom.Add(new Location(x + 1, y));
+                            currentShortestDistance = newDistance;
+                        }
+                        else if (currentShortestDistance == newDistance)
+                        {
+                            currentClosestFrom.Add(new Location(x + 1, y));
+                        }
                     }
 
-                    _shortestDistanceFrom[x, y] = new Tuple<int, Location>(currentShortestDistance, currentClosestFrom);
+                    _shortestDistanceFrom[x, y] = new Tuple<int, List<Location>>(currentShortestDistance, currentClosestFrom);
                 }
 
             // Odtwarzanie najkrótszej ścieżki
-            shortestPaths = new Location[1][];
-
-            List<Location> currentPath = new List<Location>();
-            Location currentLocation = new Location(0, 0);
-            while (currentLocation != null) // null oznacza, że doszliśmy do punktu (_width, _height), bo tylko on ma null jako kolejny punkt
-            {
-                currentPath.Add(currentLocation);
-                currentLocation = _shortestDistanceFrom[currentLocation.X, currentLocation.Y].Item2;
-                
-            }
-            shortestPaths[0] = currentPath.ToArray();
-
-            return _shortestDistanceFrom[0, 0].Item1 - 200; // nie wiem skąd to 200, być może błąd w testach
+            shortestPaths = ConstructAllPaths(new Location(0, 0)).Select(path => path.ToArray()).ToArray();
+            return _shortestDistanceFrom[0, 0].Item1;
         }
 
         /// <summary>
         /// Pomocnicza rekurencyjna metoda do zliczania ścieżek. (nie ma obowiązku korzystania z niej)
         /// </summary>
-        private void AllPaths(/* odpowiednie parametry */)
+        private List<List<Location>> ConstructAllPaths(Location startingLocation)
         {
+            if (startingLocation.X == _width - 1 && startingLocation.Y == _height - 1)
+                return new List<List<Location>>(1) { new List<Location>(1) { startingLocation } };
 
+            //List<List<Location>> paths = new List<List<Location>>();
+            IEnumerable<List<Location>> paths = new List<List<Location>>();
+            foreach (Location nextCrossing in _shortestDistanceFrom[startingLocation.X, startingLocation.Y].Item2)
+            {
+                List<List<Location>> pathsToNextCrossing = ConstructAllPaths(nextCrossing);
+                foreach (List<Location> pathToNextCrossing in pathsToNextCrossing)
+                    pathToNextCrossing.Insert(0, startingLocation);
+                paths = paths.Concat(pathsToNextCrossing).ToList();
+            }
+            return paths.ToList();
         }
     }
 }
