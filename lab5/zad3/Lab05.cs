@@ -106,7 +106,72 @@ namespace ASD.Graphs
         /// </remarks>
         public static Graph Kernel(this Graph g)
         {
-            return g;
+            if (!g.Directed)
+                throw new System.ArgumentException("Graf jest nieskierowany");
+
+            int componentsCount = g.StronglyConnectedComponents(out int[] vertexInComponent);
+            Graph kernel = g.IsolatedVerticesGraph(g.Directed, componentsCount);
+
+            // Funkcja znajdująca dowolny wierzchołek z wybranej silnie spójnej składowej
+            System.Func<int, int> FindVertexFromComponent = componentNumber =>
+            {
+                for (int v = 0; v < vertexInComponent.Length; v++)
+                {
+                    if (vertexInComponent[v] == componentNumber)
+                        return v;
+                }
+
+                return int.MaxValue;
+            };
+
+            for (int componentNumber = 0; componentNumber < componentsCount; componentNumber++)
+            {
+                // Zaczynając od dowolnego wierzchołka w aktualnie rozpatrywanej silnie spójnej składowej
+                // szukamy innych bezpośrednio połączonych silnie spójnych składowych.
+                // Czyli przeszukujemy graf aż dojdziemy do wierzchołka, który należy do innej składowej niż
+                // ta, z której zaczynaliśmy przeszukiwanie
+                int componentVertex = FindVertexFromComponent(componentNumber);
+                bool[] wasEverInQueue = new bool[g.VerticesCount];
+                EdgesQueue edgesQueue = new EdgesQueue();
+
+                // Zaczynamy przeszukiwanie
+                foreach (Edge e in g.OutEdges(componentVertex))
+                    edgesQueue.Put(e);
+                wasEverInQueue[componentVertex] = true;
+
+                bool[] isComponentConnected = new bool[componentsCount];
+
+                while (!edgesQueue.Empty)
+                {
+                    Edge e = edgesQueue.Get();
+                    if (vertexInComponent[e.To] == componentNumber)
+                    {
+                        // Idziemy dalej w tej samej silnie spójnej składowej
+                        foreach (Edge outEdge in g.OutEdges(e.To))
+                        {
+                            if (!wasEverInQueue[outEdge.To])
+                            {
+                                wasEverInQueue[outEdge.To] = true;
+                                edgesQueue.Put(outEdge);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Dochodzimy do innej składowej
+                        isComponentConnected[vertexInComponent[e.To]] = true;
+                    }
+                }
+
+                for (int i = 0; i < componentsCount; i++)
+                {
+                    if (isComponentConnected[i])
+                        kernel.AddEdge(componentNumber, i);
+                }
+                    
+
+            }
+            return kernel;
         }
 
         /// <summary>
