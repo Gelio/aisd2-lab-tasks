@@ -208,7 +208,35 @@ namespace ASD.Graphs
         /// </remarks>
         public static bool IsUndirectedAcyclic(this Graph g)
         {
-            return false;
+            if (g.Directed)
+                throw new System.ArgumentException("Graf jest skierowany");
+
+            bool[] isVertexInCurrentPath = new bool[g.VerticesCount];
+            EdgesStack edgesInCurrentPath = new EdgesStack();
+            bool isAcyclic = g.GeneralSearchAll<EdgesStack>(v =>
+            {
+                isVertexInCurrentPath[v] = true;
+                return true;
+            }, v =>
+            {
+                isVertexInCurrentPath[v] = false;
+                return true;
+            }, e =>
+            {
+                if (!edgesInCurrentPath.Empty && edgesInCurrentPath.Peek().From == e.To)
+                {
+                    // Krawędź "powrotna" aktualnej ścieżki
+                    edgesInCurrentPath.Get();
+                    return true;
+                }
+
+                if (isVertexInCurrentPath[e.To])
+                    return false;
+                edgesInCurrentPath.Put(e);
+                return true;
+            }, out int cc);
+
+            return isAcyclic;
         }
 
     }  // class Lab05GraphExtender

@@ -97,7 +97,7 @@ class Example
 
         rgg.SetSeed(101);
         a1 = rgg.TreeGraph(typeof(AdjacencyListsGraph<AVLAdjacencyList>), 10, 1);
-        //        ge.Export(a1,"a1");
+        ge.Export(a1);
         b1 = a1.IsUndirectedAcyclic();
         Console.WriteLine("Czy graf a1 jest acykliczny ? : {0} (powinno byc True)", b1);
 
@@ -105,13 +105,13 @@ class Example
         a2 = rgg.TreeGraph(typeof(AdjacencyListsGraph<AVLAdjacencyList>), 15, 1);
         a2.DelEdge(1, 7);
         a2.DelEdge(6, 12);
-        //        ge.Export(a2,"a2");
+        //ge.Export(a2);
         b2 = a2.IsUndirectedAcyclic();
         Console.WriteLine("Czy graf a2 jest acykliczny ? : {0} (powinno byc True)", b2);
 
         rgg.SetSeed(103);
         a3 = rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph), 10, 0.3);
-        //        ge.Export(a3,"a3");
+        //ge.Export(a3);
         b3 = a3.IsUndirectedAcyclic();
         Console.WriteLine("Czy graf a3 jest acykliczny ? : {0} (powinno byc False)", b3);
 
