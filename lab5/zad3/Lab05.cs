@@ -21,8 +21,49 @@ namespace ASD.Graphs
         /// </remarks>
         public static int StronglyConnectedComponents(this Graph g, out int[] scc)
         {
-            scc = new int[g.VerticesCount];
-            return 1;
+            if (!g.Directed)
+                throw new System.ArgumentException("Graf jest nieskierowany");
+
+            // Algorytm Kosaraju
+            int[] initialOrder = new int[g.VerticesCount];
+            int currentOrderValue = 0;
+            g.GeneralSearchAll<EdgesStack>(null, v =>
+            {
+                initialOrder[currentOrderValue++] = v;
+                return true;
+            }, null, out int cc);
+
+            int[] vertexInComponent = new int[g.VerticesCount];
+            Graph reversed = g.CustomReverse(); // można skorzystać z bibliotecznego g.Reverse, ale zapewne o to chodziło w zadaniu, żeby zrobić własne
+
+            bool[] visited = new bool[g.VerticesCount];
+            int leftToVisit = g.VerticesCount;
+            int currentComponent = 0;
+            while (leftToVisit > 0)
+            {
+                int startingVertex = 0;
+                for (int i = g.VerticesCount - 1; i >= 0; i--)
+                {
+                    int v = initialOrder[i];
+                    if (!visited[v])
+                    {
+                        startingVertex = v;
+                        break;
+                    }
+                }
+
+                reversed.GeneralSearchFrom<EdgesStack>(startingVertex, v =>
+                {
+                    leftToVisit--;
+                    vertexInComponent[v] = currentComponent;
+                    return true;
+                }, null, null, visited);
+                currentComponent++;
+            }
+
+
+            scc = vertexInComponent;
+            return currentComponent;
         }
 
         /// <summary>
@@ -37,9 +78,15 @@ namespace ASD.Graphs
         /// <br/>
         /// Graf wejściowy pozostaje niezmieniony.
         /// </remarks>
-        public static Graph Reverse(this Graph g)
+        public static Graph CustomReverse(this Graph g)
         {
-            return g;
+            Graph reversed = g.IsolatedVerticesGraph();
+            g.GeneralSearchAll<EdgesQueue>(null, null, e =>
+            {
+                reversed.AddEdge(e.To, e.From, e.Weight);
+                return true;
+            }, out int cc);
+            return reversed;
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ class Example
         g1.AddEdge(12, 13);
         g1.AddEdge(13, 14);
         g1.AddEdge(14, 12);
-        ge.Export(g1);
+        //ge.Export(g1);
 
         int[] scc;
         int n;
@@ -46,7 +46,7 @@ class Example
         Console.WriteLine();
 
         Graph k1 = g1.Kernel();
-        ge.Export(k1);
+        //ge.Export(k1);
 
         rgg.SetSeed(500);
         Graph g2 = rgg.DirectedGraph(typeof(AdjacencyMatrixGraph), 1000, 0.005);
@@ -76,7 +76,7 @@ class Example
         m1.AddEdge(4, 1, 1);
         m1.AddEdge(5, 6, 5);
         m1.AddEdge(6, 1, 4);
-        ge.Export(m1);
+        //ge.Export(m1);
 
         b = m1.MaxFlowPathsLab05(2, out d);
         Console.WriteLine("graf m1");
