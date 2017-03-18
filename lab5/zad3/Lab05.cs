@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace ASD.Graphs
 {
 
@@ -193,6 +194,58 @@ namespace ASD.Graphs
         public static bool MaxFlowPathsLab05(this Graph g, int s, out PathsInfo[] d)
         {
             d = new PathsInfo[g.VerticesCount];
+            for (int i=0; i < g.VerticesCount; i++)
+            {
+                d[i].Dist = double.NaN;
+                d[i].Last = null;
+            }
+            d[s].Dist = 0;
+
+            bool[] shouldVertexBeUpdated = new bool[g.VerticesCount];
+            int verticesToBeUpdated = 0;
+
+            // Do sąsiadów źrodła początkowy minimalny przepływ jest równy przepustowości krawędzi ze źrodła
+            foreach (Edge e in g.OutEdges(s))
+            {
+                d[e.To].Dist = e.Weight;
+                d[e.To].Last = e;
+                shouldVertexBeUpdated[e.To] = true;
+                verticesToBeUpdated++;
+            }
+
+            while (verticesToBeUpdated > 0)
+            {
+                int v = 0;
+                for (int i = 0; i < g.VerticesCount; i++)
+                {
+                    if (shouldVertexBeUpdated[i])
+                    {
+                        v = i;
+                        break;
+                    }
+                }
+
+                shouldVertexBeUpdated[v] = false;
+                verticesToBeUpdated--;
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    // Nie aktualizujemy przepustowości źródła
+                    if (e.To == s)
+                        continue;
+
+                    double newMinFlow = System.Math.Min(d[v].Dist, e.Weight);
+                    if (d[e.To].Dist.IsNaN() || d[e.To].Dist < newMinFlow)
+                    {
+                        d[e.To].Dist = newMinFlow;
+                        d[e.To].Last = e;
+
+                        if (!shouldVertexBeUpdated[e.To])
+                            verticesToBeUpdated++;
+                        shouldVertexBeUpdated[e.To] = true;
+                    }
+                }
+            }
+                
             return true;
         }
 

@@ -89,7 +89,7 @@ class Example
         b = m2.MaxFlowPathsLab05(5, out d);
         Console.WriteLine("graf m2");
         for (int v = 10; v < 20; ++v)
-            Console.WriteLine("przepustowosc od 5 do do {0} wynosi {1} ({2})", v, d[v].Dist.IsNaN() ? 0 : d[v].Dist, (d[v].Dist.IsNaN() ? 0 : d[v].Dist) == p[v - 10] ? "OK" : "blad");
+            Console.WriteLine("przepustowosc od 5 do do {0} wynosi {1} ({2})", v, d[v].Dist/*.IsNaN() ? 0 : d[v].Dist*/, (d[v].Dist.IsNaN() ? 0 : d[v].Dist) == p[v - 10] ? "OK" : "blad");
 
         Console.WriteLine("\nTesty Acyklicznosci\n");
         Graph a1, a2, a3, a4, a5;
@@ -97,7 +97,7 @@ class Example
 
         rgg.SetSeed(101);
         a1 = rgg.TreeGraph(typeof(AdjacencyListsGraph<AVLAdjacencyList>), 10, 1);
-        ge.Export(a1);
+        //ge.Export(a1);
         b1 = a1.IsUndirectedAcyclic();
         Console.WriteLine("Czy graf a1 jest acykliczny ? : {0} (powinno byc True)", b1);
 
