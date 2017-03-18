@@ -1,5 +1,5 @@
 ﻿
-namespace ASD.Graph
+namespace ASD.Graphs
 {
 
 public static class Lab05GraphExtender
@@ -19,7 +19,7 @@ public static class Lab05GraphExtender
     /// <br/>
     /// Graf wejściowy pozostaje niezmieniony.
     /// </remarks>
-    public static int StronglyConnectedComponents(this IGraph g, out int[] scc)
+    public static int StronglyConnectedComponents(this Graph g, out int[] scc)
         {
         scc=new int[g.VerticesCount];
         return 1;
@@ -37,7 +37,7 @@ public static class Lab05GraphExtender
     /// <br/>
     /// Graf wejściowy pozostaje niezmieniony.
     /// </remarks>
-    public static IGraph Reverse(this IGraph g)
+    public static Graph Reverse(this Graph g)
         {
         return g;
         }
@@ -57,7 +57,7 @@ public static class Lab05GraphExtender
     /// <br/>
     /// Graf wejściowy pozostaje niezmieniony.
     /// </remarks>
-    public static IGraph Kernel(this IGraph g)
+    public static Graph Kernel(this Graph g)
         {
         return g;
         }
@@ -78,7 +78,7 @@ public static class Lab05GraphExtender
     /// <br/>
     /// Metoda zawsze zwraca <b>true</b> (można ją stosować do każdego grafu).
     /// </remarks>
-    public static bool MaxFlowPathsLab05(this IGraph g, int s, out PathsInfo[] d)
+    public static bool MaxFlowPathsLab05(this Graph g, int s, out PathsInfo[] d)
         {
         d = new PathsInfo[g.VerticesCount];
         return true;
@@ -94,7 +94,7 @@ public static class Lab05GraphExtender
     /// <br/>
     /// Graf wejściowy pozostaje niezmieniony.
     /// </remarks>
-    public static bool IsUndirectedAcyclic(this IGraph g)
+    public static bool IsUndirectedAcyclic(this Graph g)
         {
         return false;
         }

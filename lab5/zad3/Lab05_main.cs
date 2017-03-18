@@ -1,6 +1,6 @@
 ﻿
 using System;
-using ASD.Graph;
+using ASD.Graphs;
 
 class Example
     {
@@ -10,7 +10,7 @@ class Example
         var ge = new GraphExport();
         var rgg = new RandomGraphGenerator();
 
-        IGraph g1= new AdjacencyMatrixGraph(true,15);
+        Graph g1= new AdjacencyMatrixGraph(true,15);
         g1.AddEdge(0,2);
         g1.AddEdge(0,7);
         g1.AddEdge(1,0);
@@ -29,7 +29,7 @@ class Example
         g1.AddEdge(12,13);
         g1.AddEdge(13,14);
         g1.AddEdge(14,12);
-        ge.Export(g1,"g1");
+        ge.Export(g1);
 
         int[] scc;
         int n;
@@ -45,15 +45,15 @@ class Example
             }
         Console.WriteLine();
 
-        IGraph k1 = g1.Kernel();
-        ge.Export(k1,"k1");
+        Graph k1 = g1.Kernel();
+        ge.Export(k1);
 
         rgg.SetSeed(500);
-        IGraph g2=rgg.DirectedGraph(typeof(AdjacencyMatrixGraph),1000,0.005);
+        Graph g2=rgg.DirectedGraph(typeof(AdjacencyMatrixGraph),1000,0.005);
         n=g2.StronglyConnectedComponents(out scc);
         Console.WriteLine("\nLiczba silnie spojnych skladowych: {0} (powinno byc 17)",n);
 
-        IGraph g3=rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph),1000,0.1);
+        Graph g3=rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph),1000,0.1);
         try
             {
             n=g3.StronglyConnectedComponents(out scc);
@@ -67,7 +67,7 @@ class Example
         Console.WriteLine("\nSciezka maksymalnie powiekszajaca");
         PathsInfo[] d;
         bool b;
-        IGraph m1= new AdjacencyMatrixGraph(true,7);
+        Graph m1= new AdjacencyMatrixGraph(true,7);
         m1.AddEdge(0,2,10);
         m1.AddEdge(2,3,4);
         m1.AddEdge(2,5,3);
@@ -76,33 +76,33 @@ class Example
         m1.AddEdge(4,1,1);
         m1.AddEdge(5,6,5);
         m1.AddEdge(6,1,4);
-        ge.Export(m1,"m1");
+        ge.Export(m1);
 
         b=m1.MaxFlowPathsLab05(2, out d);
         Console.WriteLine("graf m1");
         for ( int v=0 ; v<m1.VerticesCount ; ++v )
-            Console.WriteLine("przepustowosc od 2 do {0} wynosi {1}",v,d[v].Dist??0);
+            Console.WriteLine("przepustowosc od 2 do {0} wynosi {1}",v,d[v].Dist.IsNaN() ? 0 : d[v].Dist);
 
         int[] p = {55,33,65,73,0,73,84,76,45,78};
         rgg.SetSeed(200);
-        IGraph m2= rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph),200,0.02,1,99);
+        Graph m2= rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph),200,0.02,1,99);
         b=m2.MaxFlowPathsLab05(5, out d);
         Console.WriteLine("graf m2");
         for ( int v=10 ; v<20 ; ++v )
-            Console.WriteLine("przepustowosc od 5 do do {0} wynosi {1} ({2})",v,d[v].Dist??0,(d[v].Dist??0)==p[v-10]?"OK":"blad");
+            Console.WriteLine("przepustowosc od 5 do do {0} wynosi {1} ({2})",v, d[v].Dist.IsNaN() ? 0 : d[v].Dist, (d[v].Dist.IsNaN() ? 0 : d[v].Dist) ==p[v-10]?"OK":"blad");
 
         Console.WriteLine("\nTesty Acyklicznosci\n");
-        IGraph a1, a2, a3, a4, a5;
+        Graph a1, a2, a3, a4, a5;
         bool b1,b2,b3,b4,b5;
 
         rgg.SetSeed(101);
-        a1=rgg.TreeGraph(typeof(AdjacencyListsGraph),10,1);
+        a1=rgg.TreeGraph(typeof(AdjacencyListsGraph<AVLAdjacencyList>),10,1);
 //        ge.Export(a1,"a1");
         b1=a1.IsUndirectedAcyclic();
         Console.WriteLine("Czy graf a1 jest acykliczny ? : {0} (powinno byc True)",b1);
 
         rgg.SetSeed(102);
-        a2=rgg.TreeGraph(typeof(AdjacencyListsGraph),15,1);
+        a2=rgg.TreeGraph(typeof(AdjacencyListsGraph<AVLAdjacencyList>),15,1);
         a2.DelEdge(1,7);
         a2.DelEdge(6,12);
 //        ge.Export(a2,"a2");
