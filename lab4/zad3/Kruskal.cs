@@ -19,12 +19,35 @@ namespace ASD.Graphs
         /// Wyznaczone drzewo reprezentowane jast jako graf bez cykli, to umożliwia jednolitą obsługę sytuacji
         /// gdy analizowany graf jest niespójny, wyzmnaczany jest wówczas las rozpinający.
         /// </remarks>
-        public static int Lab04_Kruskal(this Graph g, out Graph mst)
+        public static double Lab04_Kruskal(this Graph g, out Graph mst)
         {
             // 1 pkt
+            if (g.Directed)
+                throw new System.ArgumentException("Graf jest skierowany");
 
-            mst = g;
-            return 0;
+            EdgesPriorityQueue edgesQueue = new EdgesMinPriorityQueue();
+            g.GeneralSearchAll<EdgesQueue>(null, null, e =>
+            {
+                if (e.From < e.To)
+                    edgesQueue.Put(e);
+                return true;
+            }, out int cc);
+
+            UnionFind uf = new UnionFind(g.VerticesCount);
+            mst = g.IsolatedVerticesGraph();
+
+            double weight = 0;
+            while (!edgesQueue.Empty)
+            {
+                Edge e = edgesQueue.Get();
+                if (uf.Find(e.From) != uf.Find(e.To))
+                {
+                    uf.Union(e.From, e.To);
+                    mst.AddEdge(e);
+                    weight += e.Weight;
+                }
+            }
+            return weight;
         }
 
     }  // class KruskalGraphExtender

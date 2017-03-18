@@ -8,7 +8,7 @@ class Example
     public static void Main()
     {
         bool b;
-        int mst;
+        double mst;
         Graph g, t;
         Edge[] ep;
         var rgg = new RandomGraphGenerator();
