@@ -50,9 +50,37 @@ namespace ASD.Graphs
                    aby znalezc sciezke nalezy najpierw wyznaczyc wierzcholek startowy
                    (nie mozna wystartowac z dowolnego)
             */
+            EdgesStack Euler = new EdgesStack();
+            EdgesStack pom = new EdgesStack();
+            int w = 0;
+            pom.Put(new Edge(w, w));
+            Graph clonedGraph = g.Clone();
 
-            ec = null;
-            return false;
+            // Trzeba byłoby sprawdzić jeszcze czy g jest Eulerowski (czy wszystkie wierzchołki są
+            // stopnia parzystego)
+
+            while (!pom.Empty)
+            {
+                w = pom.Peek().To;
+                if (clonedGraph.OutDegree(w) > 0)
+                {
+                    Edge e = clonedGraph.OutEdges(w).First();
+                    pom.Put(e);
+                    clonedGraph.DelEdge(e);
+                }
+                else
+                    Euler.Put(pom.Get());
+            }
+            Euler.Get();
+
+            ec = Euler.ToArray();
+            if (ec.First().From == ec.Last().To)
+                return true;
+            else
+            {
+                ec = null;
+                return false;
+            }
         }
 
     }  // class EulerGraphExtender

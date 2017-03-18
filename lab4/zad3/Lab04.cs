@@ -33,7 +33,7 @@ class Example
         if (b)
         {
             Console.WriteLine("Znaleziono cykl Eulera w grafie 2 - ma {0} krawedzi", ep.Length);
-            ge.Export(Construct(g.VerticesCount, ep));
+            //ge.Export(Construct(g.VerticesCount, ep));
         }
         else
             Console.WriteLine("Nie znaleziono sciezki Eulera w grafie 2");
@@ -45,7 +45,7 @@ class Example
         if (b)
         {
             Console.WriteLine("Znaleziono sciezke Eulera w grafie 3 - ma {0} krawedzi", ep.Length);
-            ge.Export(Construct(g.VerticesCount, ep));
+            //ge.Export(Construct(g.VerticesCount, ep));
         }
         else
             Console.WriteLine("Nie znaleziono sciezki Eulera w grafie 3");
@@ -57,7 +57,7 @@ class Example
         if (b)
         {
             Console.WriteLine("Znaleziono sciezke Eulera w grafie 4 - ma {0} krawedzi", ep.Length);
-            ge.Export(Construct(g.VerticesCount, ep));
+            //ge.Export(Construct(g.VerticesCount, ep));
         }
         else
             Console.WriteLine("Nie znaleziono sciezki Eulera w grafie 4");
@@ -67,7 +67,7 @@ class Example
         g = rgg.UndirectedGraph(typeof(AdjacencyMatrixGraph), 20, 0.5, -10, 50);
         mst = g.Lab04_Kruskal(out t);
         Console.WriteLine("Minimalne drzewo ma wage {0}", mst);
-        ge.Export(t);
+        //ge.Export(t);
 
     }
 
