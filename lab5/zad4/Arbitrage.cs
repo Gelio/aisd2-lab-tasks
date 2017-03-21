@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AsdLab5
 {
@@ -51,9 +52,13 @@ namespace AsdLab5
         public CurrencyGraph(int n, ExchangePair[] exchanges)
         {
             weights = new double[n, n];
-            //
-            // uzupelnic
-            //
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    weights[i, j] = double.NaN;
+            foreach (ExchangePair exchange in exchanges)
+            {
+                weights[exchange.From, exchange.To] = priceToWeight(exchange.Price);
+            }
         }
 
         // wynik: true jesli nie na cyklu ujemnego
@@ -62,11 +67,15 @@ namespace AsdLab5
         //   jesli wynik == false to bestPrices = null
         public bool findBestPrice(int currency, out double[] bestPrices)
         {
-            //
-            // wywolac odpowiednio FordBellmanShortestPaths
-            // i na tej podstawie obliczyc bestPrices
-            //
-            bestPrices = null;
+            bool hasOnlyPositiveCycles = FordBellmanShortestPaths(currency, out double[] dist, out int[] prev);
+            if (!hasOnlyPositiveCycles)
+            {
+                bestPrices = null;
+                return false;
+            }
+
+
+            bestPrices = new List<double>(dist).Select(distance => weightToPrice(distance)).ToArray();
             return true;
         }
 
@@ -76,11 +85,26 @@ namespace AsdLab5
         //  jesli wynik == false to exchangeCycle = null
         public bool findArbitrage(int currency, out int[] exchangeCycle)
         {
-            //
-            // Czêœæ 1: wywolac odpowiednio FordBellmanShortestPaths
-            // Czêœæ 2: dodatkowo wywolac odpowiednio FindNegativeCostCycle
-            //
-            exchangeCycle = null;
+            bool hasOnlyPositiveCycles = FordBellmanShortestPaths(currency, out double[] dist, out int[] prev);
+            if (hasOnlyPositiveCycles)
+            {
+                exchangeCycle = null;
+                return false;
+            }
+
+            int n = dist.Length;
+
+            Stack<int> cycle = new Stack<int>();
+            cycle.Push(currency);
+
+            int lastCurrency = prev[currency];
+            while (lastCurrency != currency && lastCurrency != -1)
+            {
+                lastCurrency = prev[lastCurrency];
+                cycle.Push(lastCurrency);
+            }
+
+            exchangeCycle = cycle.ToArray();
             return true;
         }
 
@@ -90,11 +114,59 @@ namespace AsdLab5
         // prev: tablica "poprzednich"
         private bool FordBellmanShortestPaths(int s, out double[] dist, out int[] prev)
         {
-            dist = null;
-            prev = null;
-            //
-            // implementacja algorytmu Forda-Bellmana
-            //
+            int n = weights.GetLength(0);
+            dist = new double[n];
+            prev = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                dist[i] = double.PositiveInfinity;
+                prev[i] = -1;
+            }
+
+            bool[] toBeChecked = new bool[n];
+            toBeChecked[s] = true;
+            int toBeCheckedCount = 1;
+            dist[s] = 0;
+            prev[s] = -1;
+            int iterations = 0;
+
+            while (toBeCheckedCount > 0 && iterations <= n)
+            {
+                iterations++;
+                for (int fromCurrency = 0; fromCurrency < n; fromCurrency++)
+                {
+                    if (!toBeChecked[fromCurrency])
+                        continue;
+
+                    toBeChecked[fromCurrency] = false;
+                    toBeCheckedCount--;
+                    for (int toCurrency = 0; toCurrency < n; toCurrency++)
+                    {
+                        if (double.IsNaN(weights[fromCurrency, toCurrency]))
+                            continue;
+
+                        // istnieje konwersja walut
+                        double newPossibleWeight = dist[fromCurrency] + weights[fromCurrency, toCurrency];
+                        if (dist[toCurrency] > newPossibleWeight)
+                        {
+                            dist[toCurrency] = newPossibleWeight;
+                            prev[toCurrency] = fromCurrency;
+                            if (!toBeChecked[toCurrency])
+                            {
+                                toBeChecked[toCurrency] = true;
+                                toBeCheckedCount++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (iterations > n)
+            {
+                // istnieje cykl o ujemnej d³ugoœci
+                return false;
+            }
+
             return true;
         }
 
