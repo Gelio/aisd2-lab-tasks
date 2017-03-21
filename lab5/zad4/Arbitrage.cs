@@ -100,10 +100,11 @@ namespace AsdLab5
             int lastCurrency = prev[currency];
             while (lastCurrency != currency && lastCurrency != -1)
             {
-                lastCurrency = prev[lastCurrency];
                 cycle.Push(lastCurrency);
+                lastCurrency = prev[lastCurrency];
             }
 
+            cycle.Push(currency);
             exchangeCycle = cycle.ToArray();
             return true;
         }
@@ -184,7 +185,43 @@ namespace AsdLab5
             // 2) cofanie sie po lancuchu poprzednich (prev) - gdy zaczna sie powtarzac to znaleŸlismy wierzcholek nale¿acy do cyklu o ujemnej dlugosci
             // 3) konstruowanie odpowiedzi zgodnie z wymogami zadania
             //
-            return true;
+
+            // Nie mam pojêcia po co jest ta metoda, nie jest w ogóle testowana :D
+            int n = weights.GetLength(0);
+            for (int fromCurrency = 0; fromCurrency < n; fromCurrency++)
+            {
+                if (double.IsPositiveInfinity(dist[fromCurrency]))
+                    continue;
+
+                for (int toCurrency = 0; toCurrency < n; toCurrency++)
+                {
+                    if (double.IsNaN(weights[fromCurrency, toCurrency]))
+                        continue;
+
+                    double newWeight = dist[fromCurrency] + weights[fromCurrency, toCurrency];
+                    if (dist[toCurrency] > newWeight)
+                    {
+                        bool[] isInCycle = new bool[n];
+                        Stack<int> cycleStack = new Stack<int>();
+                        cycleStack.Push(toCurrency);
+                        cycleStack.Push(fromCurrency);
+                        isInCycle[toCurrency] = true;
+                        isInCycle[fromCurrency] = true;
+
+                        int currentCurrency = prev[fromCurrency];
+                        while (!isInCycle[currentCurrency])
+                        {
+                            isInCycle[currentCurrency] = true;
+                            cycleStack.Push(currentCurrency);
+                            currentCurrency = prev[currentCurrency];
+                        }
+                        
+                        cycle = cycleStack.ToArray();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
