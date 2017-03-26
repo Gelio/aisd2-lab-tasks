@@ -8,6 +8,7 @@ namespace lab06
     {
         Graph RoadsGraph;
         int[] CityCosts;
+        static double NoPathPenalty = 10000;
 
         public Pathfinder(Graph roads, int[] cityCosts)
         {
@@ -24,9 +25,82 @@ namespace lab06
         // paths: graf skierowany zawierający drzewo najkrótyszch scieżek od wszyskich miast do miasta organizującego ŚDM (miasta z najmniejszym kosztem organizacji). 
         public double[] FindBestLocationWithoutCityCosts(out double minCost, out Graph paths)
         {
-            minCost = -1;
+            int n = RoadsGraph.VerticesCount;
+            double[] costs = new double[n];
+            double[,] distances = new double[n, n];
+            int[,] pathVia = new int[n, n];
+
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                {
+                    distances[i, j] = double.PositiveInfinity;
+                    pathVia[i, j] = -1;
+                }
+                    
+
+            for (int v=0; v < n; v++)
+            {
+                foreach (Edge e in RoadsGraph.OutEdges(v))
+                {
+                    distances[v, e.To] = e.Weight;
+                    pathVia[v, e.To] = e.To;
+                }
+                    
+                distances[v, v] = 0;
+            }
+            minCost = double.PositiveInfinity;
+
+            for (int middleV = 0; middleV < n; middleV++)
+                for (int startV = 0; startV < n; startV++)
+                    for (int endV = 0; endV < n; endV++)
+                    {
+                        double prospectiveDistance = distances[startV, middleV] + distances[middleV, endV];
+                        if (distances[startV, endV] > prospectiveDistance)
+                        {
+                            distances[startV, endV] = prospectiveDistance;
+                            pathVia[startV, endV] = middleV;
+                        }
+                            
+                    }
+
             paths = null;
-            return null;
+            int minCostVertex = -1;
+            for (int v = 0; v < n; v++)
+            {
+                for (int startV = 0; startV < n; startV++)
+                {
+                    if (double.IsPositiveInfinity(distances[startV, v]))
+                        costs[v] += NoPathPenalty;
+                    else
+                        costs[v] += distances[startV, v];
+                }
+                if (minCost > costs[v])
+                {
+                    minCost = costs[v];
+                    minCostVertex = v;
+                }
+            }
+
+            // Tworzenie grafu ścieżek
+            paths = RoadsGraph.IsolatedVerticesGraph(true, n);
+            for (int startV = 0; startV < n; startV++)
+            {
+                if (double.IsPositiveInfinity(distances[startV, minCostVertex]))
+                    paths.AddEdge(startV, minCostVertex, NoPathPenalty);
+                else
+                {
+                    // Find path between startV and minCostVertex
+                    int currentV = startV;
+                    while (currentV != minCostVertex)
+                    {
+                        int middleV = pathVia[currentV, minCostVertex];
+                        paths.AddEdge(currentV, middleV, RoadsGraph.GetEdgeWeight(currentV, middleV));
+                        currentV = middleV;
+                    }
+                }
+            }
+            
+            return costs;
         }
 
         // return: tak jak w punkcie poprzednim, ale tym razem
