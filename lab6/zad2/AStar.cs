@@ -1,5 +1,5 @@
 
-namespace ASD.Graph
+namespace ASD.Graphs
 {
 
 /// <summary>
@@ -25,9 +25,9 @@ public static class AStarLabGraphExtender
     /// Informacja, czy szukana ścieżka istnieje, zawsze jest zwracana poprawnie.
     /// Jeśli ścieżka nie istnieje (wynik <b>null</b>), to parametr <i>p</i> również jest równy <b>null</b>.
     /// </remarks>
-    public static int? AStar(this IGraph g, int s, int t, out Edge[] p, System.Collections.Generic.Dictionary<int,string> description, System.Func<int,int,int> h=null)
+    public static int? AStar(this Graph g, int s, int t, out Edge[] p, System.Collections.Generic.Dictionary<int,string> description, System.Func<int,int,int> h=null)
         {
-        var open = new PriorityQueue<int,int>((x,y) => x<y,Graph.Access);
+        var open = new PriorityQueue<int,int>((x,y) => x.Key<y.Key,Graph.Access);
         var close = new System.Collections.Generic.HashSet<int>();  // dodać referencję system.dll
         var dist = new HashTable<int,int>(Graph.Access);
         var last = new HashTable<int,Edge>(Graph.Access);

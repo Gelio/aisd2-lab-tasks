@@ -1,6 +1,6 @@
 
 using System;
-using ASD.Graph;
+using ASD.Graphs;
 
 class Lab06
     {
@@ -42,7 +42,7 @@ class Lab06
         Terrain mapa=null;
         Func<int, int, int> oszac = (nr1, nr2) => mapa.GetDistanceE(nr1, nr2); // funkcja szacujaca odleglosc
         int? d;
-        long c1, c2;
+        ulong c1, c2;
 
         for ( int i=0 ; i<tests.Length ; ++i )
             {

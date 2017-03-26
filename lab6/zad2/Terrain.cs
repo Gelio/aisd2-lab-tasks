@@ -2,10 +2,11 @@
 // Autor:      Marek G¹golewski
 // Poprawi³:   Jan Bródka
 
-namespace ASD.Graph
+namespace ASD.Graphs
 {
-using System;
-using System.Drawing; // uwaga: nalezy dodac "referencje" do System.Drawing!
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing; // uwaga: nalezy dodac "referencje" do System.Drawing!
 
     /* Klasa Terrain reprezentuje mape wirtualnego terenu.
       Teren jest kwadratem o boku Size, implementujacym
@@ -32,7 +33,7 @@ using System.Drawing; // uwaga: nalezy dodac "referencje" do System.Drawing!
       int GetDistanceE(int, int)    - metryka euklidesowa
     */
 
-public sealed class Terrain : Graph, IGraph
+    public sealed class Terrain : Graph
     {
     private readonly double mH; // chropowatosc terenu
     private readonly int mSizeLog;
@@ -63,7 +64,7 @@ public sealed class Terrain : Graph, IGraph
         generate();
         }
 
-    public System.Collections.Generic.IEnumerable<Edge> OutEdges(int from)
+    public override IEnumerable<Edge> OutEdges(int from)
         {
         int y = from / mSize;
         int x = from % mSize;
@@ -257,22 +258,22 @@ public sealed class Terrain : Graph, IGraph
     // tych skladowych interfejsu nie implementujemy - nie ma potrzeby:
     // -----------------------------------------------------------------
 
-    public IGraph Clone()
+    public override Graph Clone()
         {
         throw new NotSupportedException("Operation is not supported.");
         }
 
-    public IGraph IsolatedVerticesGraph()
+    public override Graph IsolatedVerticesGraph()
         {
         throw new NotSupportedException("Operation is not supported.");
         }
 
-    public IGraph IsolatedVerticesGraph(bool directed, int verticesCount)
+    public override Graph IsolatedVerticesGraph(bool directed, int verticesCount)
         {
         throw new NotSupportedException("Operation is not supported.");
         }
 
-    public override bool AddEdge(int from, int to, int weight)
+    public override bool AddEdge(int from, int to, double weight)
         {
         throw new NotSupportedException("Operation is not supported.");
         }
@@ -287,7 +288,7 @@ public sealed class Terrain : Graph, IGraph
         throw new NotSupportedException("Operation is not supported.");
         }
 
-    public int? GetEdgeWeight(int from, int to)
+    public override double GetEdgeWeight(int from, int to)
         {
         throw new NotSupportedException("Operation is not supported.");
         }
@@ -297,6 +298,10 @@ public sealed class Terrain : Graph, IGraph
         throw new NotSupportedException("Operation is not supported.");
         }
 
+        public override double ModifyEdgeWeight(int from, int to, double add)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
