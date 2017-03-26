@@ -40,7 +40,7 @@ class Lab06
                                     new Test(0.60, 8,  32532,  51,   4,  39, 224,  27420,  228,  3010) };
         Edge[] path;
         Terrain mapa = null;
-        Func<int, int, int> oszac = (nr1, nr2) => mapa.GetDistanceE(nr1, nr2); // funkcja szacujaca odleglosc
+        Func<int, int, double> oszac = (nr1, nr2) => mapa.GetDistanceE(nr1, nr2); // funkcja szacujaca odleglosc
         double d;
         ulong c1, c2;
 
@@ -54,7 +54,7 @@ class Lab06
             c1 = Graph.Counter;
             d = mapa.AStar(mapa.GetVertexNum(tests[i].x1, tests[i].y1), mapa.GetVertexNum(tests[i].x2, tests[i].y2), out path, description, oszac);
             c2 = Graph.Counter;
-            if (d.IsNaN())
+            if (!d.IsNaN())
                 if (path != null)
                 {
                     Console.WriteLine("droga odnaleziona");

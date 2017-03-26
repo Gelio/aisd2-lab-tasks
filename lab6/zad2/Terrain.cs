@@ -82,13 +82,13 @@ namespace ASD.Graphs
         }
 
         // odleglosc euklidesowa miedzy dwoma wierzcholkami
-        public int GetDistanceE(int from, int to)
+        public double GetDistanceE(int from, int to)
         {
             double y1 = from / mSize;
             double x1 = from % mSize;
             double y2 = to / mSize;
             double x2 = to % mSize;
-            return (int)(100.0 * Math.Sqrt((y1 - y2) * (y1 - y2) + (x1 - x2) * (x1 - x2)));
+            return (100.0 * Math.Sqrt((y1 - y2) * (y1 - y2) + (x1 - x2) * (x1 - x2)));
         }
 
         // "wysokosc" terenu pod danym wierzcholkiem
