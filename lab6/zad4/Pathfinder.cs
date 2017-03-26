@@ -22,7 +22,7 @@ namespace lab06
         // za koszt organizacji ŚDM uznajemy sumę kosztów dostania się ze wszystkim miast do danego miasta, bez uwzględnienia kosztów przechodzenia przez miasta.
         // minCost: najmniejszy koszt
         // paths: graf skierowany zawierający drzewo najkrótyszch scieżek od wszyskich miast do miasta organizującego ŚDM (miasta z najmniejszym kosztem organizacji). 
-        public int[] FindBestLocationWithoutCityCosts(out int minCost, out Graph paths)
+        public double[] FindBestLocationWithoutCityCosts(out double minCost, out Graph paths)
         {
             minCost = -1;
             paths = null;
@@ -34,7 +34,7 @@ namespace lab06
         // Nie uwzględniamy kosztu przejścia przez miasto które organizuje ŚDM.
         // minCost: najlepszy koszt
         // paths: graf skierowany zawierający drzewo najkrótyszch scieżek od wszyskich miast do miasta organizującego ŚDM (miasta z najmniejszym kosztem organizacji). 
-                public int[] FindBestLocation(out int minCost, out Graph paths)
+        public double[] FindBestLocation(out double minCost, out Graph paths)
         {
             minCost = -1;
             paths = null;
@@ -45,7 +45,7 @@ namespace lab06
         // Szczegółowo opisane jest to w treści zadania "Częśc 2". 
         // minCost: najlepszy koszt
         // paths: graf skierowany zawierający drzewo najkrótyszch scieżek od wszyskich miast do miasta organizującego ŚDM (miasta z najmniejszym kosztem organizacji). 
-        public int[] FindBestLocationSecondMetric(out int minCost, out Graph paths)
+        public double[] FindBestLocationSecondMetric(out double minCost, out Graph paths)
         {
             minCost = -1;
             paths = null;
