@@ -204,28 +204,37 @@ namespace lab06
         {
             int n = RoadsGraph.VerticesCount;
             double[] costs = new double[n];
-            double[,] distances = new double[n, n];
-            int[,] pathVia = new int[n, n];
-
-            // Początkowa inicjalizacja
+            double[][,] distances = new double[n][,];
+            int[][,] pathVia = new int[n][,];
             for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                {
-                    distances[i, j] = double.PositiveInfinity;
-                    pathVia[i, j] = -1;
-                }
+            {
+                distances[i] = new double[n, n];
+                pathVia[i] = new int[n, n];
+            }
+            // Początkowa inicjalizacja
+            for (int k = 0; k < n; k++)
+                for (int i = 0; i < n; i++)
+                    for (int j = 0; j < n; j++)
+                    {
+                        distances[k][i, j] = double.PositiveInfinity;
+                        pathVia[k][i, j] = -1;
+                    }
 
             // Naniesienie informacji o istniejących krawędziach w grafie
-            for (int v = 0; v < n; v++)
+            for (int k = 0; k < n; k++)
             {
-                foreach (Edge e in RoadsGraph.OutEdges(v))
+                for (int v = 0; v < n; v++)
                 {
-                    distances[v, e.To] = CityCosts[v] + Math.Min(CityCosts[v], e.Weight);
-                    pathVia[v, e.To] = e.To;
-                }
+                    foreach (Edge e in RoadsGraph.OutEdges(v))
+                    {
+                        distances[k][v, e.To] = Math.Min(CityCosts[k], CityCosts[v]) + Math.Min(CityCosts[k], e.Weight);
+                        pathVia[k][v, e.To] = e.To;
+                    }
 
-                distances[v, v] = 0;
+                    distances[k][v, v] = 0;
+                }
             }
+
             minCost = double.PositiveInfinity;
 
             // Znalezienie ścieżek między miastami
@@ -233,11 +242,11 @@ namespace lab06
                 for (int startV = 0; startV < n; startV++)
                     for (int endV = 0; endV < n; endV++)
                     {
-                        double prospectiveDistance = distances[startV, middleV] + distances[middleV, endV];
-                        if (distances[startV, endV] > prospectiveDistance)
+                        double prospectiveDistance = distances[startV][startV, middleV] + distances[startV][middleV, endV];
+                        if (distances[startV][startV, endV] > prospectiveDistance)
                         {
-                            distances[startV, endV] = prospectiveDistance;
-                            pathVia[startV, endV] = middleV;
+                            distances[startV][startV, endV] = prospectiveDistance;
+                            pathVia[startV][startV, endV] = middleV;
                         }
 
                     }
@@ -249,10 +258,10 @@ namespace lab06
             {
                 for (int startV = 0; startV < n; startV++)
                 {
-                    if (double.IsPositiveInfinity(distances[startV, v]))
+                    if (double.IsPositiveInfinity(distances[startV][startV, v]))
                         costs[v] += NoPathPenalty;
                     else
-                        costs[v] += distances[startV, v];
+                        costs[v] += distances[startV][startV, v];
                 }
                 if (minCost > costs[v])
                 {
@@ -265,7 +274,7 @@ namespace lab06
             paths = RoadsGraph.IsolatedVerticesGraph(true, n);
             for (int startV = 0; startV < n; startV++)
             {
-                if (double.IsPositiveInfinity(distances[startV, minCostVertex]))
+                if (double.IsPositiveInfinity(distances[startV][startV, minCostVertex]))
                     paths.AddEdge(startV, minCostVertex, NoPathPenalty);
                 else
                 {
@@ -273,7 +282,7 @@ namespace lab06
                     int currentV = startV;
                     while (currentV != minCostVertex)
                     {
-                        int middleV = pathVia[currentV, minCostVertex];
+                        int middleV = pathVia[startV][currentV, minCostVertex];
                         paths.AddEdge(currentV, middleV, RoadsGraph.GetEdgeWeight(currentV, middleV));
                         currentV = middleV;
                     }
