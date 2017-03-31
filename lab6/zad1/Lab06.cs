@@ -175,6 +175,23 @@ namespace ASD.Graphs
                 // 3) zastosować algorytm z powrotami (backtracking)
                 // 4) do badania krawędzi pomiędzy wierzchołkami i oraz j użyć metody GetEdgeWeight(i,j)
 
+                int n = g.VerticesCount;
+                bool[] isVertexInMapping = new bool[n];     // vertices from the H graph that are already used
+                for (int v = 0; v < vh; v++)
+                    isVertexInMapping[map[v]] = true;
+
+                for (int v = 0; v < n; v++)
+                {
+                    if (v == vh)
+                        continue;
+                    if (isVertexInMapping[v])
+                        continue;
+                    if (g.OutDegree(vh) != h.OutDegree(v) || g.InDegree(vh) != h.InDegree(v))
+                        continue;
+
+                    
+                }
+
                 return false;
             }
 
