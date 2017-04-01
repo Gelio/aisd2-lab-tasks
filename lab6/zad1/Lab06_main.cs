@@ -29,7 +29,7 @@ class Lab06
                 n = cliq_test[i].CliqueNumber(out clique);
                 Console.WriteLine("Test {0}:  {1} ", i + 1, CliqueTest(cliq_test[i], n, clique) && n == cliq_res[i] && ec == cliq_test[i].EdgesCount);
                 if (i > 0) continue;
-                ge.Export(cliq_test[i], null, "clique");
+                //ge.Export(cliq_test[i], null, "clique");
                 Console.Write("  [");
                 foreach (var v in clique)
                     Console.Write(" {0} ", v);
@@ -50,8 +50,9 @@ class Lab06
                 ec0 = izo_test[i, 0].EdgesCount;
                 ec1 = izo_test[i, 1].EdgesCount;
                 izo = izo_test[i, 0].IsIzomorpchic(izo_test[i, 1], out map);
-                //Console.WriteLine("Test {0}:  {1} ", i + 1, (izo ? izo_res[i] && izo_test[i, 0].IzomorphismTest(izo_test[i, 1], map) == izo_res[i] : !izo_res[i])
-                //                                          && ec0 == izo_test[i, 0].EdgesCount && ec1 == izo_test[i, 1].EdgesCount);
+                int[] libraryIsomorphism = izo_test[i, 0].Isomorpchism(izo_test[i, 1]); // This fails every time, I don't know why
+                Console.WriteLine("Test {0}:  {1} ", i + 1, (izo ? izo_res[i] && IzomorphismTest(izo_test[i, 0], izo_test[i, 1], map) == izo_res[i] : !izo_res[i])
+                                                          && ec0 == izo_test[i, 0].EdgesCount && ec1 == izo_test[i, 1].EdgesCount);
             }
             catch (Exception e)
             {
@@ -60,6 +61,11 @@ class Lab06
         }
 
         Console.WriteLine();
+    }
+
+    private static bool IzomorphismTest(Graph g, Graph h, int[] map)
+    {
+        return h.IsIsomorphic(g, map);
     }
 
     public static void PrepareTests()
