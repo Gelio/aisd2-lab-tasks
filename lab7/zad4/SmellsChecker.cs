@@ -38,7 +38,58 @@ namespace Lab07
         /// <param name="smells">Wyjściowa tablica rozpylonych zapachów realizująca rozwiązanie, jeśli się da. null w p.p. </param>
         public Boolean AssignSmells(out bool[] smells)
         {
-            smells = null;
+            bool[] smellsUsed = new bool[smellCount];
+            int[] customerSatisfaction = new int[customerPreferences.Length];
+
+            bool assignmentFound = AssignSmellsHelper(smellsUsed, customerSatisfaction);
+            if (!assignmentFound)
+            {
+                smells = null;
+                return false;
+            }
+            else
+            {
+                smells = smellsUsed;
+                return true;
+            }
+        }
+
+        public bool AssignSmellsHelper(bool[] smellsUsed, int[] customerSatisfaction, int nextSmell = 0)
+        {
+            bool allCustomersSatisfied = true;
+            for (int i=0; i < customerSatisfaction.Length; i++)
+            {
+                if (customerSatisfaction[i] < satisfactionLevel)
+                {
+                    allCustomersSatisfied = false;
+                    break;
+                }
+            }
+
+            if (allCustomersSatisfied)
+                return true;
+
+            if (nextSmell >= smellCount)
+                return false;
+
+            // Add the smell
+            smellsUsed[nextSmell] = true;
+            for (int i=0; i < customerSatisfaction.Length; i++)
+                customerSatisfaction[i] += customerPreferences[i][nextSmell];
+
+            bool assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
+            if (assignmentSatisfactory)
+                return true;
+
+            // Remove the smell
+            smellsUsed[nextSmell] = false;
+            for (int i = 0; i < customerSatisfaction.Length; i++)
+                customerSatisfaction[i] -= customerPreferences[i][nextSmell];
+
+            assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
+            if (assignmentSatisfactory)
+                return true;
+
             return false;
         }
 
