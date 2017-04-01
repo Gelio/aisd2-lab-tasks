@@ -131,6 +131,7 @@ namespace Lab07
                     happyCustomers++;
             }
 
+            // All customers happy, cannot satisfy more
             if (happyCustomers == customerSatisfaction.Length)
                 return happyCustomers;
 
@@ -149,13 +150,17 @@ namespace Lab07
             int[] nextCustomerSatisfaction = customerSatisfaction.Clone() as int[];
 
 
-            // Check if adding nextSmell to the list of smells will improve overall
-            // satisfaction levels
-            int nextSmellSatisfactionGain = 0;
+            bool isNextSmellPositiveForAnyone = false;
             for (int i = 0; i < customerSatisfaction.Length; i++)
-                nextSmellSatisfactionGain += customerPreferences[i][nextSmell];
+            {
+                if (customerPreferences[i][nextSmell] > 0)
+                {
+                    isNextSmellPositiveForAnyone = true;
+                    break;
+                }
+            }
 
-            if (nextSmellSatisfactionGain > 0)
+            if (isNextSmellPositiveForAnyone)
             {
                 // Add the smell and check further with nextSmell selected
                 nextSmellsUsed[nextSmell] = true;
@@ -170,10 +175,10 @@ namespace Lab07
                     bestHappyCustomers = nextHappyCustomers;
                 }
 
-                // Restore varlables for further checking
                 nextSmellsUsed = smellsUsed.Clone() as bool[];
                 nextCustomerSatisfaction = customerSatisfaction.Clone() as int[];
             }
+            
 
             // Check further without nextSmell in the set of smells used
             nextHappyCustomers = AssignSmellsMaximizeHappyCustomersHelper(ref nextSmellsUsed, ref nextCustomerSatisfaction, nextSmell + 1);
