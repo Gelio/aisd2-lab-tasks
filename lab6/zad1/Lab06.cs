@@ -121,7 +121,8 @@ namespace ASD.Graphs
                 return false;
             var helper = new IzomorpchismHelper(g, h);
             map = new int[g.VerticesCount];
-            return helper.FindMapping(0, map);
+            bool[] isVertexInMapping = new bool[g.VerticesCount];
+            return helper.FindMapping(0, map, isVertexInMapping);
         }
 
         /// <summary>
@@ -163,10 +164,10 @@ namespace ASD.Graphs
             /// <summary>
             /// Bada izomorfizm grafów metodą pełnego przeglądu (rekurencyjnie)
             /// </summary>
-            /// <param name="vh">Aktualnie rozważany wierzchołek</param>
+            /// <param name="currentV">Aktualnie rozważany wierzchołek</param>
             /// <param name="map">Mapowanie wierzchołków grafu h na wierzchołki grafu g</param>
             /// <returns>Informacja czy znaleziono mapowanie definiujące izomotfizm</returns>
-            internal bool FindMapping(int vh, int[] map)
+            internal bool FindMapping(int currentV, int[] map, bool[] isVertexInMapping)
             {
 
                 // Wskazówki
@@ -175,23 +176,64 @@ namespace ASD.Graphs
                 // 3) zastosować algorytm z powrotami (backtracking)
                 // 4) do badania krawędzi pomiędzy wierzchołkami i oraz j użyć metody GetEdgeWeight(i,j)
 
+                // We assume that vertices 0 - (currentV - 1) are already mapped
                 int n = g.VerticesCount;
-                bool[] isVertexInMapping = new bool[n];     // vertices from the H graph that are already used
-                for (int v = 0; v < vh; v++)
-                    isVertexInMapping[map[v]] = true;
 
-                for (int v = 0; v < n; v++)
+                if (currentV >= n)
+                    return true;
+
+                // I assume that map[i] = j means, that vertex i in graph G is isomorphic with vertex j in graph H
+
+                // We check every possible vertex from graph H that is not yet used
+                // and try to match it with currentV (from graph G)
+                for (int vH = 0; vH < n; vH++)
                 {
-                    if (v == vh)
+                    if (isVertexInMapping[vH])
                         continue;
-                    if (isVertexInMapping[v])
-                        continue;
-                    if (g.OutDegree(vh) != h.OutDegree(v) || g.InDegree(vh) != h.InDegree(v))
+                    if (g.OutDegree(currentV) != h.OutDegree(vH) || g.InDegree(currentV) != h.InDegree(vH))
                         continue;
 
-                    
+                    // Check every neighbor of currentV that is already in mapping, if it matches neighbors of vH
+                    map[currentV] = vH;
+                    bool validMatch = true;
+                    foreach (Edge eG in g.OutEdges(currentV))
+                    {
+                        // Edge leads to a neighbor that is not yet in the mapping (because we already analyzed vertices 0 - (currentVertex - 1))
+                        if (eG.To > currentV)
+                            continue;
+
+                        // Edge weights should be equal in both graphs
+                        double edgeWeightH = h.GetEdgeWeight(vH, map[eG.To]);
+                        if (eG.Weight != edgeWeightH)
+                        {
+                            validMatch = false;
+                            break;
+                        }
+
+                        // The same goes for reverse edges
+                        double reverseEdgeWeightG = g.GetEdgeWeight(eG.To, currentV);
+                        double reverseEdgeWeightH = h.GetEdgeWeight(map[eG.To], vH);
+                        if (reverseEdgeWeightG != reverseEdgeWeightH)
+                        {
+                            validMatch = false;
+                            break;
+                        }
+                    }
+                    if (!validMatch)
+                        continue;
+
+                    // vH in H is isomorphic with currentV in G
+                    isVertexInMapping[vH] = true;
+                    bool isomorphismFound = FindMapping(currentV + 1, map, isVertexInMapping);
+                    if (isomorphismFound)
+                        return true;
+
+                    isVertexInMapping[vH] = false;
+
+                    // Isomorphism with this matching not found, look for other possibilities of vertices isomorphic with currentV
                 }
 
+                // No isomorphism found
                 return false;
             }
 
