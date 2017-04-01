@@ -13,39 +13,39 @@
         /// <returns>Wysokość optymalnego stosu</returns>
         public static int HighestStack(IList<Book> books, out IList<Book> stack)
         {
-            Stack<Book> highestStack = new Stack<Book>();
+            List<Book> highestStack = new List<Book>();
             int highestStackHeight = 0;
 
             HighestStackHelper(books, ref highestStack, ref highestStackHeight);
 
-            stack = new List<Book>(highestStack);
+            stack = highestStack;
             return highestStackHeight;
         }
 
-        private static void HighestStackHelper(IList<Book> books, ref Stack<Book> currentStack, ref int currentStackHeight)
+        private static void HighestStackHelper(IList<Book> books, ref List<Book> currentStack, ref int currentStackHeight, int? topBookHeight = null, int? topBookWidth = null)
         {
-            Stack<Book> highestStack = currentStack;
+            List<Book> highestStack = currentStack;
             int highestStackHeight = currentStackHeight;
-            List<Book> currentStackReversed = new List<Book>(currentStack);
-            currentStackReversed.Reverse();
 
-            Book topBook = currentStack.Count > 0 ? currentStack.Peek() : null;
             for (int i = 0; i < books.Count; i++)
             {
                 if (currentStack.Contains(books[i]))
                     continue;
 
                 Book book = books[i];
-                if (topBook != null)
-                {
-                    if ((topBook.Height < book.Height || topBook.Width < book.Width) && (topBook.Height < book.Width || topBook.Width < book.Height))
-                        continue;
-                }
+                // To limit the amount of Height/Width/Thickness reads it would be beneficial
+                // to save them in an array once and use it from there
+                int bookHeight = book.Height,
+                    bookWidth = book.Width;
+                if (topBookHeight <= bookHeight || topBookWidth <= bookWidth)
+                    continue;
 
-                Stack<Book> newStack = new Stack<Book>(currentStackReversed);
-                newStack.Push(book);
+                // An assumption has been made that a book cannot have negative thickness
+                // Otherwise if it's negative we should not even consider it
+                List<Book> newStack = new List<Book>(currentStack);
+                newStack.Add(book);
                 int newStackHeight = currentStackHeight + book.Thickness;
-                HighestStackHelper(books, ref newStack, ref newStackHeight);
+                HighestStackHelper(books, ref newStack, ref newStackHeight, bookHeight, bookWidth);
                 if (newStackHeight > highestStackHeight)
                 {
                     highestStack = newStack;
