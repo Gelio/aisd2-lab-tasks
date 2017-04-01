@@ -96,11 +96,13 @@ namespace Lab07
                 for (int i = 0; i < customerSatisfaction.Length; i++)
                     customerSatisfaction[i] -= customerPreferences[i][nextSmell];
             }
-
-            // Check further without nextSmell in the set of smells used
-            assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
-            if (assignmentSatisfactory)
-                return true;
+            else
+            {
+                // Check further without nextSmell in the set of smells used
+                assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
+                if (assignmentSatisfactory)
+                    return true;
+            }
 
             return false;
         }
