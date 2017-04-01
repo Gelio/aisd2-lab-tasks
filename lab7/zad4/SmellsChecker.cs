@@ -72,20 +72,32 @@ namespace Lab07
             if (nextSmell >= smellCount)
                 return false;
 
-            // Add the smell
-            smellsUsed[nextSmell] = true;
-            for (int i=0; i < customerSatisfaction.Length; i++)
-                customerSatisfaction[i] += customerPreferences[i][nextSmell];
-
-            bool assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
-            if (assignmentSatisfactory)
-                return true;
-
-            // Remove the smell
-            smellsUsed[nextSmell] = false;
+            // Check if adding nextSmell to the list of smells will improve overall
+            // satisfaction levels
+            int nextSmellSatisfactionGain = 0;
             for (int i = 0; i < customerSatisfaction.Length; i++)
-                customerSatisfaction[i] -= customerPreferences[i][nextSmell];
+                nextSmellSatisfactionGain += customerPreferences[i][nextSmell];
 
+
+            bool assignmentSatisfactory = false;
+            if (nextSmellSatisfactionGain > 0)
+            {
+                // Add the smell and check further with nextSmell selected
+                smellsUsed[nextSmell] = true;
+                for (int i = 0; i < customerSatisfaction.Length; i++)
+                    customerSatisfaction[i] += customerPreferences[i][nextSmell];
+
+                assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
+                if (assignmentSatisfactory)
+                    return true;
+
+                // Remove the smell
+                smellsUsed[nextSmell] = false;
+                for (int i = 0; i < customerSatisfaction.Length; i++)
+                    customerSatisfaction[i] -= customerPreferences[i][nextSmell];
+            }
+
+            // Check further without nextSmell in the set of smells used
             assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
             if (assignmentSatisfactory)
                 return true;
