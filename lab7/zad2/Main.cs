@@ -1,5 +1,5 @@
 using System;
-using ASD.Graph;
+using ASD.Graphs;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -7,11 +7,11 @@ namespace lab7
 {
     class Test
     {
-        public IGraph graph;
+        public Graph graph;
         public int solutionSize;
         public int solutionsCount;
 
-        public Test(IGraph graph, int solutionSize, int solutionsCount)
+        public Test(Graph graph, int solutionSize, int solutionsCount)
         {
             this.graph = graph;
             this.solutionSize = solutionSize;
@@ -34,20 +34,20 @@ namespace lab7
     {
         public static void Main(string[] args)
         {
-            AdjacencyListsGraph<SimplyAdjacencyList> star
-                = new AdjacencyListsGraph<SimplyAdjacencyList>(false, 10);
+            AdjacencyListsGraph<SimpleAdjacencyList> star
+                = new AdjacencyListsGraph<SimpleAdjacencyList>(false, 10);
             for (int i = 0; i < 9; i++)
             {
                 star.AddEdge(i, 9);
             }
 
-            var evenCSmall = new AdjacencyListsGraph<SimplyAdjacencyList>(false, 10);
+            var evenCSmall = new AdjacencyListsGraph<SimpleAdjacencyList>(false, 10);
             for (int i = 0; i < evenCSmall.VerticesCount; i++)
             {
                 evenCSmall.AddEdge(i, (i + 1) % evenCSmall.VerticesCount);
             }
 
-            var oddCSmall = new AdjacencyListsGraph<SimplyAdjacencyList>(false, 11);
+            var oddCSmall = new AdjacencyListsGraph<SimpleAdjacencyList>(false, 11);
             for (int i = 0; i < oddCSmall.VerticesCount; i++)
             {
                 oddCSmall.AddEdge(i, (i + 1) % oddCSmall.VerticesCount);
@@ -58,7 +58,7 @@ namespace lab7
             var biparSmall = rgg.BipariteGraph(typeof(AdjacencyMatrixGraph),9,9,1);
 
 
-            var hypercube = new AdjacencyListsGraph<SimplyAdjacencyList>(false, 32);
+            var hypercube = new AdjacencyListsGraph<SimpleAdjacencyList>(false, 32);
             for (int i = 0; i < hypercube.VerticesCount; i++)
             {
                 for (int j = 0; j < i; j++)
@@ -68,7 +68,7 @@ namespace lab7
                 }
             }
 
-            var oddC = new AdjacencyListsGraph<SimplyAdjacencyList>(false, 31);
+            var oddC = new AdjacencyListsGraph<SimpleAdjacencyList>(false, 31);
             for (int i = 0; i < oddC.VerticesCount; i++)
             {
                 oddC.AddEdge(i, (i + 2) % oddC.VerticesCount);
