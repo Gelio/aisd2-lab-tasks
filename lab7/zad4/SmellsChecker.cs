@@ -40,6 +40,7 @@ namespace Lab07
         {
             bool[] smellsUsed = new bool[smellCount];
             int[] customerSatisfaction = new int[customerPreferences.Length];
+            CalculatePossibleSatisfaction();
 
             bool assignmentFound = AssignSmellsHelper(smellsUsed, customerSatisfaction);
             if (!assignmentFound)
@@ -51,6 +52,20 @@ namespace Lab07
             {
                 smells = smellsUsed;
                 return true;
+            }
+        }
+
+        private int[][] possibleSatisfactionLeft;
+
+        private void CalculatePossibleSatisfaction()
+        {
+            possibleSatisfactionLeft = new int[customerPreferences.Length][];
+            for (int customer = 0; customer < customerPreferences.Length; customer++)
+            {
+                possibleSatisfactionLeft[customer] = new int[smellCount];
+                possibleSatisfactionLeft[customer][smellCount - 2] = Math.Max(customerPreferences[customer][smellCount - 1], 0);
+                for (int smell = smellCount - 3; smell >= 0; smell--)
+                    possibleSatisfactionLeft[customer][smell] = possibleSatisfactionLeft[customer][smell + 1] + Math.Max(customerPreferences[customer][smell + 1], 0);
             }
         }
 
@@ -74,13 +89,19 @@ namespace Lab07
 
             // Check if adding nextSmell to the list of smells will improve overall
             // satisfaction levels
-            int nextSmellSatisfactionGain = 0;
+            bool isNextSmellViable = true;
             for (int i = 0; i < customerSatisfaction.Length; i++)
-                nextSmellSatisfactionGain += customerPreferences[i][nextSmell];
+            {
+                if (customerSatisfaction[i] + customerPreferences[i][nextSmell] + possibleSatisfactionLeft[i][nextSmell] < satisfactionLevel)
+                {
+                    isNextSmellViable = false;
+                    break;
+                }
+            }
 
 
             bool assignmentSatisfactory = false;
-            if (nextSmellSatisfactionGain > 0)
+            if (isNextSmellViable)
             {
                 // Add the smell and check further with nextSmell selected
                 smellsUsed[nextSmell] = true;
@@ -96,13 +117,11 @@ namespace Lab07
                 for (int i = 0; i < customerSatisfaction.Length; i++)
                     customerSatisfaction[i] -= customerPreferences[i][nextSmell];
             }
-            else
-            {
-                // Check further without nextSmell in the set of smells used
-                assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
-                if (assignmentSatisfactory)
-                    return true;
-            }
+            
+            // Check further without nextSmell in the set of smells used
+            assignmentSatisfactory = AssignSmellsHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
+            if (assignmentSatisfactory)
+                return true;
 
             return false;
         }
@@ -114,15 +133,30 @@ namespace Lab07
         /// <param name="smells">Wyjściowa tablica rozpylonych zapachów, realizująca ten poziom satysfakcji</param>
         public int AssignSmellsMaximizeHappyCustomers(out bool[] smells)
         {
+            bestSmellsUsed = new bool[smellCount];
+            if (satisfactionLevel <= 0)
+            {
+                smells = bestSmellsUsed;
+                return customerPreferences.Length;
+            }
+
+            CalculatePossibleSatisfaction();
+
+
+            bestHappyCustomers = 0;
+
             bool[] smellsUsed = new bool[smellCount];
             int[] customerSatisfaction = new int[customerPreferences.Length];
+            AssignSmellsMaximizeHappyCustomersHelper(smellsUsed, customerSatisfaction);
 
-            int maxHappyCustomers = AssignSmellsMaximizeHappyCustomersHelper(ref smellsUsed, ref customerSatisfaction);
-            smells = smellsUsed;
-            return maxHappyCustomers;
+            smells = bestSmellsUsed;
+            return bestHappyCustomers;
         }
 
-        public int AssignSmellsMaximizeHappyCustomersHelper(ref bool[] smellsUsed, ref int[] customerSatisfaction, int nextSmell = 0)
+        private bool[] bestSmellsUsed;
+        private int bestHappyCustomers;
+
+        public void AssignSmellsMaximizeHappyCustomersHelper(bool[] smellsUsed, int[] customerSatisfaction, int nextSmell = 0)
         {
             int happyCustomers = 0;
             for (int i = 0; i < customerSatisfaction.Length; i++)
@@ -131,68 +165,45 @@ namespace Lab07
                     happyCustomers++;
             }
 
+            if (happyCustomers > bestHappyCustomers)
+            {
+                smellsUsed.CopyTo(bestSmellsUsed, 0);
+                bestHappyCustomers = happyCustomers;
+            }
+
             // All customers happy, cannot satisfy more
             if (happyCustomers == customerSatisfaction.Length)
-                return happyCustomers;
+                return;
 
             // No more smells available
             if (nextSmell >= smellCount)
-                return happyCustomers;
-
-            // Current set of smells is the best so far
-            bool[] bestSmellsUsed = smellsUsed;
-            int[] bestCustomerSatisfaction = customerSatisfaction;
-            int bestHappyCustomers = happyCustomers;
-
-            // Prepare variables for further checking
-            int nextHappyCustomers = happyCustomers;
-            bool[] nextSmellsUsed = smellsUsed.Clone() as bool[];
-            int[] nextCustomerSatisfaction = customerSatisfaction.Clone() as int[];
+                return;
 
 
-            bool isNextSmellPositiveForAnyone = false;
+            int possiblyHappyCustomers = 0;
             for (int i = 0; i < customerSatisfaction.Length; i++)
             {
-                if (customerPreferences[i][nextSmell] > 0)
-                {
-                    isNextSmellPositiveForAnyone = true;
-                    break;
-                }
+                if (customerSatisfaction[i] + customerPreferences[i][nextSmell] + possibleSatisfactionLeft[i][nextSmell] >= satisfactionLevel)
+                    possiblyHappyCustomers++;
             }
 
-            if (isNextSmellPositiveForAnyone)
+            if (possiblyHappyCustomers > bestHappyCustomers)
             {
                 // Add the smell and check further with nextSmell selected
-                nextSmellsUsed[nextSmell] = true;
+                smellsUsed[nextSmell] = true;
                 for (int i = 0; i < customerSatisfaction.Length; i++)
-                    nextCustomerSatisfaction[i] += customerPreferences[i][nextSmell];
+                    customerSatisfaction[i] += customerPreferences[i][nextSmell];
 
-                nextHappyCustomers = AssignSmellsMaximizeHappyCustomersHelper(ref nextSmellsUsed, ref nextCustomerSatisfaction, nextSmell + 1);
-                if (nextHappyCustomers > bestHappyCustomers)
-                {
-                    bestSmellsUsed = nextSmellsUsed;
-                    bestCustomerSatisfaction = nextCustomerSatisfaction;
-                    bestHappyCustomers = nextHappyCustomers;
-                }
+                AssignSmellsMaximizeHappyCustomersHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
 
-                nextSmellsUsed = smellsUsed.Clone() as bool[];
-                nextCustomerSatisfaction = customerSatisfaction.Clone() as int[];
+                // Revert the smell
+                smellsUsed[nextSmell] = false;
+                for (int i = 0; i < customerSatisfaction.Length; i++)
+                    customerSatisfaction[i] -= customerPreferences[i][nextSmell];
             }
             
-
             // Check further without nextSmell in the set of smells used
-            nextHappyCustomers = AssignSmellsMaximizeHappyCustomersHelper(ref nextSmellsUsed, ref nextCustomerSatisfaction, nextSmell + 1);
-            if (nextHappyCustomers > bestHappyCustomers)
-            {
-                bestSmellsUsed = nextSmellsUsed;
-                bestCustomerSatisfaction = nextCustomerSatisfaction;
-                bestHappyCustomers = nextHappyCustomers;
-            }
-
-            // Return best results
-            smellsUsed = bestSmellsUsed;
-            customerSatisfaction = bestCustomerSatisfaction;
-            return bestHappyCustomers;
+            AssignSmellsMaximizeHappyCustomersHelper(smellsUsed, customerSatisfaction, nextSmell + 1);
         }
 
     }
