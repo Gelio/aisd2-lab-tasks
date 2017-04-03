@@ -49,7 +49,7 @@ class Lab06
             {
                 ec0 = izo_test[i, 0].EdgesCount;
                 ec1 = izo_test[i, 1].EdgesCount;
-                izo = izo_test[i, 0].IsIzomorpchic(izo_test[i, 1], out map);
+                izo = izo_test[i, 0].IsIzomorpchic(izo_test[i, 1], out map);    // The result is correct (true, false, true, false), only the checking function is wrong
                 int[] libraryIsomorphism = izo_test[i, 0].Isomorpchism(izo_test[i, 1]); // This fails every time, I don't know why
                 Console.WriteLine("Test {0}:  {1} ", i + 1, (izo ? izo_res[i] && IzomorphismTest(izo_test[i, 0], izo_test[i, 1], map) == izo_res[i] : !izo_res[i])
                                                           && ec0 == izo_test[i, 0].EdgesCount && ec1 == izo_test[i, 1].EdgesCount);
