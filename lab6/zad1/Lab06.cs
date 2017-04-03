@@ -213,7 +213,7 @@ namespace ASD.Graphs
                         // The same goes for reverse edges
                         double reverseEdgeWeightG = g.GetEdgeWeight(eG.To, currentV);
                         double reverseEdgeWeightH = h.GetEdgeWeight(map[eG.To], vH);
-                        if (reverseEdgeWeightG != reverseEdgeWeightH)
+                        if ((!reverseEdgeWeightG.IsNaN() || !reverseEdgeWeightH.IsNaN()) && reverseEdgeWeightG != reverseEdgeWeightH)
                         {
                             validMatch = false;
                             break;
