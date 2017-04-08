@@ -26,11 +26,123 @@ namespace ASD.Graphs
         /// <br/>
         /// Metodę można stosować dla dla grafów z dowolnymi (również ujemnymi) wagami krawędzi.
         /// </remarks>
-        public static int? TSP_Kruskal(this Graph g, out Edge[] cycle)
+        public static double TSP_Kruskal(this Graph g, out Edge[] cycle)
         {
             // ToDo - algorytm "kruskalopodobny"
-            cycle = null;
-            return null;
+            int n = g.VerticesCount;
+            EdgesMinPriorityQueue edgesQueue = new EdgesMinPriorityQueue();
+            for (int v=0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    // For undirected graphs only add edges once
+                    if (!g.Directed && e.From >= e.To)
+                        continue;
+
+                    edgesQueue.Put(e);
+                }
+            }
+
+            int edgesAdded = 0;
+            UnionFind uf = new UnionFind(n);
+            Graph minSpanningTree = g.IsolatedVerticesGraph();
+
+            while (!edgesQueue.Empty && edgesAdded < n-1)
+            {
+                Edge e = edgesQueue.Get();
+                if (uf.Find(e.From) == uf.Find(e.To))   // Edge would preemptively create a cycle
+                    continue;
+                if (g.Directed)
+                {
+                    if (minSpanningTree.OutDegree(e.From) != 0 || minSpanningTree.InDegree(e.To) != 0)  // Two out edges or two in edges for some vertex
+                        continue;
+                }
+                else
+                {
+                    if (minSpanningTree.OutDegree(e.From) == 2 || minSpanningTree.OutDegree(e.To) == 2) // Edge would create a diversion on the path
+                        continue;
+                }
+
+                minSpanningTree.AddEdge(e);
+                uf.Union(e.From, e.To);
+                edgesAdded++;
+            }
+
+            if (edgesAdded < n - 1)
+            {
+                // Unable to construct a spanning path with n-1 edges
+                cycle = null;
+                return double.NaN;
+            }
+
+
+            // Look for vertices at the beginning and end of the path
+            int cycleBeginV = -1,
+                cycleEndV = -1;
+
+            for (int v=0; v < n; v++)
+            {
+                if (!minSpanningTree.Directed)
+                {
+                    if (minSpanningTree.OutDegree(v) == 1)
+                    {
+                        if (cycleBeginV == -1)
+                            cycleBeginV = v;
+                        else
+                        {
+                            cycleEndV = v;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (minSpanningTree.OutDegree(v) == 0)
+                        cycleBeginV = v;
+                    if (minSpanningTree.InDegree(v) == 0)
+                        cycleEndV = v;
+
+                    if (cycleBeginV != -1 && cycleEndV != -1)
+                        break;
+                }
+                
+            }
+            
+            if (cycleBeginV == -1 || cycleEndV == -1)
+            {
+                // This if is superfluous, but I'm leaving it just for clarity
+                cycle = null;
+                return double.NaN;
+            }
+
+            // Closing the cycle
+            minSpanningTree.AddEdge(new Edge(cycleBeginV, cycleEndV, g.GetEdgeWeight(cycleBeginV, cycleEndV)));
+            cycle = new Edge[n];
+            int currentCycleV = 0;
+            double cycleLength = 0;
+
+            for (int i=0; i < n; i++)
+            {
+                Edge? cycleEdge = minSpanningTree.OutEdges(currentCycleV).First();
+                if (!minSpanningTree.Directed && i > 0)
+                {
+                    // Make sure the edge goes further into the cycle, not backwards (only for undirected graphs)
+                    foreach (Edge e in minSpanningTree.OutEdges(currentCycleV))
+                    {
+                        if (e.To != cycle[i-1].From)
+                        {
+                            cycleEdge = e;
+                            break;
+                        }
+                    }
+                }
+
+                cycle[i] = cycleEdge.Value;
+                currentCycleV = cycleEdge.Value.To;
+                cycleLength += cycleEdge.Value.Weight;
+            }
+
+            return cycleLength;
         }  // TSP_Kruskal
 
         /// <summary>
@@ -53,11 +165,11 @@ namespace ASD.Graphs
         /// <br/>
         /// Dla grafu nieskierowanego spełniajacego nierówność trójkąta metoda realizuje algorytm 2-aproksymacyjny.
         /// </remarks>
-        public static int? TSP_TreeBased(this Graph g, out Edge[] cycle)
+        public static double TSP_TreeBased(this Graph g, out Edge[] cycle)
         {
             // ToDo - algorytm oparty na minimalnym drzewie rozpinajacym
             cycle = null;
-            return null;
+            return double.NaN;
         }  // TSP_TreeBased
 
     }  // class Lab08Extender
