@@ -5,7 +5,7 @@ using ASD.Graphs;
 class Lab08
 {
 
-    public static bool HamiltonTest(Graph g, Edge[] cycle, int len)
+    public static bool HamiltonTest(Graph g, Edge[] cycle, double len)
     {
         if (g.VerticesCount != cycle.Length) return false;
         double l;
@@ -22,19 +22,19 @@ class Lab08
         return (cycle[0].From == cycle[g.VerticesCount - 1].To) && l == len;
     }
 
-    public static void Test(Graph g, Edge[] c, int? m)
+    public static void Test(Graph g, Edge[] c, double m)
     {
-        if (m == null && c == null)
+        if (m.IsNaN() && c == null)
         {
             Console.WriteLine("nie znaleziono cyklu Hamiltona");
             return;
         }
-        if (m == null || c == null)
+        if (m.IsNaN() || c == null)
         {
             Console.WriteLine("BLAD 1  !!!");
             return;
         }
-        if (HamiltonTest(g, c, (int)m))
+        if (HamiltonTest(g, c, m))
             Console.WriteLine("znaleziono cykl Hamiltona dlugosci {0}", m);
         else
             Console.WriteLine("BLAD 2  !!!");
@@ -42,7 +42,7 @@ class Lab08
 
     public static void Main()
     {
-        int? m;
+        double m;
         Graph g0, g1, g2, g3, g4, g5, g6, g7;
         Edge[] c;
 
@@ -61,7 +61,7 @@ class Lab08
         Console.Write("  maly graf euklidesowy     -  ");
         m = g0.TSP_Kruskal(out c);
         Test(g0, c, m);
-        if (m == null)
+        if (m.IsNaN())
             Console.WriteLine("    Nie znaleziono cyklu Hamiltona");
         else
         {
@@ -104,7 +104,7 @@ class Lab08
         Console.Write("  maly graf euklidesowy     -  ");
         m = g0.TSP_TreeBased(out c);
         Test(g0, c, m);
-        if (m == null)
+        if (m.IsNaN())
             Console.WriteLine("    Nie znaleziono cyklu Hamiltona");
         else
         {
