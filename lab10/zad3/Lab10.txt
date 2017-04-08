@@ -1,37 +1,37 @@
-Zadanie polega na stwierdzeniu czy w rozgrywkach futbolowych w danym momencie sezonu istnieje jeszcze moøliwoúÊ
-aby dana druøyna zwyciÍøy≥a.
-Dla uproszczenia zadania przyjmujemy, ze mecze nie mogπ siÍ zakoÒczyÊ remisem a ostatcznπ wygrana przypada zespo≥owi,
-ktÛry wygra≥ najwiÍkszπ liczbÍ meczy. W przypadku takiej samej liczby wygranych meczy na koniec sezony wszystkie
-zespo≥y wygrywajπ.
+ÔªøZadanie polega na stwierdzeniu czy w rozgrywkach futbolowych w danym momencie sezonu istnieje jeszcze mo≈ºliwo≈õƒá
+aby dana dru≈ºyna zwyciƒô≈ºy≈Ça.
+Dla uproszczenia zadania przyjmujemy, ze mecze nie mogƒÖ siƒô zako≈Ñczyƒá remisem a ostatcznƒÖ wygrana przypada zespo≈Çowi,
+kt√≥ry wygra≈Ç najwiƒôkszƒÖ liczbƒô meczy. W przypadku takiej samej liczby wygranych meczy na koniec sezony wszystkie
+zespo≈Çy wygrywajƒÖ.
 
 Dane:
-    Lista zespo≥Ûw z tabelπ ile meczy dany zespÛ≥ wygra≥ i ile zosta≥o jeszcze do rozegrania z kaødym innym zespo≥em.
-    Nr zespo≥u ktÛrego szanse na koÒcowe zwyciÍstwo sprawdzamy (id).
-Wyjúcie:
-    Czy dany zespÛ≥ moøe jeszcze wygraÊ, jeúli tak naleøy podaÊ przyk≥adowy rozk≥ad meczy prowadzπcy do wygranej.
+    Lista zespo≈Ç√≥w z tabelƒÖ ile meczy dany zesp√≥≈Ç wygra≈Ç i ile zosta≈Ço jeszcze do rozegrania z ka≈ºdym innym zespo≈Çem.
+    Nr zespo≈Çu kt√≥rego szanse na ko≈Ñcowe zwyciƒôstwo sprawdzamy (id).
+Wyj≈õcie:
+    Czy dany zesp√≥≈Ç mo≈ºe jeszcze wygraƒá, je≈õli tak nale≈ºy podaƒá przyk≈Çadowy rozk≈Çad meczy prowadzƒÖcy do wygranej.
 
-WskazÛwki:
-    Problem moøna rozwiπzaÊ liczπc maksymalny przep≥yw w pewnym grafie.
-    Graf naleøy zbudowaÊ nastÍpujπco:
-        ürÛd≥o s po≥πczone z wierzcho≥kami reprezentujπcymi kaødπ moøliwπ parÍ zespo≥Ûw nie zawierajπcπ zespo≥u
-        dla ktÛrego sprawdzamy szanse,
-        kaødy wierzcho≥ek reprezentujπcy parÍ i-j jest po≥πczony z wierzcho≥kiem reprezentujπcym i
-        oraz z wierzcho≥kiem reprezentujπcym j,
-        kaødy wierzcho≥ek reprezentujπcy druøynÍ po≥πczony jest z ujúciem t.
-    Wagi krawÍdzi:
-        s -> i-j : liczba meczy do rozegrania miÍdzy i a j
-        i-j -> i : nieskoÒczonoúÊ
-        i-j -> j : nieskoÒczonoúÊ
+Wskaz√≥wki:
+    Problem mo≈ºna rozwiƒÖzaƒá liczƒÖc maksymalny przep≈Çyw w pewnym grafie.
+    Graf nale≈ºy zbudowaƒá nastƒôpujƒÖco:
+        ≈∫r√≥d≈Ço s po≈ÇƒÖczone z wierzcho≈Çkami reprezentujƒÖcymi ka≈ºdƒÖ mo≈ºliwƒÖ parƒô zespo≈Ç√≥w nie zawierajƒÖcƒÖ zespo≈Çu
+        dla kt√≥rego sprawdzamy szanse,
+        ka≈ºdy wierzcho≈Çek reprezentujƒÖcy parƒô i-j jest po≈ÇƒÖczony z wierzcho≈Çkiem reprezentujƒÖcym i
+        oraz z wierzcho≈Çkiem reprezentujƒÖcym j,
+        ka≈ºdy wierzcho≈Çek reprezentujƒÖcy dru≈ºynƒô po≈ÇƒÖczony jest z uj≈õciem t.
+    Wagi krawƒôdzi:
+        s -> i-j : liczba meczy do rozegrania miƒôdzy i a j
+        i-j -> i : niesko≈Ñczono≈õƒá
+        i-j -> j : niesko≈Ñczono≈õƒá
         i -> t : liczba meczy wygranych przez id + liczba meczy do rozegrania przez id - liczba meczy wygranych przez i.
     
-    Po policzeniu maksymalnego przep≥ywu w takim grafie naleøy sprawdzic czy wszystkie krawÍdzie wychodzπce ze ørÛd≥a
-    sπ nasycone.
-    Jeúli tak to rozpatrywana druøyna moøe nadal wygraÊ wpp. jest to niemoøliwe.
-    Z powyøszego grafu moøna takøe zbudowaÊ przyk≥adowy rozk≥ad meczy.
+    Po policzeniu maksymalnego przep≈Çywu w takim grafie nale≈ºy sprawdzic czy wszystkie krawƒôdzie wychodzƒÖce ze ≈ºr√≥d≈Ça
+    sƒÖ nasycone.
+    Je≈õli tak to rozpatrywana dru≈ºyna mo≈ºe nadal wygraƒá wpp. jest to niemo≈ºliwe.
+    Z powy≈ºszego grafu mo≈ºna tak≈ºe zbudowaƒá przyk≈Çadowy rozk≈Çad meczy.
 
 Punktacja:
-Na zajÍciach
-- wersja bez przyk≥adowego rozk≥adu (tylko odpowiedü tak/nie) 2 pkt
-- wersja z przyk≥adowym rozk≥adem 2 pkt.
+Na zajƒôciach
+- wersja bez przyk≈Çadowego rozk≈Çadu (tylko odpowied≈∫ tak/nie) 2 pkt
+- wersja z przyk≈Çadowym rozk≈Çadem 2 pkt.
 W domu
 - wersja dopracowana 1pkt.

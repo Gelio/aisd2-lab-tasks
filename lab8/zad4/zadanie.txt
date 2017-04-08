@@ -1,57 +1,57 @@
 
-Dzisiejsze zadanie polega na zaimplementowaniu algorytmu przybli¿onego dla rozwi¹zania
+Dzisiejsze zadanie polega na zaimplementowaniu algorytmu przybliÅ¼onego dla rozwiÄ…zania
 wariantu gry "Hey, That's My Fish!".
 
-Gra jest jednoosobowa i polega na zebraniu jak najwiêkszej liczby ryb z siatki z³o¿onej 
-z szeœciok¹tów (jeden szeœciok¹t to jedna kra). Siatka jest u³o¿ona jak w pliku hex_grid.jpg
+Gra jest jednoosobowa i polega na zebraniu jak najwiÄ™kszej liczby ryb z siatki zÅ‚oÅ¼onej 
+z szeÅ›ciokÄ…tÃ³w (jeden szeÅ›ciokÄ…t to jedna kra). Siatka jest uÅ‚oÅ¼ona jak w pliku hex_grid.jpg
 
 Zasady gry:
-- na pojedynczej krze mo¿e byæ od 1 do 3 ryb (nasze rybki nie lubi¹ zimnej wody i chc¹ siê poopalaæ na krach)
-- gracz posiada skoñczon¹ liczbê pingwinów (lub wcale)
-- pingwiny wspó³dzia³aj¹, tzn. zbieraj¹ ryby do jednej puli
-- pole, na którym jest 0 ryb, nie mo¿e byæ zajêta (jest to tzw. "dziura")
-- pingwin opuszczaj¹c krê zabiera z niej ryby, które wliczaj¹ siê do puli
-  (gdy opuszcza krê tworzy siê "dziura" - kra jest zatapiana).
-- pingwin mo¿e siê poruszaæ w wybranym kierunku do samego koñca (do brzegu siatki lub do kry
-  po³o¿onej bezpoœrednio przed "dziur¹" lub innym pingwinem)
-- pingwin mo¿e siê poruszaæ w jednym z 6 kierunków
+- na pojedynczej krze moÅ¼e byÄ‡ od 1 do 3 ryb (nasze rybki nie lubiÄ… zimnej wody i chcÄ… siÄ™ poopalaÄ‡ na krach)
+- gracz posiada skoÅ„czonÄ… liczbÄ™ pingwinÃ³w (lub wcale)
+- pingwiny wspÃ³Å‚dziaÅ‚ajÄ…, tzn. zbierajÄ… ryby do jednej puli
+- pole, na ktÃ³rym jest 0 ryb, nie moÅ¼e byÄ‡ zajÄ™ta (jest to tzw. "dziura")
+- pingwin opuszczajÄ…c krÄ™ zabiera z niej ryby, ktÃ³re wliczajÄ… siÄ™ do puli
+  (gdy opuszcza krÄ™ tworzy siÄ™ "dziura" - kra jest zatapiana).
+- pingwin moÅ¼e siÄ™ poruszaÄ‡ w wybranym kierunku do samego koÅ„ca (do brzegu siatki lub do kry
+  poÅ‚oÅ¼onej bezpoÅ›rednio przed "dziurÄ…" lub innym pingwinem)
+- pingwin moÅ¼e siÄ™ poruszaÄ‡ w jednym z 6 kierunkÃ³w
   . ograniczeniem zakresu ruchu jest brzeg siatki, dziura lub inny pingwin
-  . pingwin nie mo¿e skrêcaæ w trakcie wykonywania ruchu
-- pingwiny zbieraj¹ ryby a¿ do momentu, gdy wszystkie nie mog¹ siê ju¿ ruszyæ (koniec dzia³ania algorytmu)
+  . pingwin nie moÅ¼e skrÄ™caÄ‡ w trakcie wykonywania ruchu
+- pingwiny zbierajÄ… ryby aÅ¼ do momentu, gdy wszystkie nie mogÄ… siÄ™ juÅ¼ ruszyÄ‡ (koniec dziaÅ‚ania algorytmu)
 
 Algorytmy:
 
 1. (GreedyAlgorithm1)
-   Spoœród wszystkich mo¿liwych ruchów wybieramy, ten w którym zbierzemy najwiêcej ryb
-   (gdy opuœcimy krê na któr¹ w³aœnie wchodzimy).
-   Jeœli weg³ug tego kryterium jest kilka ruchów równie dobrych jako kolejne kryteria przyjmujemy
+   SpoÅ›rÃ³d wszystkich moÅ¼liwych ruchÃ³w wybieramy, ten w ktÃ³rym zbierzemy najwiÄ™cej ryb
+   (gdy opuÅ›cimy krÄ™ na ktÃ³rÄ… wÅ‚aÅ›nie wchodzimy).
+   JeÅ›li wegÅ‚ug tego kryterium jest kilka ruchÃ³w rÃ³wnie dobrych jako kolejne kryteria przyjmujemy
    - numer pingwina (mniejszy lepszy)
    - numer kierunku (mniejszy lepszy)
-   - d³ugoœæ ruchu (mniejsza lepsza)
+   - dÅ‚ugoÅ›Ä‡ ruchu (mniejsza lepsza)
 
 2. (GreedyAlgorithm2)
-   Spoœród wszystkich mo¿liwych "najd³u¿szych" ruchów wybieramy, ten w którym zbierzemy najwiêcej ryb
-   (gdy opuœcimy krê na któr¹ w³aœnie wchodzimy).
-   Jeœli weg³ug tego kryterium jest kilka ruchów równie dobrych jako kolejne kryteria przyjmujemy
+   SpoÅ›rÃ³d wszystkich moÅ¼liwych "najdÅ‚uÅ¼szych" ruchÃ³w wybieramy, ten w ktÃ³rym zbierzemy najwiÄ™cej ryb
+   (gdy opuÅ›cimy krÄ™ na ktÃ³rÄ… wÅ‚aÅ›nie wchodzimy).
+   JeÅ›li wegÅ‚ug tego kryterium jest kilka ruchÃ³w rÃ³wnie dobrych jako kolejne kryteria przyjmujemy
    - numer pingwina (mniejszy lepszy)
    - numer kierunku (mniejszy lepszy)
 
-"Najd³u¿sze" ruchy w danym kierunku to takie w których dochodzimy do bariery (brzeg planszy, dziura, inny pingwin)
-i dalej ruszyæ siê nie mo¿emy.
+"NajdÅ‚uÅ¼sze" ruchy w danym kierunku to takie w ktÃ³rych dochodzimy do bariery (brzeg planszy, dziura, inny pingwin)
+i dalej ruszyÄ‡ siÄ™ nie moÅ¼emy.
 
 Punktacja:
 3p - jeden algorytm (dowolny)
 4p - oba algorytmy
 
-Wskazówka:
-- badanie licznych kryteriów wyboru najlepszego ruchu zaimplementowaæ sprytnie
-  (tak naprawdê badaæ tylko jedno najwa¿niejsze kryterium)
+WskazÃ³wka:
+- badanie licznych kryteriÃ³w wyboru najlepszego ruchu zaimplementowaÄ‡ sprytnie
+  (tak naprawdÄ™ badaÄ‡ tylko jedno najwaÅ¼niejsze kryterium)
 
 Uwagi:
-- algorytmy ró¿ni¹ siê jedynie tym, ¿e w pierwszym rozwa¿amy wszystkie ruchy, a w drugim "najd³u¿sze"
-- do wyœwietlania w konsoli planszy przyda siê ustawienie w pliku Program.cs zmiennej showBoard na true
-- do wyœwietlania w konsoli ruchów pingwinów przyda siê ustawienie w pliku Program.cs zmiennej showMoves na true
-- na pocz¹tkowej planszy mog¹ znajdowaæ siê "dziury"
+- algorytmy rÃ³Å¼niÄ… siÄ™ jedynie tym, Å¼e w pierwszym rozwaÅ¼amy wszystkie ruchy, a w drugim "najdÅ‚uÅ¼sze"
+- do wyÅ›wietlania w konsoli planszy przyda siÄ™ ustawienie w pliku Program.cs zmiennej showBoard na true
+- do wyÅ›wietlania w konsoli ruchÃ³w pingwinÃ³w przyda siÄ™ ustawienie w pliku Program.cs zmiennej showMoves na true
+- na poczÄ…tkowej planszy mogÄ… znajdowaÄ‡ siÄ™ "dziury"
 
 Metody do wykorzystania:
 * Point GetNeighbour() w klasie Board

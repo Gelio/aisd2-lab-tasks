@@ -1,8 +1,8 @@
-Problem kolorowania wierzcho³ków grafu.
-Ka¿demu wierzcho³kwi grafu przyporz¹dkowujemy liczbê naturaln¹ w taki sposób,
-aby oba koñce ¿adnej krawêdzi nie mia³y przypisanej tej samej liczby.
+ï»¿Problem kolorowania wierzchoÅ‚kÃ³w grafu.
+KaÅ¼demu wierzchoÅ‚kwi grafu przyporzÄ…dkowujemy liczbÄ™ naturalnÄ… w taki sposÃ³b,
+aby oba koÅ„ce Å¼adnej krawÄ™dzi nie miaÅ‚y przypisanej tej samej liczby.
 
-Szukamy przyporz¹dkowania wykorzystuj¹cego jak najmniej ró¿nych liczb.
+Szukamy przyporzÄ…dkowania wykorzystujÄ…cego jak najmniej rÃ³Å¼nych liczb.
 
 Punktacja
 - algotyrm zachlanny    -  1 pkt
@@ -10,4 +10,4 @@ Punktacja
 - dopracowanie w domu   -  1 pkt
 
 Punkty za algorytm z powrotami przyznawane sa w zaleznosci od tego,
-z któr¹ grup¹ grafów algorytm poradzi sobie "w akceptowalnym czasie".
+z ktÃ³rÄ… grupÄ… grafÃ³w algorytm poradzi sobie "w akceptowalnym czasie".

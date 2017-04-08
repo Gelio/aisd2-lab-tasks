@@ -1,4 +1,4 @@
-Zach³anne strategie kolorowania grafów.
+ZachÅ‚anne strategie kolorowania grafÃ³w.
 Implementujemy cztery strategie kolorowania:
 1. Simple Greedy
 2. Smallest Last
@@ -8,36 +8,36 @@ Implementujemy cztery strategie kolorowania:
 -------------------
 
 1. Simple Greedy.
-Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci rosn¹cych indeksów.
+WierzchoÅ‚ki kolorujemy najmniejszym moÅ¼liwym kolorem, w kolejnoÅ›ci rosnÄ…cych indeksÃ³w.
 
 2. Smallest Last.
-Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci stworzonej przez procedurê:
+WierzchoÅ‚ki kolorujemy najmniejszym moÅ¼liwym kolorem, w kolejnoÅ›ci stworzonej przez procedurÄ™:
 
 	1. L - pusta lista
-	2. Dopóki w G s¹ wierzcho³ki
-		2.1. Wybierz wierzcho³ek v najmniejszego stopnia w G
+	2. DopÃ³ki w G sÄ… wierzchoÅ‚ki
+		2.1. Wybierz wierzchoÅ‚ek v najmniejszego stopnia w G
 		2.2. Wstaw go do listy L
-		2.3. Usuñ v z grafu
-	3. Zwróæ L w odwrotnej kolejnoœci.
+		2.3. UsuÅ„ v z grafu
+	3. ZwrÃ³Ä‡ L w odwrotnej kolejnoÅ›ci.
 
-W punkcie 2.1, w przypadku wierzcho³ków równego stopnia, wybieramy ten o mniejszym indeksie.
-Oczywiœcie powy¿szy algorytm opisuje tylko koncepcjê - grafu nie wolno zmieniæ !
+W punkcie 2.1, w przypadku wierzchoÅ‚kÃ³w rÃ³wnego stopnia, wybieramy ten o mniejszym indeksie.
+OczywiÅ›cie powyÅ¼szy algorytm opisuje tylko koncepcjÄ™ - grafu nie wolno zmieniÄ‡ !
 
 2. DSatur.
-Wierzcho³ki kolorujemy najmniejszym mo¿liwym kolorem, w kolejnoœci malej¹cego nasycenia.
-Nasyceniem grafu nazywamy liczbê kolorów zablokowanych dla danego wierzcho³ka w aktualnym czêœciowym kolorowaniu
-(czyli wierzcho³ek, który ma 100 s¹siadów niepokolorowanych i trzech s¹siadów pokolorowanych kolorem 1 ma nasycenie 1).
-W przypadku dwóch wierzcho³ków o równym nasyceniu, wybieramy ten o mniejszym indeksie.
+WierzchoÅ‚ki kolorujemy najmniejszym moÅ¼liwym kolorem, w kolejnoÅ›ci malejÄ…cego nasycenia.
+Nasyceniem grafu nazywamy liczbÄ™ kolorÃ³w zablokowanych dla danego wierzchoÅ‚ka w aktualnym czÄ™Å›ciowym kolorowaniu
+(czyli wierzchoÅ‚ek, ktÃ³ry ma 100 sÄ…siadÃ³w niepokolorowanych i trzech sÄ…siadÃ³w pokolorowanych kolorem 1 ma nasycenie 1).
+W przypadku dwÃ³ch wierzchoÅ‚kÃ³w o rÃ³wnym nasyceniu, wybieramy ten o mniejszym indeksie.
 
 3. Incremental
-W ka¿dym kroku wybieramy maksymalny zbiór niezale¿ny i kolorujemy go jednym kolorem.
-Wybrany zbiór ma byæ najmniejszy leksykograficznie.
+W kaÅ¼dym kroku wybieramy maksymalny zbiÃ³r niezaleÅ¼ny i kolorujemy go jednym kolorem.
+Wybrany zbiÃ³r ma byÄ‡ najmniejszy leksykograficznie.
 
 ----------------------
 
 Kolorowanie reprezentowane jest jako tablica o n elementach, i-ty element
-tablicy odpowiada kolorowi wierzcho³ka i. Kolorujemy zaczynaj¹c od 1
-(0 oznacza niepokolorowany wierzcho³ek).
+tablicy odpowiada kolorowi wierzchoÅ‚ka i. Kolorujemy zaczynajÄ…c od 1
+(0 oznacza niepokolorowany wierzchoÅ‚ek).
 
 -------------------
 
@@ -48,4 +48,4 @@ DS  1.5
 Inc 1.0
 Praca domowa 1.0
 
-Aby uzyskaæ maksymaln¹ liczbê punktów za dan¹ metodê, wynik musi byæ poprawny a implementacja efektywna.
+Aby uzyskaÄ‡ maksymalnÄ… liczbÄ™ punktÃ³w za danÄ… metodÄ™, wynik musi byÄ‡ poprawny a implementacja efektywna.

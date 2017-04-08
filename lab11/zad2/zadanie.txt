@@ -1,45 +1,45 @@
-Szlaki turystyczne na zboczu góry
+Szlaki turystyczne na zboczu gÃ³ry
 
-W odleg³ej i egzotycznej krainie znajduje siê góra, na której zboczu zbudowano kilka miast.
-Wszystko by³o piêknie (kwitn¹ce drzewa roztacza³y s³odk¹ woñ, a stada koczkodanów biega³y po targowiskach) do czasu,
-gdy unijna komisja ds. rozwoju regionu nie zadecydowa³a o dofinansowaniu turystyki w naszej krainie.
-Powsta³ pomys³ wybudowania szlaków turystycznych, z których ka¿dy mia³by zawieraæ siê w jednym mieœcie
-b¹dŸ przechodziæ przez kilka miast i koñczyæ hotelem. Ponadto, chcemy ¿eby ka¿de miasto mia³o dostêp
-do dok³adnie jednego szlaku (bo co za du¿o, to niezdrowo) oraz ¿eby kazdy ze szlaków szed³ z góry na dó³.
-Oczywiœcie s¹ ró¿ne koncepcje, jak nale¿y optymalnie zaplanowaæ te szlaki.
+W odlegÅ‚ej i egzotycznej krainie znajduje siÄ™ gÃ³ra, na ktÃ³rej zboczu zbudowano kilka miast.
+Wszystko byÅ‚o piÄ™knie (kwitnÄ…ce drzewa roztaczaÅ‚y sÅ‚odkÄ… woÅ„, a stada koczkodanÃ³w biegaÅ‚y po targowiskach) do czasu,
+gdy unijna komisja ds. rozwoju regionu nie zadecydowaÅ‚a o dofinansowaniu turystyki w naszej krainie.
+PowstaÅ‚ pomysÅ‚ wybudowania szlakÃ³w turystycznych, z ktÃ³rych kaÅ¼dy miaÅ‚by zawieraÄ‡ siÄ™ w jednym mieÅ›cie
+bÄ…dÅº przechodziÄ‡ przez kilka miast i koÅ„czyÄ‡ hotelem. Ponadto, chcemy Å¼eby kaÅ¼de miasto miaÅ‚o dostÄ™p
+do dokÅ‚adnie jednego szlaku (bo co za duÅ¼o, to niezdrowo) oraz Å¼eby kazdy ze szlakÃ³w szedÅ‚ z gÃ³ry na dÃ³Å‚.
+OczywiÅ›cie sÄ… rÃ³Å¼ne koncepcje, jak naleÅ¼y optymalnie zaplanowaÄ‡ te szlaki.
 
-A) Koncepcja "najmniejsza liczba szlaków"
-W tej wersji interesuje nas znalezienie rozwi¹zania, w którym ca³kowita liczba szlaków jest najmniejsza
-(bo ka¿dy dodatkowy szlak przek³ada siê na utrudnienia dla kadry zarz¹dczej).
-Ponadto, je¿eli optymalnych rozwi¹zañ jest wiêcej ni¿ jedno, chcemy wybraæ to o najmniejszej mo¿liwej
-sumie d³ugoœci szlaków (rzecz jasna sumujemy d³ugoœci odcinków pomiêdzy miastami).
+A) Koncepcja "najmniejsza liczba szlakÃ³w"
+W tej wersji interesuje nas znalezienie rozwiÄ…zania, w ktÃ³rym caÅ‚kowita liczba szlakÃ³w jest najmniejsza
+(bo kaÅ¼dy dodatkowy szlak przekÅ‚ada siÄ™ na utrudnienia dla kadry zarzÄ…dczej).
+Ponadto, jeÅ¼eli optymalnych rozwiÄ…zaÅ„ jest wiÄ™cej niÅ¼ jedno, chcemy wybraÄ‡ to o najmniejszej moÅ¼liwej
+sumie dÅ‚ugoÅ›ci szlakÃ³w (rzecz jasna sumujemy dÅ‚ugoÅ›ci odcinkÃ³w pomiÄ™dzy miastami).
 
-B) Koncepcja "najni¿szy koszt szlaków"
-W tej wersji koszem rozwi¹zania jest suma kosztów sk³adaj¹cych siê na nie szlaków.
-Ka¿dy szlak kosztuje nas proporcjonalnie do d³ugoœci odcinków miêdzy odwiedzanymi miastami,
-plus koszt postawienia hotelu w ostatnim mieœcie. Szukamy rozwi¹zania o najni¿szym koszcie.
+B) Koncepcja "najniÅ¼szy koszt szlakÃ³w"
+W tej wersji koszem rozwiÄ…zania jest suma kosztÃ³w skÅ‚adajÄ…cych siÄ™ na nie szlakÃ³w.
+KaÅ¼dy szlak kosztuje nas proporcjonalnie do dÅ‚ugoÅ›ci odcinkÃ³w miÄ™dzy odwiedzanymi miastami,
+plus koszt postawienia hotelu w ostatnim mieÅ›cie. Szukamy rozwiÄ…zania o najniÅ¼szym koszcie.
 
 Formalniej:
-Mapa krainy jest dana jako skierowany, wa¿ony graf acykliczny (gdzie krawêdzie ³¹cz¹ miasta,
-miêdzy którymi mo¿na wybudowaæ fragment szlaku, a wagi informuj¹ o koszcie takiego po³¹czenia).
-Ponadto, w punkcie B, dostajemy te¿ tablicê kosztów hoteli.
+Mapa krainy jest dana jako skierowany, waÅ¼ony graf acykliczny (gdzie krawÄ™dzie Å‚Ä…czÄ… miasta,
+miÄ™dzy ktÃ³rymi moÅ¼na wybudowaÄ‡ fragment szlaku, a wagi informujÄ… o koszcie takiego poÅ‚Ä…czenia).
+Ponadto, w punkcie B, dostajemy teÅ¼ tablicÄ™ kosztÃ³w hoteli.
 
 A) metoda int minimumNumberOfTrails(IGraph g, out int totalCost, out IGraph trails)
-zwraca minimaln¹ liczbê szlaków, a przez parametry wyjœciowe - koszt znalezionego rozwi¹zania i graf,
-sk³adaj¹cy siê z krawêdzi grafu g wziêtych do tego rozwi¹zania.
+zwraca minimalnÄ… liczbÄ™ szlakÃ³w, a przez parametry wyjÅ›ciowe - koszt znalezionego rozwiÄ…zania i graf,
+skÅ‚adajÄ…cy siÄ™ z krawÄ™dzi grafu g wziÄ™tych do tego rozwiÄ…zania.
 
 B) metoda int minimumCostOfTrails(IGraph g, int[] vcosts, out IGraph trails)
-zwraca minimalny koszt rozwi¹zania. Parametr wyjœciowy jak wy¿ej.
+zwraca minimalny koszt rozwiÄ…zania. Parametr wyjÅ›ciowy jak wyÅ¼ej.
 
 Punktacja:
-1p prawid³owy wynik w A)
-1p prawid³owy koszt w A)
-1p prawid³owy graf w A)
+1p prawidÅ‚owy wynik w A)
+1p prawidÅ‚owy koszt w A)
+1p prawidÅ‚owy graf w A)
 1p podpunkt B), wszystko
-1p czêœæ domowa
+1p czÄ™Å›Ä‡ domowa
 
-Przyk³ad:
-(wyobra¿amy sobie, ¿e wszystkie krawêdzie skierowane s¹ w prawo)
+PrzykÅ‚ad:
+(wyobraÅ¼amy sobie, Å¼e wszystkie krawÄ™dzie skierowane sÄ… w prawo)
 
       4
      / \       8
@@ -52,7 +52,7 @@ Przyk³ad:
     /
    2
 
-Proste krawêdzie kosztuj¹ 10, ukoœne 25, a ka¿de z miast 30.
+Proste krawÄ™dzie kosztujÄ… 10, ukoÅ›ne 25, a kaÅ¼de z miast 30.
 
 A) Mamy trzy szlaki: 0->1->4->5->7, 2->3->6, 8
    koszt = 120
@@ -60,16 +60,16 @@ A) Mamy trzy szlaki: 0->1->4->5->7, 2->3->6, 8
 B) Mamy szlaki: 1->5->7, 0->3->6, 2, 4, 8
    koszt = 190
    
-Nie ma innych równie dobrych rozwiazañ.
+Nie ma innych rÃ³wnie dobrych rozwiazaÅ„.
 
-Wskazówka:
+WskazÃ³wka:
 
 A)
-Wystarczy zbudowaæ graf dwudzielny, w którym ka¿demu wierzcho³kowi v grafu g odpowiadaj¹ jego dwie kopie
-- wierzcho³ek v_out oraz v_in - a ka¿da krawêdŸ uv przechodzi na krawêdŸ u_out v_in.
-Korzystaj¹c z minCostMaxFlow wyznaczamy najtañsze najliczniejsze skojarzenie w zbudowanym grafie
-i odtwarzamy z niego rozwi¹zanie.
+Wystarczy zbudowaÄ‡ graf dwudzielny, w ktÃ³rym kaÅ¼demu wierzchoÅ‚kowi v grafu g odpowiadajÄ… jego dwie kopie
+- wierzchoÅ‚ek v_out oraz v_in - a kaÅ¼da krawÄ™dÅº uv przechodzi na krawÄ™dÅº u_out v_in.
+KorzystajÄ…c z minCostMaxFlow wyznaczamy najtaÅ„sze najliczniejsze skojarzenie w zbudowanym grafie
+i odtwarzamy z niego rozwiÄ…zanie.
 
 B)
-Tu dzia³a podobny pomys³, musimy tylko uwzglêdniæ koszty postawienia hoteli oraz w jakiœ sposób zapewniæ,
-¿eby do ka¿dego miasta wchodzi³ tylko jeden szlak.
+Tu dziaÅ‚a podobny pomysÅ‚, musimy tylko uwzglÄ™dniÄ‡ koszty postawienia hoteli oraz w jakiÅ› sposÃ³b zapewniÄ‡,
+Å¼eby do kaÅ¼dego miasta wchodziÅ‚ tylko jeden szlak.

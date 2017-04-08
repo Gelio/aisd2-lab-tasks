@@ -3,9 +3,9 @@ Punktacja
 
 Klika
 - 2 pkt - wszystkie testy poprawne
-- 1 pkt - zwyk≥e testy poprawne, w testach wydajnoúci dozwolony "Timeout" ("Fail" niedozwolony)
+- 1 pkt - zwyk≈Çe testy poprawne, w testach wydajno≈õci dozwolony "Timeout" ("Fail" niedozwolony)
 
 Izomorfizm
 - 2 pkt - wszystkie testy poprawne
-- 1 pkt - zwyk≥e testy poprawne, w testach wydajnoúci dozwolony "Timeout" ("Fail" niedozwolony)
+- 1 pkt - zwyk≈Çe testy poprawne, w testach wydajno≈õci dozwolony "Timeout" ("Fail" niedozwolony)
 

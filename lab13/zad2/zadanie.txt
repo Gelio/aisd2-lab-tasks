@@ -1,35 +1,35 @@
 
-Krejzolskie podwórko
+Krejzolskie podwÃ³rko
 
-Koñ Rafa³ hasa³ wesó³ po podwórzu. Hasa³, hasa³ i tak siê zapomnia³ w tym hasaniu, ¿e nawet nie zauwa¿y³,
-¿e przeskoczy³ przez ogrodzenie. Kilkukrotnie.
+KoÅ„ RafaÅ‚ hasaÅ‚ wesÃ³Å‚ po podwÃ³rzu. HasaÅ‚, hasaÅ‚ i tak siÄ™ zapomniaÅ‚ w tym hasaniu, Å¼e nawet nie zauwaÅ¼yÅ‚,
+Å¼e przeskoczyÅ‚ przez ogrodzenie. Kilkukrotnie.
 
-"O cholera", pomyœla³ koñ Rafa³;
-"teraz nawet nie wiem, czy jestem w œrodku, czy na zewn¹trz ogrodzenia", pomyœla³ koñ Rafa³.
+"O cholera", pomyÅ›laÅ‚ koÅ„ RafaÅ‚;
+"teraz nawet nie wiem, czy jestem w Å›rodku, czy na zewnÄ…trz ogrodzenia", pomyÅ›laÅ‚ koÅ„ RafaÅ‚.
 
-Na szczêœcie, koñ Rafa³ mia³ przy sobie GPS (a wiêc potafi³ okreœliæ swoje wspó³rzêdne) oraz magiczn¹ czarn¹ skrzynkê,
-która zna³a plan podwórza i potrafi³a *bardzo szybko* okreœliæ, czy dany punkt znajduje siê wewn¹trz ogrodzenia.
+Na szczÄ™Å›cie, koÅ„ RafaÅ‚ miaÅ‚ przy sobie GPS (a wiÄ™c potafiÅ‚ okreÅ›liÄ‡ swoje wspÃ³Å‚rzÄ™dne) oraz magicznÄ… czarnÄ… skrzynkÄ™,
+ktÃ³ra znaÅ‚a plan podwÃ³rza i potrafiÅ‚a *bardzo szybko* okreÅ›liÄ‡, czy dany punkt znajduje siÄ™ wewnÄ…trz ogrodzenia.
 
-Te¿ chcemy mieæ tak¹ skrzynkê!
+TeÅ¼ chcemy mieÄ‡ takÄ… skrzynkÄ™!
 
-Uzupe³nij metody klasy Polygon:
- - Klasa w konstruktorze przyjmuje listê n wierzcho³ków pewnego wielok¹ta *bez samoprzeciêæ* i mo¿e wykonaæ wstêpne
-   obliczenia, zajmuj¹ce nie wiêcej ni¿ O(n*n*log(n)) czasu i pamiêci.
+UzupeÅ‚nij metody klasy Polygon:
+ - Klasa w konstruktorze przyjmuje listÄ™ n wierzchoÅ‚kÃ³w pewnego wielokÄ…ta *bez samoprzeciÄ™Ä‡* i moÅ¼e wykonaÄ‡ wstÄ™pne
+   obliczenia, zajmujÄ…ce nie wiÄ™cej niÅ¼ O(n*n*log(n)) czasu i pamiÄ™ci.
 
- - Metoda ContainsPoint sprawdza, czy podany punkt nale¿y do wielok¹ta, w czasie O(log n).
-   (Oczywiœcie punkty znajduj¹ce siê na bokach wielok¹ta równie¿ do niego nale¿¹).
+ - Metoda ContainsPoint sprawdza, czy podany punkt naleÅ¼y do wielokÄ…ta, w czasie O(log n).
+   (OczywiÅ›cie punkty znajdujÄ…ce siÄ™ na bokach wielokÄ…ta rÃ³wnieÅ¼ do niego naleÅ¼Ä…).
 
 Punktacja:
-1p jakiekolwiek rozwi¹zanie przechodz¹ce podstawowe testy
-2p jw + testy wydajnoœci licz¹ siê szybko
-3p jw + rozwi¹zanie przechodzi równie¿ zaawansowane testy
-4p jw + wszystkie testy przechodz¹
+1p jakiekolwiek rozwiÄ…zanie przechodzÄ…ce podstawowe testy
+2p jw + testy wydajnoÅ›ci liczÄ… siÄ™ szybko
+3p jw + rozwiÄ…zanie przechodzi rÃ³wnieÅ¼ zaawansowane testy
+4p jw + wszystkie testy przechodzÄ…
 
-Wskazówka:
-Wykorzystaj metodê zamiatania.
+WskazÃ³wka:
+Wykorzystaj metodÄ™ zamiatania.
 
-Je¿eli w konstruktorze przeprowadzisz ca³e zamiatanie i zapiszesz sobie jakoœ wszystkie napotkane "stany" prostej
-zamiataj¹cej (tzn. odcinki - boki wielok¹ta - przecinaj¹ce tê prost¹, uporz¹dkowane od najni¿szego do najwy¿szego),
-póŸniej bêdziesz w stanie znaleŸæ stosowny stan prostej zamiataj¹cej w czasie O(log n), potem znaleŸæ,
-miêdzy którymi dwoma odcinkami znajduje siê poszukiwany punkt (równie¿ w czasie O(log n)) i podaæ odpowiedŸ.
+JeÅ¼eli w konstruktorze przeprowadzisz caÅ‚e zamiatanie i zapiszesz sobie jakoÅ› wszystkie napotkane "stany" prostej
+zamiatajÄ…cej (tzn. odcinki - boki wielokÄ…ta - przecinajÄ…ce tÄ™ prostÄ…, uporzÄ…dkowane od najniÅ¼szego do najwyÅ¼szego),
+pÃ³Åºniej bÄ™dziesz w stanie znaleÅºÄ‡ stosowny stan prostej zamiatajÄ…cej w czasie O(log n), potem znaleÅºÄ‡,
+miÄ™dzy ktÃ³rymi dwoma odcinkami znajduje siÄ™ poszukiwany punkt (rÃ³wnieÅ¼ w czasie O(log n)) i podaÄ‡ odpowiedÅº.
 
