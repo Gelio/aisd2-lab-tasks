@@ -31,7 +31,7 @@ namespace ASD.Graphs
             // ToDo - algorytm "kruskalopodobny"
             int n = g.VerticesCount;
             EdgesMinPriorityQueue edgesQueue = new EdgesMinPriorityQueue();
-            for (int v=0; v < n; v++)
+            for (int v = 0; v < n; v++)
             {
                 foreach (Edge e in g.OutEdges(v))
                 {
@@ -43,11 +43,10 @@ namespace ASD.Graphs
                 }
             }
 
-            int edgesAdded = 0;
             UnionFind uf = new UnionFind(n);
             Graph minSpanningTree = g.IsolatedVerticesGraph();
 
-            while (!edgesQueue.Empty && edgesAdded < n-1)
+            while (!edgesQueue.Empty && minSpanningTree.EdgesCount < n - 1)
             {
                 Edge e = edgesQueue.Get();
                 if (uf.Find(e.From) == uf.Find(e.To))   // Edge would preemptively create a cycle
@@ -65,10 +64,9 @@ namespace ASD.Graphs
 
                 minSpanningTree.AddEdge(e);
                 uf.Union(e.From, e.To);
-                edgesAdded++;
             }
 
-            if (edgesAdded < n - 1)
+            if (minSpanningTree.EdgesCount < n - 1)
             {
                 // Unable to construct a spanning path with n-1 edges
                 cycle = null;
@@ -80,7 +78,7 @@ namespace ASD.Graphs
             int cycleBeginV = -1,
                 cycleEndV = -1;
 
-            for (int v=0; v < n; v++)
+            for (int v = 0; v < n; v++)
             {
                 if (!minSpanningTree.Directed)
                 {
@@ -105,9 +103,9 @@ namespace ASD.Graphs
                     if (cycleBeginV != -1 && cycleEndV != -1)
                         break;
                 }
-                
+
             }
-            
+
             if (cycleBeginV == -1 || cycleEndV == -1)
             {
                 // This if is superfluous, but I'm leaving it just for clarity
@@ -121,7 +119,7 @@ namespace ASD.Graphs
             int currentCycleV = 0;
             double cycleLength = 0;
 
-            for (int i=0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 Edge? cycleEdge = minSpanningTree.OutEdges(currentCycleV).First();
                 if (!minSpanningTree.Directed && i > 0)
@@ -129,7 +127,7 @@ namespace ASD.Graphs
                     // Make sure the edge goes further into the cycle, not backwards (only for undirected graphs)
                     foreach (Edge e in minSpanningTree.OutEdges(currentCycleV))
                     {
-                        if (e.To != cycle[i-1].From)
+                        if (e.To != cycle[i - 1].From)
                         {
                             cycleEdge = e;
                             break;
@@ -167,9 +165,71 @@ namespace ASD.Graphs
         /// </remarks>
         public static double TSP_TreeBased(this Graph g, out Edge[] cycle)
         {
-            // ToDo - algorytm oparty na minimalnym drzewie rozpinajacym
-            cycle = null;
-            return double.NaN;
+            if (g.Directed)
+                throw new System.ArgumentException("Graph is directed");
+
+            int n = g.VerticesCount;
+            EdgesMinPriorityQueue edgesQueue = new EdgesMinPriorityQueue();
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    // Only add edges once
+                    if (e.From >= e.To)
+                        continue;
+
+                    edgesQueue.Put(e);
+                }
+            }
+
+            Graph minSpanningTree = g.IsolatedVerticesGraph();
+            UnionFind uf = new UnionFind(n);
+            while (!edgesQueue.Empty && minSpanningTree.EdgesCount < n - 1)
+            {
+                Edge e = edgesQueue.Get();
+                if (uf.Find(e.From) == uf.Find(e.To))   // Same component, would create a cycle
+                    continue;
+
+                minSpanningTree.AddEdge(e);
+            }
+
+            if (minSpanningTree.EdgesCount < n - 1)
+            {
+                
+            }
+
+            int[] preorderVertices = new int[n];
+            int i = 0;
+            minSpanningTree.GeneralSearchAll<EdgesQueue>(v =>
+            {
+                preorderVertices[i++] = v;
+                return true;
+            }, null, null, out int cc);
+
+            cycle = new Edge[n];
+            double cycleLength = 0;
+            for (i = 1; i < n; i++)
+            {
+                int v1 = preorderVertices[i - 1],
+                    v2 = preorderVertices[i];
+                Edge e = new Edge(v1, v2, g.GetEdgeWeight(v1, v2));
+                cycle[i - 1] = e;
+                cycleLength += e.Weight;
+                if (e.Weight.IsNaN())
+                    break;  // Added an edge that doesn't exist
+            }
+
+            if (cycleLength.IsNaN())
+            {
+                cycle = null;
+                return double.NaN;
+            }
+
+            double closingEdgeWeight = g.GetEdgeWeight(preorderVertices[n - 1], preorderVertices[0]);
+            cycle[n - 1] = new Edge(preorderVertices[n - 1], preorderVertices[0], closingEdgeWeight);
+            cycleLength += closingEdgeWeight;
+
+            return cycleLength;
         }  // TSP_TreeBased
 
     }  // class Lab08Extender
