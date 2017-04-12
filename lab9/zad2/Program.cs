@@ -12,12 +12,12 @@ namespace lab9
         public Edge[] solutions;
         public int expectedTime;
         public int acceptableTime;
-        public int flowValue;
+        public double flowValue;
 
-        public Test(Graph graph, int[] ins, int[] outs, Edge[] solutions, int expectedTime, int acceptableTime, int flowValue)
+        public Test(Graph graph, int[] ins, int[] outs, Edge[] solutions, int expectedTime, int acceptableTime, double flowValue)
         {
             this.graph = graph;
-            this.ins = ins;
+            this.ins = ins; 
             this.outs = outs;
             this.solutions = solutions;
             this.expectedTime = expectedTime;
@@ -139,7 +139,7 @@ namespace lab9
 
         private static bool PerformTest(int id, Test t)
         {
-            int fv;
+            double fv;
             ulong start, end;
             start = Graph.Counter;
             Console.Out.Write("Test {0}", id);
