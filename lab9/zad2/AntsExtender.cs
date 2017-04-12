@@ -21,6 +21,7 @@ namespace lab9
         {
             int n = baseGraph.VerticesCount;
             Graph extendedGraph = baseGraph.IsolatedVerticesGraph(true, n + 2);
+            Graph reversed = baseGraph.Reverse();
 
             // vertex n is going to be the main source, n+1 the main destination 
             for (int v = 0; v < n; v++)
@@ -34,10 +35,44 @@ namespace lab9
             foreach (int destinationV in destinations)
                 extendedGraph.AddEdge(destinationV, n + 1, double.PositiveInfinity);
 
-            flowValue = extendedGraph.FordFulkersonDinicMaxFlow(n, n + 1, out Graph flow, MaxFlowGraphExtender.BFPath);
+            flowValue = extendedGraph.FordFulkersonDinicMaxFlow(n, n + 1, out Graph initialFlow, MaxFlowGraphExtender.BFPath);
 
+            int sourceNeighbor = -1,
+                destinationNeighbor = -1;
 
-            return null;
+            foreach (int sourceV in sources)
+            {
+                foreach (Edge e in baseGraph.OutEdges(sourceV))
+                {
+                    double flowEdge = initialFlow.GetEdgeWeight(sourceV, e.To);
+                    if (flowEdge.IsNaN() || flowEdge < e.Weight)
+                    {
+                        sourceNeighbor = e.To;
+                        break;
+                    }
+                }
+            }
+
+            if (sourceNeighbor == -1)
+                return null;
+            
+            foreach (int destinationV in destinations)
+            {
+                foreach (Edge e in reversed.OutEdges(destinationV))
+                {
+                    double flowEdge = initialFlow.GetEdgeWeight(e.To, destinationV);
+                    if (flowEdge.IsNaN() || flowEdge < e.Weight)
+                    {
+                        destinationNeighbor = e.To;
+                        break;
+                    }
+                }
+            }
+
+            if (destinationNeighbor == -1)
+                return null;
+
+            return new Edge(sourceNeighbor, destinationNeighbor, 1);
         }
 
     }
