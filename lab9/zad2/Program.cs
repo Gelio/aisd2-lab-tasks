@@ -1,12 +1,12 @@
 using System;
-using ASD.Graph;
+using ASD.Graphs;
 using System.Linq;
 
 namespace lab9
 {
     class Test
     {
-        public IGraph graph;
+        public Graph graph;
         public int[] ins;
         public int[] outs;
         public Edge[] solutions;
@@ -14,7 +14,7 @@ namespace lab9
         public int acceptableTime;
         public int flowValue;
 
-        public Test(IGraph graph, int[] ins, int[] outs, Edge[] solutions, int expectedTime, int acceptableTime, int flowValue)
+        public Test(Graph graph, int[] ins, int[] outs, Edge[] solutions, int expectedTime, int acceptableTime, int flowValue)
         {
             this.graph = graph;
             this.ins = ins;
@@ -26,28 +26,30 @@ namespace lab9
         }
     }
 
-	public class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			IGraph graph1 = new AdjacencyListsGraph<SimplyAdjacencyList> (true, 9);
-			int[] in1 = {0,1,2};
-			int[] out1 = {6,7,8};
-			for(int i=0;i<3;i++){
-				graph1.AddEdge(i,i+3,1);
-				graph1.AddEdge(i+3,i+6,1);
-			}
+    public class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            Graph graph1 = new AdjacencyListsGraph<SimpleAdjacencyList>(true, 9);
+            int[] in1 = { 0, 1, 2 };
+            int[] out1 = { 6, 7, 8 };
+            for (int i = 0; i < 3; i++)
+            {
+                graph1.AddEdge(i, i + 3, 1);
+                graph1.AddEdge(i + 3, i + 6, 1);
+            }
 
-			IGraph graph2 = new AdjacencyListsGraph<SimplyAdjacencyList> (true, 12);
-			int[] in2 = {0,1,2};
-			int[] out2 = {9,10,11};
-			for(int i=0;i<3;i++){
-				graph2.AddEdge(i,i+3,2);
-				graph2.AddEdge(i+3,i+6,1);
-				graph2.AddEdge(i+6,i+9,1);
-			}
+            Graph graph2 = new AdjacencyListsGraph<SimpleAdjacencyList>(true, 12);
+            int[] in2 = { 0, 1, 2 };
+            int[] out2 = { 9, 10, 11 };
+            for (int i = 0; i < 3; i++)
+            {
+                graph2.AddEdge(i, i + 3, 2);
+                graph2.AddEdge(i + 3, i + 6, 1);
+                graph2.AddEdge(i + 6, i + 9, 1);
+            }
 
-            IGraph graph3 = new AdjacencyListsGraph<SimplyAdjacencyList>(true, 12);
+            Graph graph3 = new AdjacencyListsGraph<SimpleAdjacencyList>(true, 12);
             int[] in3 = { 0, 1, 2 };
             int[] out3 = { 9, 10, 11 };
             for (int i = 0; i < 3; i++)
@@ -57,12 +59,12 @@ namespace lab9
                 graph3.AddEdge(i + 6, i + 9, 1);
             }
 
-            IGraph graph4 = new AdjacencyMatrixGraph(true, 12);
+            Graph graph4 = new AdjacencyMatrixGraph(true, 12);
             int[] in4 = { 0, 1 };
             int[] out4 = { 11 };
             for (int i = 2; i < 11; i++)
             {
-                for (int j = i+1; j < 11; j++)
+                for (int j = i + 1; j < 11; j++)
                 {
                     graph4.AddEdge(i, j, 10);
                 }
@@ -71,12 +73,12 @@ namespace lab9
             graph4.AddEdge(0, 2, 1);
             graph4.AddEdge(1, 2, 1);
 
-            IGraph graph5 = new AdjacencyMatrixGraph(true, 12);
+            Graph graph5 = new AdjacencyMatrixGraph(true, 12);
             int[] in5 = { 0, 1 };
             int[] out5 = { 11 };
             for (int i = 2; i < 11; i++)
             {
-                for (int j = i+1; j < 11; j++)
+                for (int j = i + 1; j < 11; j++)
                 {
                     graph5.AddEdge(i, j, 10);
                 }
@@ -85,12 +87,12 @@ namespace lab9
             graph5.AddEdge(0, 2, 2);
             graph5.AddEdge(1, 2, 1);
 
-            IGraph graph6 = new AdjacencyMatrixGraph(true, 12);
+            Graph graph6 = new AdjacencyMatrixGraph(true, 12);
             int[] in6 = { 0, 1 };
             int[] out6 = { 11 };
             for (int i = 3; i < 11; i++)
             {
-                for (int j = i+1; j < 11; j++)
+                for (int j = i + 1; j < 11; j++)
                 {
                     graph6.AddEdge(i, j, 10);
                 }
@@ -100,20 +102,20 @@ namespace lab9
             graph6.AddEdge(1, 2, 1);
             graph6.AddEdge(2, 3, 2);
 
-            IGraph graph7 = new AdjacencyListsGraph<SimplyAdjacencyList>(true, 40000);
+            Graph graph7 = new AdjacencyListsGraph<SimpleAdjacencyList>(true, 40000);
             int[] in7 = { 0 };
             int[] out7 = { 39999 };
             for (int i = 3; i < 40000; i++)
-                graph7.AddEdge(i-1, i, 2);
+                graph7.AddEdge(i - 1, i, 2);
             graph7.AddEdge(0, 1, 2);
             graph7.AddEdge(1, 2, 1);
 
             Test[] tests = {
-                 new Test(graph1, in1, out1, null, 800, 4500,3), 
+                 new Test(graph1, in1, out1, null, 800, 4500,3),
                  new Test(graph2, in2, out2, new Edge[] {new Edge(3,9,1),
                      new Edge(4,9,1), new Edge(5,9,1),new Edge(3,10,1),
                      new Edge(4,10,1), new Edge(5,10,1),new Edge(3,11,1),
-                     new Edge(4,11,1), new Edge(5,11,1)}, 1100, 8000,3 ), 
+                     new Edge(4,11,1), new Edge(5,11,1)}, 1100, 8000,3 ),
                  new Test(graph3, in3, out3, null, 1100, 8000,3),
                  new Test(graph4,in4,out4,null,3500, 18000,2),
                  new Test(graph5, in5, out5, new Edge[] {
@@ -133,37 +135,37 @@ namespace lab9
             {
                 PerformTest(i, tests[i]);
             }
-		}
+        }
 
         private static bool PerformTest(int id, Test t)
         {
             int fv;
-            long start, end;
+            ulong start, end;
             start = Graph.Counter;
-            Console.Out.Write("Test {0}",id);
+            Console.Out.Write("Test {0}", id);
             Edge? result = t.graph.ImprovementChecker(t.ins, t.outs, out fv);
             end = Graph.Counter;
             Console.Out.WriteLine(", czas {1}, spodziewany oko³o: poziom2: {2}, poziom1: {3}", id, end - start, t.expectedTime, t.acceptableTime);
-            Console.Out.WriteLine("Test {0} -- {1}, wartosc przeplywu {2}, spodziewane {3}", id, fv==t.flowValue?"OK":"B£¥D", fv, t.flowValue);
-            if ( id==6 )
+            Console.Out.WriteLine("Test {0} -- {1}, wartosc przeplywu {2}, spodziewane {3}", id, fv == t.flowValue ? "OK" : "B£¥D", fv, t.flowValue);
+            if (id == 6)
+            {
+                if (result == null)
                 {
-                if ( result==null )
-                    {
                     Console.Out.WriteLine("Test {0} -- B£¥D, nie znaleziono rozwi¹zania", id);
                     return false;
-                    }
-                else
-                    if ( result.Value.From>=0 && result.Value.From<20000 && result.Value.To>=20000 && result.Value.To<40000 && ( result.Value.From!=0 || result.Value.To!=39999 ) )
-                        {
-                        Console.Out.WriteLine("Test {0} -- OK, znaleziono {1}", id, result);
-                        return true;
-                        }
-                    else
-                        {
-                        Console.Out.WriteLine("Test {0} -- B£¥D, niepoprawne rozwi¹zanie {1}", id, result);
-                        return false;
-                        }
                 }
+                else
+                    if (result.Value.From >= 0 && result.Value.From < 20000 && result.Value.To >= 20000 && result.Value.To < 40000 && (result.Value.From != 0 || result.Value.To != 39999))
+                {
+                    Console.Out.WriteLine("Test {0} -- OK, znaleziono {1}", id, result);
+                    return true;
+                }
+                else
+                {
+                    Console.Out.WriteLine("Test {0} -- B£¥D, niepoprawne rozwi¹zanie {1}", id, result);
+                    return false;
+                }
+            }
             if (t.solutions == null)
             {
                 if (result == null)
@@ -196,5 +198,5 @@ namespace lab9
                 }
             }
         }
-	}
+    }
 }
