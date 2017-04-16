@@ -37,9 +37,11 @@ namespace lab9
 
             flowValue = extendedGraph.FordFulkersonDinicMaxFlow(n, n + 1, out Graph initialFlow, MaxFlowGraphExtender.BFPath);
 
-            int sourceNeighbor = -1,
-                destinationNeighbor = -1;
+            int tunnelStartV = -1,
+                tunnelEndV = -1;
 
+            // Check new tunnel options:
+            // source neighbor -> destination
             foreach (int sourceV in sources)
             {
                 foreach (Edge e in baseGraph.OutEdges(sourceV))
@@ -47,32 +49,60 @@ namespace lab9
                     double flowEdge = initialFlow.GetEdgeWeight(sourceV, e.To);
                     if (flowEdge.IsNaN() || flowEdge < e.Weight)
                     {
-                        sourceNeighbor = e.To;
+                        tunnelStartV = e.To;
                         break;
                     }
                 }
             }
 
-            if (sourceNeighbor == -1)
-                return null;
-            
-            foreach (int destinationV in destinations)
+            if (tunnelStartV != -1)
             {
-                foreach (Edge e in reversed.OutEdges(destinationV))
+                foreach (int destinationV in destinations)
                 {
-                    double flowEdge = initialFlow.GetEdgeWeight(e.To, destinationV);
-                    if (flowEdge.IsNaN() || flowEdge < e.Weight)
+                    double flowEdge = initialFlow.GetEdgeWeight(tunnelStartV, destinationV);
+                    if (flowEdge.IsNaN() || flowEdge < baseGraph.GetEdgeWeight(tunnelStartV, destinationV))
                     {
-                        destinationNeighbor = e.To;
+                        tunnelEndV = destinationV;
                         break;
                     }
                 }
             }
 
-            if (destinationNeighbor == -1)
+            if (tunnelEndV == -1)
+            {
+                // source -> destination neighbor
+                foreach (int destinationV in destinations)
+                {
+                    foreach (Edge e in reversed.OutEdges(destinationV))
+                    {
+                        double flowEdge = initialFlow.GetEdgeWeight(e.To, destinationV);
+                        if (flowEdge.IsNaN() || flowEdge < e.Weight)
+                        {
+                            tunnelEndV = e.To;
+                            break;
+                        }
+                    }
+                }
+
+                if (tunnelEndV != -1)
+                {
+                    tunnelStartV = -1;
+                    foreach (int sourceV in sources)
+                    {
+                        double flowEdge = initialFlow.GetEdgeWeight(sourceV, tunnelEndV);
+                        if (flowEdge.IsNaN() || flowEdge < baseGraph.GetEdgeWeight(sourceV, tunnelEndV))
+                        {
+                            tunnelStartV = sourceV;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (tunnelStartV == -1 || tunnelEndV == -1)
                 return null;
 
-            return new Edge(sourceNeighbor, destinationNeighbor, 1);
+            return new Edge(tunnelStartV, tunnelEndV, 1);
         }
 
     }
