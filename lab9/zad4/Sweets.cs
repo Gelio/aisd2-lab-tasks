@@ -99,6 +99,7 @@ namespace Lab09
             int totalSweetsTaken = (int)sweetsDispenser.FordFulkersonDinicMaxFlow(0, 1, out Graph sweetsAssignment, MaxFlowGraphExtender.BFPath);
 
             happyChildren = new bool[childrenCount];
+            shoppingList = new int[sweetsCount];
             for (int i = 0; i < childrenCount; i++)
             {
                 double childSum = 0;
@@ -107,10 +108,17 @@ namespace Lab09
                     childSum += e.Weight;
                 }
                 happyChildren[i] = (int)childSum == childrenLimits[i];
+
+                if (!happyChildren[i])
+                {
+                    foreach (Edge e in sweetsDispenser.OutEdges(2 + i))
+                    {
+                        shoppingList[e.To - (2 + childrenCount)] += childrenLimits[i] - (int)childSum;
+                        break;
+                    }
+                }
             }
 
-
-            shoppingList = null;
             return totalSweetsTaken;
         }
 
