@@ -29,11 +29,80 @@ namespace ASD2
         /// </remarks>
         public static int GetMaxMatching(this Graph g, out Graph matching)
         {
-            //
-            // TODO (2 pkt.)
-            //
-            matching = null;
-            return -1;
+            int[] vertexInClass = g.GetBipariteClasses();
+            int n = g.VerticesCount;
+
+            Graph network = g.IsolatedVerticesGraph(true, n + 2);
+            // n - source, (n + 1) - destination
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (e.To < e.From)
+                        continue;
+                    network.AddEdge(e.From, e.To, 1);
+                }
+
+                if (vertexInClass[v] == 1)
+                {
+                    // in class X, near source
+                    network.AddEdge(n, v, 1);
+                }
+                else
+                {
+                    // in class Y, near destination
+                    network.AddEdge(v, n + 1, 1);
+                }
+            }
+
+            int matchingCount = (int)network.FordFulkersonDinicMaxFlow(n, n + 1, out Graph flow, MaxFlowGraphExtender.BFPath);
+
+            matching = g.IsolatedVerticesGraph();
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in flow.OutEdges(v))
+                {
+                    if (e.Weight.IsNaN() || e.Weight == 0 || e.To >= n)
+                        continue;
+                    matching.AddEdge(e.From, e.To, g.GetEdgeWeight(e.From, e.To));
+                }
+            }
+            return matchingCount;
+        }
+
+
+        private static int[] GetBipariteClasses(this Graph g)
+        {
+            int n = g.VerticesCount;
+            int[] vertexInClass = new int[n];
+            if (n == 0)
+                return vertexInClass;
+
+            Graph bipariteGraph = g.IsolatedVerticesGraph();
+            for (int v=0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (!g.Directed && e.To < e.From)
+                        continue;
+
+                    bipariteGraph.AddEdge(e.From, e.To, 1);
+                }
+            }
+
+            bipariteGraph.DijkstraShortestPaths(0, out PathsInfo[] d);
+
+            for (int v=0; v < g.VerticesCount; v++)
+            {
+                if (d[v].Dist.IsNaN())
+                {
+                    throw new System.ArgumentException("Graph is not biparite");
+                }
+                    
+                vertexInClass[v] = d[v].Dist % 2 == 0 ? 1 : 2;
+            }
+
+            return vertexInClass;
         }
 
         /// <summary>
