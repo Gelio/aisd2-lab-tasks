@@ -20,7 +20,7 @@ namespace Lab09
         /// Jeśli dziecko nie dostało żadnego batonika to -1.
         /// </param>
         /// <returns>Liczba dzieci, które dostały batonik.</returns>
-        public static int Task1( int childrenCount, int sweetsCount, int[][] childrenLikes, out int[] assignment )
+        public static int Task1(int childrenCount, int sweetsCount, int[][] childrenLikes, out int[] assignment)
         {
             assignment = null;
             return -1;
@@ -40,7 +40,7 @@ namespace Lab09
         /// <param name="happyChildren">Wynikowy parametr zadania 2a. happyChildren[i] powinien zawierać true jeśli dziecko jest zadowolone i false wpp.</param>
         /// <param name="shoppingList">Wynikowy parametr zadania 2b. shoppingList[i] poiwnno zawierać liczbę batoników i-tego rodzaju, które trzeba dokupić.</param>
         /// <returns>Maksymalna liczba rozdanych batoników.</returns>
-        public static int Task2( int childrenCount, int sweetsCount, int[][] childrenLikes, int[] childrenLimits, int[] sweetsLimits, out bool[] happyChildren, out int[] shoppingList )
+        public static int Task2(int childrenCount, int sweetsCount, int[][] childrenLikes, int[] childrenLimits, int[] sweetsLimits, out bool[] happyChildren, out int[] shoppingList)
         {
             happyChildren = null;
             shoppingList = null;

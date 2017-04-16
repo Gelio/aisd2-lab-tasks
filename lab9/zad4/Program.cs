@@ -158,11 +158,11 @@ namespace Lab09
             testTask2();
             System.Console.WriteLine();
         }
-        
+
         static void makeTest(
             int childrenCount,
             int sweetsCount,
-            params int[] funcParams )
+            params int[] funcParams)
         {
             TestEntry e = new TestEntry();
 
@@ -182,13 +182,13 @@ namespace Lab09
             }
 
             end = System.Array.IndexOf(funcParams, -1, beg);
-            e.childrenLimits = new int[end-beg];
-            System.Array.Copy( funcParams, beg, e.childrenLimits, 0, end-beg );
+            e.childrenLimits = new int[end - beg];
+            System.Array.Copy(funcParams, beg, e.childrenLimits, 0, end - beg);
             beg = end + 1;
 
             end = System.Array.IndexOf(funcParams, -1, beg);
             e.sweetsLimits = new int[end - beg];
-            System.Array.Copy( funcParams, beg, e.sweetsLimits, 0, end-beg );
+            System.Array.Copy(funcParams, beg, e.sweetsLimits, 0, end - beg);
             beg = end + 1;
 
             e.flow1 = funcParams[beg++];
@@ -218,11 +218,11 @@ namespace Lab09
             return ok;
         }
 
-        static private bool testTask1( int num, TestEntry e )
+        static private bool testTask1(int num, TestEntry e)
         {
             int[] sweets = null;
 
-            var resultFlow1 =  Sweets.Task1(
+            var resultFlow1 = Sweets.Task1(
                                 e.childrenCount,
                                 e.sweetsCount,
                                 e.childrenLikes,
@@ -240,18 +240,18 @@ namespace Lab09
             test1Result = test1Result && sweets.Length == e.childrenCount;
 
             // Check if child really likes sweet it gets
-            for (int i = 0; test1Result && i < e.childrenCount; ++i )
+            for (int i = 0; test1Result && i < e.childrenCount; ++i)
                 test1Result = sweets[i] == -1 || System.Array.IndexOf(e.childrenLikes[i], sweets[i]) != -1;
 
             // Check if every sweet is given only once
-            if ( test1Result )
+            if (test1Result)
             {
-            System.Array.Sort(sweets);
-            for (int i = 1; test1Result && i < e.childrenCount; ++i)
-                test1Result = sweets[i] == -1 || sweets[i - 1] != sweets[i];
+                System.Array.Sort(sweets);
+                for (int i = 1; test1Result && i < e.childrenCount; ++i)
+                    test1Result = sweets[i] == -1 || sweets[i - 1] != sweets[i];
             }
 
-            System.Console.WriteLine("Test {0}: \t{1}", num, test1Result ? "OK": "FAIL");
+            System.Console.WriteLine("Test {0}: \t{1}", num, test1Result ? "OK" : "FAIL");
 
             return test1Result;
         }
@@ -277,12 +277,12 @@ namespace Lab09
             return ok > 0;
         }
 
-        static private int testTask2( int num, TestEntry e )
+        static private int testTask2(int num, TestEntry e)
         {
             bool[] happyChildren;
             int[] shoppingList;
 
-            var resultFlow2 =  Sweets.Task2(
+            var resultFlow2 = Sweets.Task2(
                                 e.childrenCount,
                                 e.sweetsCount,
                                 e.childrenLikes,
@@ -295,35 +295,35 @@ namespace Lab09
             bool test2ResultB = true;
 
             // Check if result is as expected
-            test2ResultA = test2ResultA && (resultFlow2 == e.flow2) && happyChildren!=null && happyChildren.Length==e.childrenCount;
+            test2ResultA = test2ResultA && (resultFlow2 == e.flow2) && happyChildren != null && happyChildren.Length == e.childrenCount;
 
             int childrenSum = 0;
             int happyChildrenSum = 0;
-            for (int i = 0; i < e.childrenCount; ++i )
-                {
+            for (int i = 0; i < e.childrenCount; ++i)
+            {
                 childrenSum += e.childrenLimits[i];
-                if ( test2ResultA && happyChildren[i])
+                if (test2ResultA && happyChildren[i])
                     happyChildrenSum += e.childrenLimits[i];
-                }
-            test2ResultA = test2ResultA && (resultFlow2 >=happyChildrenSum);
+            }
+            test2ResultA = test2ResultA && (resultFlow2 >= happyChildrenSum);
 
             int sweetsSum = 0;
-            test2ResultB = test2ResultB && shoppingList!=null && shoppingList.Length==e.sweetsCount;
-            if ( test2ResultB )
-            foreach (int i in shoppingList)
+            test2ResultB = test2ResultB && shoppingList != null && shoppingList.Length == e.sweetsCount;
+            if (test2ResultB)
+                foreach (int i in shoppingList)
                 {
-                sweetsSum += i;
-                if (i<0) test2ResultB=false;
+                    sweetsSum += i;
+                    if (i < 0) test2ResultB = false;
                 }
 
             test2ResultB = test2ResultB && (e.flow2 + sweetsSum == childrenSum);
 
             System.Console.WriteLine("Test {0}: \t{1}\t{2}",
                                             num,
-                                            test2ResultA ? "PROBABLY OK": "FAIL",
-                                            test2ResultB ? "PROBABLY OK": "FAIL");
+                                            test2ResultA ? "PROBABLY OK" : "FAIL",
+                                            test2ResultB ? "PROBABLY OK" : "FAIL");
 
-            return (test2ResultA?1:0) + (test2ResultB?2:0);
+            return (test2ResultA ? 1 : 0) + (test2ResultB ? 2 : 0);
         }
 
     }
