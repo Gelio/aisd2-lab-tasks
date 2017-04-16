@@ -1,5 +1,5 @@
 using System;
-using ASD.Graph;
+using ASD.Graphs;
 
 namespace ASD2
 {
@@ -20,9 +20,9 @@ namespace ASD2
 
         private static void BipartiteMatchings()
         {
-            IGraph matching;
+            Graph matching;
             int count;
-            IGraph g;
+            Graph g;
 
             for (int i = 0; i <= 5; ++i)
             {
@@ -30,7 +30,7 @@ namespace ASD2
                 try
                 {
                     count = g.GetMaxMatching(out matching);
-                    if ( IsMatchingFeasible(matching,g) )
+                    if (IsMatchingFeasible(matching, g))
                         Console.WriteLine("g{0} : {1}", i + 1, count);
                     else
                         Console.WriteLine("g{0} : {1}", i + 1, "skojarzenie nie jest dopuszczalne");
@@ -48,20 +48,20 @@ namespace ASD2
         /// <param name="matching">Znalezione skojarzenie</param>
         /// <param name="g">Graf, w którym szuakmy skojarzenia</param>
         /// <returns>Czy skojarzenie jest dopuszczalne</returns>
-        static bool IsMatchingFeasible(IGraph matching, IGraph g)
+        static bool IsMatchingFeasible(Graph matching, Graph g)
         {
-            if (matching==null)
+            if (matching == null)
                 return false;
             if (matching.Directed)
                 return false;
             if (matching.VerticesCount != g.VerticesCount)
-                return false;            
+                return false;
             for (int i = 0; i < matching.VerticesCount; ++i)
                 if (matching.OutDegree(i) > 1)
                     return false;
             for (int i = 0; i < matching.VerticesCount; ++i)
-                foreach ( Edge e in matching.OutEdges(i) )
-                    if ( !g.GetEdgeWeight(i, e.To).HasValue )
+                foreach (Edge e in matching.OutEdges(i))
+                    if (g.GetEdgeWeight(i, e.To).IsNaN())
                         return false;
             return true;
         }
@@ -70,7 +70,7 @@ namespace ASD2
         {
             for (int j = 0; j < 5; ++j)
             {
-                IGraph network = generator.DirectedGraph(typeof(AdjacencyMatrixGraph), random.Next(20) + 5, 0.6, 1, 10);
+                Graph network = generator.DirectedGraph(typeof(AdjacencyMatrixGraph), random.Next(20) + 5, 0.6, 1, 10);
                 for (int i = 0; i < network.VerticesCount; ++i)
                 {
                     network.DelEdge(i, 0);
@@ -81,10 +81,11 @@ namespace ASD2
                 for (int i = 2; i < network.VerticesCount; ++i)
                     capacites[i] = random.Next(9) + 1;
                 int flow1, flow2;
-                IGraph flow;
-                flow1 = network.FordFulkersonMaxFlow(0, 1, out flow);
+                Graph flow;
+                
+                flow1 = (int)network.FordFulkersonDinicMaxFlow(0, 1, out flow, MaxFlowGraphExtender.BFPath);
                 flow2 = network.ConstrainedMaxFlow(0, 1, capacites, out flow);
-                if ( IsFlowFeasible(network,0,1,capacites,flow) )
+                if (IsFlowFeasible(network, 0, 1, capacites, flow))
                     Console.WriteLine("g{0}\n bez ogr: {1} \n   z ogr: {2}", j + 1, flow1, flow2);
                 else
                     Console.WriteLine("g{0}\n bez ogr: {1} \n   z ogr: przeplyw niedopuszczalny", j + 1, flow1);
@@ -100,23 +101,23 @@ namespace ASD2
         /// <param name="capacities">przepustowości wierzchołków</param>
         /// <param name="flow">znaleziony graf przepływu</param>
         /// <returns>Czy graf przepływu jest jest dopuszczalny</returns>
-        static bool IsFlowFeasible(IGraph network, int s, int t, int[] capacities, IGraph flow)
+        static bool IsFlowFeasible(Graph network, int s, int t, int[] capacities, Graph flow)
         {
-            if ( flow==null )
+            if (flow == null)
                 return false;
-            int[,] vertFlows = new int[2,network.VerticesCount];
+            int[,] vertFlows = new int[2, network.VerticesCount];
             if (flow.VerticesCount != network.VerticesCount)
                 return false;
 
             for (int i = 0; i < flow.VerticesCount; ++i)
             {
-                foreach ( Edge e in flow.OutEdges(i) )
+                foreach (Edge e in flow.OutEdges(i))
                 {
-                    if (!network.GetEdgeWeight(i, e.To).HasValue)
+                    if (network.GetEdgeWeight(i, e.To).IsNaN())
                         return false;
-                    vertFlows[0, i] += e.Weight;
-                    vertFlows[1, e.To] += e.Weight;
-                }                
+                    vertFlows[0, i] += (int)e.Weight;
+                    vertFlows[1, e.To] += (int)e.Weight;
+                }
             }
 
             for (int i = 0; i < flow.VerticesCount; ++i)
@@ -134,8 +135,8 @@ namespace ASD2
         {
             for (int i = 0; i < 5; ++i)
             {
-                IGraph g = generator.UndirectedGraph(typeof(AdjacencyMatrixGraph), random.Next(5) + 5, 0.9);
-                IGraph paths;
+                Graph g = generator.UndirectedGraph(typeof(AdjacencyMatrixGraph), random.Next(5) + 5, 0.9);
+                Graph paths;
                 int count = g.FindMaxIndependentPaths(0, 1, out paths);
                 Console.WriteLine("g{0} : {1}", i + 1, count);
             }
