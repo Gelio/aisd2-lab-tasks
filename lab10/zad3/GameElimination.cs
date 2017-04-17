@@ -23,13 +23,17 @@
             // 2, ..., (2 + pairsCount - 1) - pairs
             // (2 + pairsCount), ..., (pairsCount + teamsCount) - team vertices
             Graph eliminationsGraph = new AdjacencyMatrixGraph(true, 2 + pairsCount + (teamsCount - 1));
+            int i = 0;
 
             Team selectedTeam = null;
-            foreach (Team team in teams)
+            int selectedTeamIndex = -1;
+            for (i = 0; i < teamsCount; i++)
             {
+                Team team = teams[i];
                 if (team.Id == teamId)
                 {
                     selectedTeam = team;
+                    selectedTeamIndex = i;
                     break;
                 }
             }
@@ -43,7 +47,7 @@
 
 
             int[] teamVertices = new int[teamsCount - 1];
-            int i = 0;
+            i = 0;
             foreach (Team team in teams)
             {
                 if (team.Id == teamId)
@@ -62,7 +66,7 @@
                     continue;
 
                 int team1Vertex = -1;
-                for (int j=0; j < teamsCount - 1; j++)
+                for (int j = 0; j < teamsCount - 1; j++)
                 {
                     if (teamVertices[j] == team1.Id)
                     {
@@ -109,9 +113,76 @@
                 }
             }
 
-            predictedResults = null;
+            if (!allSourceEdgesSaturated)
+            {
+                predictedResults = null;
+                return true;
+            }
 
-            return !allSourceEdgesSaturated;
+            predictedResults = new int[teamsCount, teamsCount];
+
+            // Compute predicted results for the selected team
+            for (int otherTeamIndex = 0; otherTeamIndex < teamsCount; otherTeamIndex++)
+            {
+                if (otherTeamIndex == selectedTeamIndex)
+                    continue;
+
+                int otherTeamVertex = -1;
+
+                for (int j = 0; j < teamsCount - 1; j++)
+                {
+                    if (teamVertices[j] == teams[otherTeamIndex].Id)
+                    {
+                        otherTeamVertex = j;
+                        break;
+                    }
+                }
+
+                otherTeamVertex += 2 + pairsCount;
+
+                int matchesWon = (int)(eliminationsGraph.GetEdgeWeight(otherTeamVertex, 1) - flow.GetEdgeWeight(otherTeamVertex, 1)),
+                    matchesLost = (int)selectedTeam.NumberOfGamesToPlayByTeam[otherTeamIndex] - matchesWon;
+
+                predictedResults[selectedTeamIndex, otherTeamIndex] = matchesWon;
+                predictedResults[otherTeamIndex, selectedTeamIndex] = matchesLost;
+            }
+
+            // Compute predicted results for all other teams
+            for (i = 0; i < pairsCount; i++)
+            {
+                int team1Id = pairVertices[i].Item1,
+                    team2Id = pairVertices[i].Item2;
+                int team1Index = -1,
+                    team2Index = -1;
+
+                for (int j = 0; j < teamsCount; j++)
+                {
+                    if (teams[j].Id == team1Id)
+                        team1Index = j;
+                    else if (teams[j].Id == team2Id)
+                        team2Index = j;
+
+                    if (team1Index != -1 && team2Index != -1)
+                        break;
+                }
+
+                int team1Vertex = -1,
+                    team2Vertex = -1;
+                for (int j = 0; j < teamsCount - 1; j++)
+                {
+                    if (teamVertices[j] == team1Id)
+                        team1Vertex = j;
+                    else if (teamVertices[j] == team2Id)
+                        team2Vertex = j;
+
+                    if (team1Vertex != -1 && team2Vertex != -1)
+                        break;
+                }
+
+                predictedResults[team1Index, team2Index] = (int)flow.GetEdgeWeight(2 + i, 2 + pairsCount + team1Vertex);
+                predictedResults[team2Index, team1Index] = (int)flow.GetEdgeWeight(2 + i, 2 + pairsCount + team2Vertex);
+            }
+            return false;
         }
     }
 }
