@@ -2,7 +2,7 @@
 {
     using System;
 
-    using ASD.Graph;
+    using ASD.Graphs;
 
     public partial class Program
     {
@@ -16,7 +16,7 @@
         public static bool IsTeamEliminated(int teamId, Team[] teams, out int[,] predictedResults)
         {
             predictedResults = null;
-            
+
             return true;
         }
     }
