@@ -188,8 +188,24 @@ namespace ASD2
             //
             // TODO (1 pkt.)
             //
-            paths = null;
-            return -1;
+            int n = g.VerticesCount;
+            int[] capacity = new int[n];
+            for (int v = 0; v < n; v++)
+                capacity[v] = 1;
+            capacity[start] = capacity[finish] = int.MaxValue;
+
+            Graph constrainedGraph = g.IsolatedVerticesGraph();
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (!g.Directed && e.To < e.From)
+                        continue;
+                    constrainedGraph.AddEdge(e.From, e.To, 1);
+                }
+            }
+
+            return constrainedGraph.ConstrainedMaxFlow(start, finish, capacity, out paths);
         }
 
     }
