@@ -15,9 +15,103 @@
         /// <returns></returns>
         public static bool IsTeamEliminated(int teamId, Team[] teams, out int[,] predictedResults)
         {
+            int teamsCount = teams.Length,
+                pairsCount = (teamsCount - 1) * (teamsCount - 2) / 2;
+
+            // Vertices:
+            // 0 - start, 1 - finish,
+            // 2, ..., (2 + pairsCount - 1) - pairs
+            // (2 + pairsCount), ..., (pairsCount + teamsCount) - team vertices
+            Graph eliminationsGraph = new AdjacencyMatrixGraph(true, 2 + pairsCount + (teamsCount - 1));
+
+            Team selectedTeam = null;
+            foreach (Team team in teams)
+            {
+                if (team.Id == teamId)
+                {
+                    selectedTeam = team;
+                    break;
+                }
+            }
+
+            // Team not found
+            if (selectedTeam == null)
+            {
+                predictedResults = null;
+                return true;
+            }
+
+
+            int[] teamVertices = new int[teamsCount - 1];
+            int i = 0;
+            foreach (Team team in teams)
+            {
+                if (team.Id == teamId)
+                    continue;
+
+                // Add i -> t edge
+                eliminationsGraph.AddEdge(2 + pairsCount + i, 1, Math.Max(selectedTeam.NumberOfWins + selectedTeam.NumberOfGamesToPlay - team.NumberOfWins, 0));
+                teamVertices[i++] = team.Id;
+            }
+
+            i = 0;
+            Tuple<int, int>[] pairVertices = new Tuple<int, int>[pairsCount];
+            foreach (Team team1 in teams)
+            {
+                if (team1.Id == teamId)
+                    continue;
+
+                int team1Vertex = -1;
+                for (int j=0; j < teamsCount - 1; j++)
+                {
+                    if (teamVertices[j] == team1.Id)
+                    {
+                        team1Vertex = j;
+                        break;
+                    }
+                }
+
+                foreach (Team team2 in teams)
+                {
+                    if (team2.Id == teamId)
+                        continue;
+                    if (team2.Id <= team1.Id)
+                        continue;
+
+                    int team2Vertex = -1;
+                    for (int j = 0; j < teamsCount - 1; j++)
+                    {
+                        if (teamVertices[j] == team2.Id)
+                        {
+                            team2Vertex = j;
+                            break;
+                        }
+                    }
+
+                    // Add s -> i-j edge
+                    eliminationsGraph.AddEdge(0, 2 + i, team1.NumberOfGamesToPlayByTeam[team2Vertex]);
+
+                    // Add i-j -> i and i-j -> j edges
+                    eliminationsGraph.AddEdge(2 + i, 2 + pairsCount + team1Vertex, double.PositiveInfinity);
+                    eliminationsGraph.AddEdge(2 + i, 2 + pairsCount + team2Vertex, double.PositiveInfinity);
+                    pairVertices[i++] = new Tuple<int, int>(team1.Id, team2.Id);
+                }
+            }
+
+            double flowValue = eliminationsGraph.FordFulkersonDinicMaxFlow(0, 1, out Graph flow, MaxFlowGraphExtender.BFPath);
+            bool allSourceEdgesSaturated = true;
+            foreach (Edge e in flow.OutEdges(0))
+            {
+                if (e.Weight < eliminationsGraph.GetEdgeWeight(0, e.To))
+                {
+                    allSourceEdgesSaturated = false;
+                    break;
+                }
+            }
+
             predictedResults = null;
 
-            return true;
+            return !allSourceEdgesSaturated;
         }
     }
 }
