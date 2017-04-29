@@ -84,35 +84,35 @@ class Lab09
             Console.WriteLine();
         }
 
-        //Console.WriteLine("Grafy za 2 pkt");
-        //Console.WriteLine();
-        //for (i = 0; i < g2.Length; ++i)
-        //{
-        //    counter0 = Graph.Counter;
-        //    mb = g2[i].BacktrackingColor(out backtrackingColors);
-        //    counter1 = Graph.Counter;
-        //    mg = g2[i].GreedyColor(out greedyColors);
-        //    counter2 = Graph.Counter;
-        //    Console.WriteLine("{0,-17}  liczba wierzcholkow  {1,4},  optymalna liczba kolorow  {2,4}", message2[i], g2[i].VerticesCount, bestColorsNumbers2[i]);
-        //    Console.WriteLine("  Backtracking:    liczba kolorow  {0,4},  zlozonosc  {1,8}", mb, counter1 - counter0);
-        //    Console.WriteLine("  Greedy:          liczba kolorow  {0,4},  zlozonosc  {1,8}", mg, counter2 - counter1);
-        //    Console.WriteLine();
-        //}
+        Console.WriteLine("Grafy za 2 pkt");
+        Console.WriteLine();
+        for (i = 0; i < g2.Length; ++i)
+        {
+            counter0 = Graph.Counter;
+            mb = g2[i].BacktrackingColor(out backtrackingColors);
+            counter1 = Graph.Counter;
+            mg = g2[i].GreedyColor(out greedyColors);
+            counter2 = Graph.Counter;
+            Console.WriteLine("{0,-17}  liczba wierzcholkow  {1,4},  optymalna liczba kolorow  {2,4}", message2[i], g2[i].VerticesCount, bestColorsNumbers2[i]);
+            Console.WriteLine("  Backtracking:    liczba kolorow  {0,4},  zlozonosc  {1,8}", mb, counter1 - counter0);
+            Console.WriteLine("  Greedy:          liczba kolorow  {0,4},  zlozonosc  {1,8}", mg, counter2 - counter1);
+            Console.WriteLine();
+        }
 
-        //Console.WriteLine("Grafy za 3 pkt");
-        //Console.WriteLine();
-        //for (i = 0; i < g3.Length; ++i)
-        //{
-        //    counter0 = Graph.Counter;
-        //    mb = g3[i].BacktrackingColor(out backtrackingColors);
-        //    counter1 = Graph.Counter;
-        //    mg = g3[i].GreedyColor(out greedyColors);
-        //    counter2 = Graph.Counter;
-        //    Console.WriteLine("{0,-17}  liczba wierzcholkow  {1,4},  optymalna liczba kolorow  {2,4}", message3[i], g3[i].VerticesCount, bestColorsNumbers3[i]);
-        //    Console.WriteLine("  Backtracking:    liczba kolorow  {0,4},  zlozonosc  {1,8}", mb, counter1 - counter0);
-        //    Console.WriteLine("  Greedy:          liczba kolorow  {0,4},  zlozonosc  {1,8}", mg, counter2 - counter1);
-        //    Console.WriteLine();
-        //}
+        Console.WriteLine("Grafy za 3 pkt");
+        Console.WriteLine();
+        for (i = 0; i < g3.Length; ++i)
+        {
+            counter0 = Graph.Counter;
+            mb = g3[i].BacktrackingColor(out backtrackingColors);
+            counter1 = Graph.Counter;
+            mg = g3[i].GreedyColor(out greedyColors);
+            counter2 = Graph.Counter;
+            Console.WriteLine("{0,-17}  liczba wierzcholkow  {1,4},  optymalna liczba kolorow  {2,4}", message3[i], g3[i].VerticesCount, bestColorsNumbers3[i]);
+            Console.WriteLine("  Backtracking:    liczba kolorow  {0,4},  zlozonosc  {1,8}", mb, counter1 - counter0);
+            Console.WriteLine("  Greedy:          liczba kolorow  {0,4},  zlozonosc  {1,8}", mg, counter2 - counter1);
+            Console.WriteLine();
+        }
 
         Console.WriteLine("Koniec");
         Console.WriteLine();

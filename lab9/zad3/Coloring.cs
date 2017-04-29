@@ -13,16 +13,42 @@ namespace ASD.Graphs
             // (wpisujemy go do tablicy colors)
             // zwracamy liczbe uzytych kolorow
 
-            /* ZMIENIC */
-            int k = g.VerticesCount;
-            /* ZMIENIC */
-            colors = new int[k];
-            /* ZMIENIC */
-            for (int i = 0; i < k; ++i)
-                /* ZMIENIC */
-                colors[i] = i + 1;
-            /* ZMIENIC */
-            return k;
+            int n = g.VerticesCount;
+            colors = new int[n];
+            if (n == 0)
+                return 0;
+
+            int maxColorUsed = 1;
+            colors[0] = 0;
+            bool[] colorsUsedByNeighbors = new bool[n];
+            for (int v = 1; v < n; ++v)
+            {
+                for (int i = 0; i < n; i++)
+                    colorsUsedByNeighbors[i] = false;
+
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (e.To >= v)
+                        continue;
+                    colorsUsedByNeighbors[colors[e.To]] = true;
+                }
+
+                int lowestColorForV = -1;
+                for (int i = 0; i < n; i++)
+                {
+                    if (!colorsUsedByNeighbors[i])
+                    {
+                        lowestColorForV = i;
+                        break;
+                    }
+                }
+
+                colors[v] = lowestColorForV;
+                if (lowestColorForV > maxColorUsed)
+                    maxColorUsed = lowestColorForV;
+            }
+
+            return maxColorUsed + 1;
         }
 
         // koloruje graf algorytmem z powrotami (optymalnie)
