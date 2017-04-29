@@ -1,3 +1,4 @@
+using System;
 
 namespace ASD.Graphs
 {
@@ -70,6 +71,8 @@ namespace ASD.Graphs
             // zmienna pamietajaca liczbe kolorow w najlepszym dotychczas znalezionym pokolorowaniu
             internal int bestColorsNumber;
 
+            internal int n;
+
             // badany graf
             private Graph g;
 
@@ -77,27 +80,44 @@ namespace ASD.Graphs
             internal Coloring(Graph g)
             {
                 this.g = g;
-                bestColorsNumber = g.VerticesCount + 1;
+                n = g.VerticesCount;
+                bestColorsNumber = n + 1;
+                bestColors = new int[n];
             }
 
             // rekurencyjna metoda znajdujaca najlepsze pokolorowanie
             // v - wierzcholek do pokolorowania
             // colors - tablica kolorow
-            // n - liczba kolorow uzytych w pokolorowaniu zapisanym w colors
-            internal void Color(int v, int[] colors, int n)
+            // k - maksymalny kolor u¿yty w colors
+            internal void Color(int v, int[] colors, int k)
             {
-                // tu zaimplementowac algorytm z powrotami
+                if (v == n)
+                {
+                    if (bestColorsNumber > k + 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                            bestColors[i] = colors[i];
+                        bestColorsNumber = k + 1;
+                    }
+                    return;
+                }
+                
+                
+                bool[] colorsUsedByNeighbors = new bool[n];
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    if (e.To >= v)
+                        continue;
+                    colorsUsedByNeighbors[colors[e.To]] = true;
+                }
 
-                /* ZMIENIC */
-                int k = g.VerticesCount;
-                /* ZMIENIC */
-                bestColors = new int[k];
-                /* ZMIENIC */
-                for (int i = 0; i < k; ++i)
-                    /* ZMIENIC */
-                    bestColors[i] = i + 1;
-                /* ZMIENIC */
-                bestColorsNumber = k;
+                for (int i = 0; i < bestColorsNumber; i++)
+                {
+                    if (colorsUsedByNeighbors[i])
+                        continue;
+                    colors[v] = i;
+                    Color(v + 1, colors, Math.Max(i, k));
+                }
             }
 
         }  // class Coloring
