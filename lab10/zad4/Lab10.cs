@@ -6,7 +6,7 @@ using ASD.Graphs;
 /// Klasa rozszerzająca klasę Graph o rozwiązania problemów największej kliki i izomorfizmu grafów metodą pełnego przeglądu (backtracking)
 /// </summary>
 public static class Lab10GraphExtender
-    {
+{
     /// <summary>
     /// Wyznacza największą klikę w grafie i jej rozmiar metodą pełnego przeglądu (backtracking)
     /// </summary>
@@ -18,10 +18,10 @@ public static class Lab10GraphExtender
     /// 2) Nie wolno modyfikować badanego grafu.
     /// </remarks>
     public static int MaxClique(this Graph g, out int[] clique)
-        {
+    {
         clique = null;
         return 0;
-        }
+    }
 
     /// <summary>
     /// Bada izomorfizm grafów metodą pełnego przeglądu (backtracking)
@@ -36,10 +36,10 @@ public static class Lab10GraphExtender
     /// 3) Nie wolno modyfikować badanych grafów.
     /// </remarks>
     public static bool IsomorpchismTest(this Graph g, Graph h, out int[] map)
-        {
-        map=null;
+    {
+        map = null;
         return true;
-        }
-
     }
+
+}
 
