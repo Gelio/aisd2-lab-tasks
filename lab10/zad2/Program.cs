@@ -26,7 +26,7 @@ namespace Lab10
 
             public bool Verify(Point[] route)
             {
-                if (route==null)
+                if (route == null)
                 {
                     Console.WriteLine("Brak zdefiniowanej drogi");
                     return false;
@@ -58,26 +58,26 @@ namespace Lab10
                     return false;
                 }
 
-                if (!route[0].Equals(new Point(0,0)) )
+                if (!route[0].Equals(new Point(0, 0)))
                 {
                     Console.WriteLine("Droga nie zaczyna się od pola [0,0]");
                     return false;
                 }
 
-                bool res=true;
-                for ( int i=1 ; i<route.Length ; ++i )
+                bool res = true;
+                for (int i = 1; i < route.Length; ++i)
+                {
+                    if (route[i].X < 0 || route[i].X >= N || route[i].Y < 0 || route[i].X >= M)
                     {
-                    if ( route[i].X<0 || route[i].X>=N || route[i].Y<0 || route[i].X>=M )
-                        {
                         Console.WriteLine("\tNieprawidłowe pole {0}", route[i]);
-                        res=false;
-                        }
-                    if ( Math.Abs(route[i].X-route[i-1].X)+Math.Abs(route[i].Y-route[i-1].Y)!=3 || Math.Abs(route[i].X-route[i-1].X)==0 || Math.Abs(route[i].Y-route[i-1].Y)==0 )
-                        {
-                        Console.WriteLine("\tPrzejście z pola {0} na pole {1} jest niepoprawne", route[i-1], route[i]);
-                        res=false;
-                        }
+                        res = false;
                     }
+                    if (Math.Abs(route[i].X - route[i - 1].X) + Math.Abs(route[i].Y - route[i - 1].Y) != 3 || Math.Abs(route[i].X - route[i - 1].X) == 0 || Math.Abs(route[i].Y - route[i - 1].Y) == 0)
+                    {
+                        Console.WriteLine("\tPrzejście z pola {0} na pole {1} jest niepoprawne", route[i - 1], route[i]);
+                        res = false;
+                    }
+                }
 
                 return res;
             }
@@ -93,8 +93,8 @@ namespace Lab10
                              new Test(5,5, new Point[0], true),
                              new Test(6,6, new Point[0], true),
                              new Test(
-                                4, 4, 
-                                new [] 
+                                4, 4,
+                                new []
                                 {
                                     new Point(1,0),
                                     new Point(1,1),
@@ -104,11 +104,11 @@ namespace Lab10
                                     new Point(0,3),
                                     new Point(2,2),
                                     new Point(2,3)
-                                }, 
+                                },
                                 true),
                              new Test(
-                                5, 5, 
-                                new [] 
+                                5, 5,
+                                new []
                                 {
                                     new Point(1,0),
                                     new Point(0,1),
@@ -121,7 +121,7 @@ namespace Lab10
                                     new Point(3,4),
                                     new Point(4,0),
                                     new Point(4,1),
-                                }, 
+                                },
                                 true),
                              new Test(5,5, new [] { new Point(1,2), new Point(2,1) }, false),
                              new Test(4,7, new [] { new Point(1,2), new Point(1,1), new Point(3,6) }, false),
