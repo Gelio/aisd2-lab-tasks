@@ -88,7 +88,7 @@ public static class Lab10GraphExtender
     /// </remarks>
     public static bool IsomorpchismTest(this Graph g, Graph h, out int[] map)
     {
-        if (g.VerticesCount != h.VerticesCount)
+        if (g.VerticesCount != h.VerticesCount || g.EdgesCount != h.EdgesCount)
         {
             map = null;
             return false;
@@ -132,7 +132,7 @@ public static class Lab10GraphExtender
                 if (_gVertexUsed[gVertex])
                     continue;
 
-                if (_g.OutDegree(gVertex) != _h.OutDegree(nextHVertex) || _g.InDegree(gVertex) != _h.OutDegree(nextHVertex))
+                if (_g.OutDegree(gVertex) != _h.OutDegree(nextHVertex) || _g.InDegree(gVertex) != _h.InDegree(nextHVertex))
                     continue;
 
                 map[nextHVertex] = gVertex;
