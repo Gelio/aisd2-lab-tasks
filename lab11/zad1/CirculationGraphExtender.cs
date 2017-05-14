@@ -43,8 +43,47 @@ namespace MatrixRounding
         /// </remarks>
         public static bool FindCirculation(this Graph graph, int[] demands, out Graph circulation)
         {
-            circulation = null;
-            return false;
+            int n = graph.VerticesCount;
+            Graph circulationCapacity = graph.IsolatedVerticesGraph(true, graph.VerticesCount + 2);
+            int s = n;
+            int t = n + 1;
+
+            int sourceCirculation = 0;
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in graph.OutEdges(v))
+                    circulationCapacity.AddEdge(e);
+                if (demands[v] > 0)
+                    circulationCapacity.AddEdge(v, t, demands[v]);
+                else if (demands[v] < 0)
+                {
+                    sourceCirculation -= demands[v];
+                    circulationCapacity.AddEdge(s, v, -demands[v]);
+                }
+            }
+
+            double circulationValue = circulationCapacity.FordFulkersonDinicMaxFlow(s, t, out Graph circulationFlow, MaxFlowGraphExtender.BFPath);
+            if (circulationValue != sourceCirculation)
+            {
+                circulation = null;
+                return false;
+            }
+
+            circulation = graph.IsolatedVerticesGraph();
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in circulationFlow.OutEdges(v))
+                {
+                    if (e.Weight == 0)
+                        continue;
+                    if (e.To == s || e.To == t)
+                        continue;
+
+                    circulation.AddEdge(e);
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
