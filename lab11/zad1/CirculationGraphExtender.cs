@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,8 +111,42 @@ namespace MatrixRounding
         /// </remarks>
         public static bool FindCirculationWithLowerBounds(this Graph graph, int[] demands, Graph lowerBounds, out Graph circulation)
         {
-            circulation = null;
-            return false;
+            int n = graph.VerticesCount;
+            List<Edge> edgesToRestore = new List<Edge>();
+            Graph graphClone = graph.Clone();
+            int[] newDemands = demands.Clone() as int[];
+
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in lowerBounds.OutEdges(v))
+                {
+                    newDemands[e.From] += Convert.ToInt32(e.Weight);
+                    newDemands[e.To] -= Convert.ToInt32(e.Weight);
+                    graphClone.ModifyEdgeWeight(e.From, e.To, -e.Weight);
+                    if (graphClone.GetEdgeWeight(e.From, e.To) <= 0)
+                    {
+                        edgesToRestore.Add(e);
+                        graphClone.DelEdge(e);
+                    }
+                }
+            }
+
+            bool circulationFound = graphClone.FindCirculation(newDemands, out circulation);
+            if (!circulationFound)
+                return false;
+
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in lowerBounds.OutEdges(v))
+                {
+                    if (!circulation.GetEdgeWeight(e.From, e.To).IsNaN())
+                        circulation.ModifyEdgeWeight(e.From, e.To, e.Weight);
+                    else
+                        circulation.AddEdge(e);
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
