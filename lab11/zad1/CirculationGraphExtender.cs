@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ASD.Graph;
+using ASD.Graphs;
 
 namespace MatrixRounding
 {
@@ -41,7 +41,7 @@ namespace MatrixRounding
         /// Dodatkowo maksymalny przepływ w stworzonej sieci po usunięciu s i t jest szukaną cyrkulacją.
         /// UWAGA: zwracany graf nie może zawierać wierzchołków s i t
         /// </remarks>
-        public static bool FindCirculation(this IGraph graph, int[] demands, out IGraph circulation)
+        public static bool FindCirculation(this Graph graph, int[] demands, out Graph circulation)
         {
             circulation = null;
             return false;
@@ -69,7 +69,7 @@ namespace MatrixRounding
         /// UWAGA: Biblioteka graph nie pozwala liczyć maksymalnego przepływu w grafie w którym krawędzie mają zerową przepustowość.
         ///        Jeśli modyfikacja przepustowości krawędzi doprowadzi do wartości 0 należy taką krawędź usunąć (a później oczywiście dodać).
         /// </remarks>
-        public static bool FindCirculationWithLowerBounds(this IGraph graph, int[] demands, IGraph lowerBounds, out IGraph circulation)
+        public static bool FindCirculationWithLowerBounds(this Graph graph, int[] demands, Graph lowerBounds, out Graph circulation)
         {
             circulation = null;
             return false;
@@ -98,7 +98,7 @@ namespace MatrixRounding
         /// </remarks>
         public static int[,] RoundMatrix(double[,] matrix)
         {
-            return new int[matrix.GetLength(0),matrix.GetLength(1)];
+            return new int[matrix.GetLength(0), matrix.GetLength(1)];
         }
     }
 }

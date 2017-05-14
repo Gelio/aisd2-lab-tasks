@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ASD.Graph;
+using ASD.Graphs;
 
 namespace MatrixRounding
 {
@@ -11,8 +11,8 @@ namespace MatrixRounding
     {
         private class CirculationTestCase
         {
-            public IGraph TestGraph { get; set; }
-            public IGraph LowerBounds { get; set; }
+            public Graph TestGraph { get; set; }
+            public Graph LowerBounds { get; set; }
             public int[] Demands { get; set; }
             public bool ExpectedResult { get; set; }
         }
@@ -24,7 +24,7 @@ namespace MatrixRounding
 
             foreach (var testCase in testCases)
             {
-                IGraph circulation;
+                Graph circulation;
                 bool result;
                 if (testCase.LowerBounds == null)
                 {
@@ -48,7 +48,7 @@ namespace MatrixRounding
             Console.WriteLine("MatrixRounding Tests:");
 
             List<double[,]> testMatrixes = new List<double[,]>()
-                { 
+                {
                     new double[,] { { 3.14, 6.8, 7.3 }, { 9.6, 2.4, 0.7 }, { 3.6, 1.2, 6.5 } },
                     new double[,] { { 3.1, 6.6, 7.3 }, { 9.6, 2.4, 0.7 }, { 3.3, 1.2, 6.5 } },
                     new double[,] { { 3.14, 6.8, 7.3, 4.6 }, { 9.6, 2.4, 0.7, 9.5 }, { 3.6, 1.2, 6.5, 1.2 } },
@@ -60,10 +60,10 @@ namespace MatrixRounding
                 RunTest(matrix);
             }
 
-//            Console.ReadLine();
+            //            Console.ReadLine();
         }
 
-        private static bool VerifyResult(bool result, IGraph circulation, CirculationTestCase testCase)
+        private static bool VerifyResult(bool result, Graph circulation, CirculationTestCase testCase)
         {
             if (result != testCase.ExpectedResult)
             {
@@ -76,7 +76,7 @@ namespace MatrixRounding
                 return true;
             }
 
-            int[] flowValues = new int[circulation.VerticesCount];
+            double[] flowValues = new double[circulation.VerticesCount];
 
             for (int v = 0; v < circulation.VerticesCount; v++)
             {
@@ -109,7 +109,7 @@ namespace MatrixRounding
         {
             List<CirculationTestCase> testCases = new List<CirculationTestCase>();
 
-            IGraph testGraph1 = Graph.IsolatedVerticesGraph(true, 6, typeof(AdjacencyMatrixGraph));
+            Graph testGraph1 = new AdjacencyMatrixGraph(true, 6);
             testGraph1.AddEdge(0, 1, 10);
             testGraph1.AddEdge(0, 2, 3);
             testGraph1.AddEdge(1, 2, 6);
@@ -136,7 +136,7 @@ namespace MatrixRounding
             var lowerBounds1 = testGraph1.IsolatedVerticesGraph();
             lowerBounds1.AddEdge(0, 1, 8);
 
-            testCases.Add(new CirculationTestCase() { TestGraph = testGraph1, Demands = demands1, LowerBounds= lowerBounds1, ExpectedResult = false });
+            testCases.Add(new CirculationTestCase() { TestGraph = testGraph1, Demands = demands1, LowerBounds = lowerBounds1, ExpectedResult = false });
 
             var lowerBounds2 = testGraph1.IsolatedVerticesGraph();
             lowerBounds2.AddEdge(0, 1, 4);
