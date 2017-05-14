@@ -172,7 +172,41 @@ namespace MatrixRounding
         /// </remarks>
         public static int[,] RoundMatrix(double[,] matrix)
         {
-            return new int[matrix.GetLength(0), matrix.GetLength(1)];
+            int rows = matrix.GetLength(0),
+                columns = matrix.GetLength(1);
+
+            Graph g = new AdjacencyMatrixGraph(true, rows + columns + 2);
+            int s = 0;
+            int t = 1;
+            // 2, ..., 2 + rows - 1 - rows vertices
+            // 2 + rows, ..., 2 + rows + columns - 1 - column vertices
+
+            double[] rowSums = new double[rows];
+            double[] columnSums = new double[columns];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                    rowSums[i] += matrix[i, j];
+
+                g.AddEdge(s, 2 + i, Math.Ceiling(rowSums[i]) - rowSums[i]);
+            }
+            for (int j = 0; j < columns; j++)
+            {
+                for (int i = 0; i < rows; i++)
+                    columnSums[j] += matrix[i, j];
+
+                g.AddEdge(2 + rows + j, t, Math.Ceiling(columnSums[j]) - columnSums[j]);
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                    g.AddEdge(2 + i, 2 + rows + j, int.MaxValue);
+            }
+
+            g.AddEdge(t, s, int.MaxValue);
+            return new int[rows, columns];
         }
     }
 }
