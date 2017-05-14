@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using ASD.Graphs;
 
@@ -70,8 +71,51 @@ namespace asd2_lab11
         /// <returns>Metoda zwraca minimalny mozliwy koszt rozwiazania</returns>
         public static int MinimumCostOfTrails(this Graph g, int[] vcosts, out Graph trails)
         {
-            trails = null;
-            return 0;
+            int n = g.VerticesCount;
+            Graph network = g.IsolatedVerticesGraph(true, 2 * n + 2);
+            int s = 2 * n;
+            int t = 2 * n + 1;
+            // 0, ..., n - 1 - in vertices
+            // n, ..., 2n - 1 - out vertices
+            Graph costs = network.IsolatedVerticesGraph();
+
+            for (int v = 0; v < n; v++)
+            {
+                // s -> v_in (starting edge, free)
+                network.AddEdge(s, v);
+                costs.AddEdge(s, v, 0);
+
+                // v_out -> t (hotel cost)
+                network.AddEdge(n + v, t);
+                costs.AddEdge(n + v, t, vcosts[v]);
+
+                // v_in -> v_out (inner edge, free)
+                network.AddEdge(v, n + v);
+                costs.AddEdge(v, n + v, 0);
+
+                // v_out -> u_in (trail cost)
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    network.AddEdge(n + v, e.To);
+                    costs.AddEdge(n + v, e.To, e.Weight);
+                }
+            }
+
+            network.MinCostFlow(costs, s, t, out double cost, out Graph flow);
+            trails = g.IsolatedVerticesGraph();
+
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in flow.OutEdges(n + v))
+                {
+                    if (e.Weight == 0 || e.To == t)
+                        continue;
+
+                    trails.AddEdge(v, e.To, e.Weight);
+                }
+            }
+
+            return Convert.ToInt32(cost);
         }
     }
 }
