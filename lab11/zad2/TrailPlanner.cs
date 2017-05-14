@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ASD.Graphs;
 
 namespace asd2_lab11
@@ -14,9 +15,50 @@ namespace asd2_lab11
         /// <returns>Metoda zwraca minimalna mozliwa liczbe szlakow</returns>
         public static int MinimumNumberOfTrails(this Graph g, out int totalCost, out Graph trails)
         {
-            totalCost = 0;
-            trails = null;
-            return 0;
+            int n = g.VerticesCount;
+            Graph network = g.IsolatedVerticesGraph(true, 2 * n + 2);
+            int s = 2 * n;
+            int t = 2 * n + 1;
+            // 0, ..., n - 1 - in vertices
+            // n, ..., 2n - 1 - out vertices
+            Graph costs = network.IsolatedVerticesGraph();
+
+            for (int v = 0; v < n; v++)
+            {
+                network.AddEdge(s, n + v);
+                costs.AddEdge(s, n + v, 0);
+                network.AddEdge(v, t);
+                costs.AddEdge(v, t, 0);
+
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    network.AddEdge(n + v, e.To);
+                    costs.AddEdge(n + v, e.To, e.Weight);
+                }
+            }
+
+            double flowValue = network.MinCostFlow(costs, s, t, out double cost, out Graph flow);
+            trails = g.IsolatedVerticesGraph();
+
+            int[] vertexInComponent = new int[n];
+            int totalComponents = 0;
+            for (int v = 0; v < n; v++)
+            {
+                if (vertexInComponent[v] == 0)
+                    vertexInComponent[v] = ++totalComponents;
+
+                foreach (Edge e in flow.OutEdges(n + v))
+                {
+                    if (e.Weight == 0)
+                        continue;
+
+                    trails.AddEdge(v, e.To, e.Weight);
+                    vertexInComponent[e.To] = vertexInComponent[v];
+                }
+            }
+
+            totalCost = Convert.ToInt32(cost);
+            return totalComponents;
         }
 
         /// <summary>
