@@ -1,4 +1,8 @@
 
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+
 namespace ASD.Graphs
 {
 
@@ -46,11 +50,79 @@ namespace ASD.Graphs
         /// </remarks>
         public static int BottleNeck(this Graph g, Graph c, int[] p, out int flowValue, out int cost, out Graph flow, out Edge[] ext)
         {
-            flowValue = 0;                     // ZMIENIĆ 
-            cost = 0;                          // ZMIENIĆ
-            flow = g.IsolatedVerticesGraph();  // ZMIENIĆ
-            ext = new Edge[0];                 // ZMIENIĆ
-            return 2;                        // ZMIENIĆ
+            int n = g.VerticesCount;
+            Graph network = g.IsolatedVerticesGraph(true, 2 * n + 2);
+            Graph costs = network.IsolatedVerticesGraph();
+            // 0, ..., n - 1 - regular vertices
+            // n, ..., 2n - 1 - additional vertices (used for extending the network)
+            int s = 2 * n;
+            int t = 2 * n + 1;
+
+
+            double totalDemand = 0;
+            for (int v = 0; v < n; v++)
+            {
+                if (p[v] > 0)
+                {
+                    // v is a source
+                    network.AddEdge(s, v, p[v]);
+                    costs.AddEdge(s, v, 0);
+                }
+                else if (p[v] < 0)
+                {
+                    // v consumes the flow
+                    network.AddEdge(v, t, -p[v]);
+                    costs.AddEdge(v, t, 0);
+                    totalDemand += -p[v];
+                }
+
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    // x - y
+                    network.AddEdge(e);
+                    costs.AddEdge(v, e.To, 0);
+
+                    // x - x2
+                    network.AddEdge(v, n + v, int.MaxValue);
+                    costs.AddEdge(v, n + v, c.GetEdgeWeight(v, e.To));
+
+                    // x2 - y
+                    network.AddEdge(n + v, e.To, int.MaxValue);
+                    costs.AddEdge(n + v, e.To, 0);
+                }
+            }
+
+
+            double networkFlowValue = network.MinCostFlow(costs, s, t, out double networkCost, out Graph networkFlow);
+            flowValue = Convert.ToInt32(networkFlowValue);
+            cost = Convert.ToInt32(networkCost);
+
+            List<Edge> extensionEdges = new List<Edge>();
+            
+            flow = g.IsolatedVerticesGraph();
+            for (int v = 0; v < n; v++)
+            {
+                foreach (Edge e in g.OutEdges(v))
+                {
+                    double totalFlow = networkFlow.GetEdgeWeight(v, e.To);
+                    double extendedFlow = networkFlow.GetEdgeWeight(n + v, e.To);
+
+                    if (!extendedFlow.IsNaN() && extendedFlow > 0)
+                    {
+                        totalFlow += extendedFlow;
+                        extensionEdges.Add(new Edge(v, e.To, extendedFlow));
+                    }
+
+                    flow.AddEdge(v, e.To, totalFlow);
+                }
+            }
+
+            ext = extensionEdges.ToArray();
+
+            if (extensionEdges.Count == 0)
+                return 0;
+
+            return flowValue == totalDemand ? 1 : 2;
         }
 
     }
