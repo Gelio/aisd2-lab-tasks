@@ -32,11 +32,11 @@ namespace ASD
 
             sortedPoints.Sort((p1, p2) =>
             {
-                int crossProduct = (int) -Point.CrossProduct(p1 - startingPoint, p2 - startingPoint);
+                int crossProduct = (int)-Point.CrossProduct(p1 - startingPoint, p2 - startingPoint);
                 if (crossProduct != 0)
                     return crossProduct;
 
-                return (int) (Point.Distance(startingPoint, p1) - Point.Distance(startingPoint, p2));
+                return (int)(Point.Distance(startingPoint, p1) - Point.Distance(startingPoint, p2));
             });
 
             List<Point> convexHull = new List<Point>();
@@ -51,7 +51,7 @@ namespace ASD
 
                 convexHull.Add(sortedPoints[k]);
             }
-            
+
             return convexHull.ToArray();
         }
 
@@ -68,8 +68,26 @@ namespace ASD
         /// <returns>Wartość maksymalnej odległości w zbiorze</returns>
         public static double MaxDiameter(Point[] points, out Point[] result)
         {
+            Point[] convexHull = ConvexHull(points);
+            double maxDistance = double.NegativeInfinity;
             result = new Point[2];
-            return 0.0;
+            int h = convexHull.Length;
+            for (int i = 0; i < h; i++)
+                for (int j = i; j < h; j++)
+                {
+                    if (i == j)
+                        continue;
+                    double distance = Point.Distance(convexHull[i], convexHull[j]);
+                    if (distance > maxDistance)
+                    {
+                        maxDistance = distance;
+                        result[0] = convexHull[i];
+                        result[1] = convexHull[j];
+                    }
+                }
+
+
+            return maxDistance;
         }
 
         /// <summary>
