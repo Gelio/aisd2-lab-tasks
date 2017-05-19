@@ -27,29 +27,29 @@ namespace ASD
             List<Point> t3 = new List<Point>();
             for (int i = 0; i < 100; i++)
             {
-                Point ns = new Point(r.Next()%1000-500,r.Next()%1000-500);
+                Point ns = new Point(r.Next() % 1000 - 500, r.Next() % 1000 - 500);
                 t3.Add(ns);
             }
-            var tests = new[]{           
+            var tests = new[]{
                 new
                 {
-                    Points = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)}, 
-                    Hull = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)}, 
+                    Points = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)},
+                    Hull = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)},
 
-                },           
+                },
                new
                 {
-                    Points = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10), new Point(1,2),new Point(0,5), new Point(1,10), new Point(8,9), new Point(9.5,10)}, 
-                    Hull = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)}, 
+                    Points = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10), new Point(1,2),new Point(0,5), new Point(1,10), new Point(8,9), new Point(9.5,10)},
+                    Hull = new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,10)},
 
-                },         
+                },
                 new
                 {
                     Points=t3.ToArray(),
                     Hull=new Point[]{new Point(-157, -500),new Point(237, -494),new Point(467, -469),new Point(484, -335),new Point(491, -187),new Point(484, 345),
                         new Point(415, 462),new Point(-133, 488),new Point(-444, 378),new Point(-495, 316), new Point(-480,-491)}
                 }
-               
+
             };
 
 
@@ -104,24 +104,24 @@ namespace ASD
             var tests = new[]{
                 new
                 {
-                    Points=new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,9.5)}, 
+                    Points=new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,9.5)},
                     ResultLenght=Math.Sqrt(200)
                 },
                 new
                 {
-                    Points=new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,9.5), new Point(5,5), new Point(2.5,7), new Point(8,8), new Point(10,5), new Point(9,9)}, 
+                    Points=new Point[]{new Point(0,0), new Point(10,0),new Point(10,10),new Point(0,9.5), new Point(5,5), new Point(2.5,7), new Point(8,8), new Point(10,5), new Point(9,9)},
                     ResultLenght=Math.Sqrt(200)
-                }, 
+                },
                 new
                 {
-                    Points=new Point[]{new Point(0,0), new Point(50,0),new Point(150,200),new Point(0,9.5), new Point(55,55), new Point(25,70), new Point(18,82), new Point(10,5), new Point(96,9), new Point(100,54), new Point(95,90), new Point(10,5), new Point(119,39), new Point(88,5), new Point(180,90)}, 
+                    Points=new Point[]{new Point(0,0), new Point(50,0),new Point(150,200),new Point(0,9.5), new Point(55,55), new Point(25,70), new Point(18,82), new Point(10,5), new Point(96,9), new Point(100,54), new Point(95,90), new Point(10,5), new Point(119,39), new Point(88,5), new Point(180,90)},
                     ResultLenght=250.0
                 },
                 new
                 {
                     Points=t3.ToArray(),
                     ResultLenght=1461.7694756698129
-                },          
+                },
                 new{
                     Points=t4.ToArray(),
                     ResultLenght=134.27793211203621
@@ -162,28 +162,28 @@ namespace ASD
             List<Segment> t3 = new List<Segment>();
             for (int i = 0; i < 100; i++)
             {
-                Segment ns = new Segment(new Point(r.Next() % 100 - 50, r.Next() % 100 - 50), new Point(r.Next() % 100 - 50, r.Next() % 100 - 50));                
-                    t3.Add(ns);
-            }            
-            var tests = new[]{           
+                Segment ns = new Segment(new Point(r.Next() % 100 - 50, r.Next() % 100 - 50), new Point(r.Next() % 100 - 50, r.Next() % 100 - 50));
+                t3.Add(ns);
+            }
+            var tests = new[]{
                 new
                 {
                     Altar = new Point(0,0),
-                    Walls = new []{ 
-                        new Segment(new Point(-10,10),new Point(-10,-10)),  
-                        new Segment(new Point(10,10),new Point(10,-10)), 
-                        new Segment(new Point(-9,2),new Point(9,2)), 
+                    Walls = new []{
+                        new Segment(new Point(-10,10),new Point(-10,-10)),
+                        new Segment(new Point(10,10),new Point(10,-10)),
+                        new Segment(new Point(-9,2),new Point(9,2)),
                         new Segment(new Point(-9,-2),new Point(9,-2))
                     },
                     Result=true
-                },           
+                },
                 new
                 {
                     Altar = new Point(0,0),
-                    Walls = new []{ 
-                        new Segment(new Point(-11,2.2),new Point(-11,-10)),  
-                        new Segment(new Point(10,10),new Point(10,-10)), 
-                        new Segment(new Point(-9,2),new Point(9,2)), 
+                    Walls = new []{
+                        new Segment(new Point(-11,2.2),new Point(-11,-10)),
+                        new Segment(new Point(10,10),new Point(10,-10)),
+                        new Segment(new Point(-9,2),new Point(9,2)),
                         new Segment(new Point(-9,-2),new Point(9,-2))
                     },
                     Result=false
@@ -191,10 +191,10 @@ namespace ASD
                 new
                 {
                     Altar = new Point(5,1.5),
-                    Walls = new []{ 
-                        new Segment(new Point(-11,2.2),new Point(-11,-10)),  
-                        new Segment(new Point(10,10),new Point(10,-10)), 
-                        new Segment(new Point(-9,2),new Point(9,2)), 
+                    Walls = new []{
+                        new Segment(new Point(-11,2.2),new Point(-11,-10)),
+                        new Segment(new Point(10,10),new Point(10,-10)),
+                        new Segment(new Point(-9,2),new Point(9,2)),
                         new Segment(new Point(-9,-2),new Point(9,-2))
                     },
                     Result=true
@@ -202,11 +202,11 @@ namespace ASD
                 new
                 {
                     Altar = new Point(1,1),
-                    Walls = new []{ 
-                        new Segment(new Point(-11,2.2),new Point(-11,-10)),  
-                        new Segment(new Point(10,10),new Point(10,1.1)), 
-                        new Segment(new Point(10,0.9),new Point(10,-10)), 
-                        new Segment(new Point(-9,2),new Point(9,2)), 
+                    Walls = new []{
+                        new Segment(new Point(-11,2.2),new Point(-11,-10)),
+                        new Segment(new Point(10,10),new Point(10,1.1)),
+                        new Segment(new Point(10,0.9),new Point(10,-10)),
+                        new Segment(new Point(-9,2),new Point(9,2)),
                         new Segment(new Point(-9,-2),new Point(9,-2))
                     },
                     Result=false
@@ -216,14 +216,14 @@ namespace ASD
                     Altar = new Point(0,0),
                     Walls = t3.ToArray(),
                     Result=true
-                },          
+                },
 
             };
 
 
 
 
-            for(int i =0; i< tests.Length; i++)
+            for (int i = 0; i < tests.Length; i++)
             {
                 var t = tests[i];
                 bool success = false;
@@ -278,7 +278,7 @@ namespace ASD
 
         private static bool CheckChineeseAltarResult(bool expectedResult, bool result)
         {
-            if(expectedResult!=result)
+            if (expectedResult != result)
                 throw new Exception("Niepoprawy wynik");
             return true;
         }

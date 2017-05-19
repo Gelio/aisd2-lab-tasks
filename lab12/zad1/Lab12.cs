@@ -66,9 +66,9 @@ namespace ASD
         /// <param name="walls">zbiór murów (odcinków)</param>
         /// <returns>true jeśli nie istnieje prosta nieprzecinająca muru, false jeśli taka prosta istnieje</returns>
         public static bool ChineeseAltars(Point altar, Segment[] walls)
-            {
+        {
             return false;
-            }
+        }
 
     }
 }
