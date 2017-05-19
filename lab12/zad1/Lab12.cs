@@ -121,7 +121,42 @@ namespace ASD
         /// <returns>true jeśli nie istnieje prosta nieprzecinająca muru, false jeśli taka prosta istnieje</returns>
         public static bool ChineeseAltars(Point altar, Segment[] walls)
         {
-            return false;
+            List<Point> wallsPointsList = new List<Point>();
+            Dictionary<Point, int> pointsDictionary = new Dictionary<Point, int>();
+            Point xMax = new Point(walls.Max(wall => Math.Max(wall.pe.x, wall.ps.x)), 0);
+            Segment xAxisAtAltar = new Segment(altar, new Point(xMax.x, altar.y));
+            int wallsIntersectingXAxis = 0;
+
+            foreach (Segment wall in walls)
+            {
+                wallsPointsList.Add(wall.ps);
+                wallsPointsList.Add(wall.pe);
+
+                if (Point.CrossProduct(wall.pe, xMax) > Point.CrossProduct(wall.ps, xMax))
+                {
+                    pointsDictionary.Add(wall.pe, -1);
+                    pointsDictionary.Add(wall.ps, 1);
+                }
+                else
+                {
+                    pointsDictionary.Add(wall.pe, 1);
+                    pointsDictionary.Add(wall.ps, -1);
+                }
+
+                if (Geometry.Intersection(xAxisAtAltar, wall))
+                    wallsIntersectingXAxis++;
+            }
+
+            Point[] sortedWallsPoints = Geometry.AngleSort(altar, wallsPointsList.ToArray());
+
+            foreach (Point wallPoint in sortedWallsPoints)
+            {
+                if (wallsIntersectingXAxis == 0)
+                    return false;
+                wallsIntersectingXAxis += pointsDictionary[wallPoint];
+            }
+
+            return wallsIntersectingXAxis != 0;
         }
 
     }
