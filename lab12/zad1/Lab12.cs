@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Point = ASD.Geometry.Point;
 using Segment = ASD.Geometry.Segment;
 namespace ASD
@@ -16,7 +17,42 @@ namespace ASD
         /// <returns>Tablica kolejnych punktów należących do otoczki</returns>
         public static Point[] ConvexHull(Point[] p)
         {
-            return new Point[0];
+            int n = p.Length;
+            Point startingPoint = p[0];
+            for (int i = 1; i < n; i++)
+            {
+                if (p[i].y < startingPoint.y)
+                    startingPoint = p[i];
+                else if (p[i].y == startingPoint.y && p[i].x < startingPoint.x)
+                    startingPoint = p[i];
+            }
+
+            List<Point> sortedPoints = new List<Point>(p);
+            sortedPoints.Remove(startingPoint);
+
+            sortedPoints.Sort((p1, p2) =>
+            {
+                int crossProduct = (int) -Point.CrossProduct(p1 - startingPoint, p2 - startingPoint);
+                if (crossProduct != 0)
+                    return crossProduct;
+
+                return (int) (Point.Distance(startingPoint, p1) - Point.Distance(startingPoint, p2));
+            });
+
+            List<Point> convexHull = new List<Point>();
+            convexHull.Add(startingPoint);
+            convexHull.Add(sortedPoints[0]);
+
+            for (int k = 0; k < n - 1; k++)
+            {
+                while (convexHull.Count >= 2 && Point.CrossProduct(convexHull[convexHull.Count - 1] - convexHull[convexHull.Count - 2],
+                           sortedPoints[k] - convexHull[convexHull.Count - 1]) <= 0)
+                    convexHull.RemoveAt(convexHull.Count - 1);
+
+                convexHull.Add(sortedPoints[k]);
+            }
+            
+            return convexHull.ToArray();
         }
 
         /// <summary>
