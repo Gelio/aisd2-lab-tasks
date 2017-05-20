@@ -25,7 +25,7 @@ namespace discs
             return (this.X > b.X || (this.X == b.X && this.Y > b.Y));
         }
     }
-    
+
     public enum IntersectionType
     {
         Disjoint,
@@ -100,7 +100,7 @@ namespace discs
 
             double rX = -dY * h / dist;
             double rY = dX * h / dist;
-            
+
             crossingPoints = new Point[2];
             crossingPoints[0] = new Point(px + rX, py + rY);
             crossingPoints[1] = new Point(px - rX, py - rY);
@@ -111,7 +111,7 @@ namespace discs
         /*
          * dopisz wszystkie inne metody, które uznasz za stosowne         
          * 
-         */ 
+         */
 
     }
 
@@ -120,9 +120,9 @@ namespace discs
 
         public static Point? FindCommonPoint(Disk[] disks)
         {
-        /*
-         * uzupełnij
-         */
+            /*
+             * uzupełnij
+             */
             return null;
         }
 
