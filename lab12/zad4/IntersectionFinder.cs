@@ -24,6 +24,15 @@ namespace discs
         {
             return (this.X > b.X || (this.X == b.X && this.Y > b.Y));
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Point))
+                return false;
+
+            Point other = (Point)obj;
+            return X == other.X && Y == other.Y;
+        }
     }
 
     public enum IntersectionType
@@ -78,6 +87,20 @@ namespace discs
              * tu zajmij się wszystkimi przypadkami wzajemnego położenia kół,
              * oprócz Crosses i Touches
              */
+            crossingPoints = new Point[0];
+
+            if (Radius == other.Radius && Center.Equals(other.Center))
+                return IntersectionType.Identical;
+
+            double radiusSum = Radius + other.Radius;
+            if (dist > radiusSum)
+                return IntersectionType.Disjoint;
+            
+            if (Radius >= dist + other.Radius)
+                return IntersectionType.Contains;
+            if (other.Radius >= dist + Radius)
+                return IntersectionType.IsContained;
+
 
             // odległość od środka aktualnego koła (this) do punktu P,
             // który jest punktem przecięcia odcinka łączącego środki kół (this i other)
@@ -95,6 +118,11 @@ namespace discs
              * teraz wiesz już wszystko co potrzebne do rozpoznania położenia Touches
              * zajmij się tym
              */
+            if (h < Program.epsilon)
+            {
+                crossingPoints = new Point[1] {new Point(px, py)};
+                return IntersectionType.Touches;
+            }
 
             // przypadek Crosses - dwa punkty przecięcia - już jest zrobiony
 
