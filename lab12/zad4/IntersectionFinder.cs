@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 
 namespace discs
@@ -165,49 +166,62 @@ namespace discs
             if (n == 1)
                 return disks[0].Center;
 
+            List<Point> rightmostPoints = new List<Point>();
+
             for (int i = 0; i < n; i++)
             {
                 for (int j = i + 1; j < n; j++)
                 {
                     IntersectionType intersectionType = disks[i].GetIntersectionType(disks[j], out Point[] crossingPoints);
+                    Point? rightmostPoint = null;
+
                     switch (intersectionType)
                     {
                         case IntersectionType.Disjoint:
                             return null;
 
                         case IntersectionType.Identical:
-                            crossingPoints = new Point[] { disks[i].Center };
+                            rightmostPoint = new Point(disks[i].Center.X + disks[i].Radius, disks[i].Center.Y);
                             break;
 
                         case IntersectionType.Contains:
-                            crossingPoints = new Point[] { disks[j].Center };
+                            rightmostPoint = new Point(disks[j].Center.X + disks[j].Radius, disks[j].Center.Y);
                             break;
                         case IntersectionType.IsContained:
-                            crossingPoints = new Point[] { disks[i].Center };
+                            rightmostPoint = new Point(disks[i].Center.X + disks[i].Radius, disks[i].Center.Y);
+                            break;
+
+                        case IntersectionType.Touches:
+                            rightmostPoint = crossingPoints[0];
+                            break;
+
+                        case IntersectionType.Crosses:
+                            // TODO: fix choosing the righmost point here
+                            rightmostPoint = crossingPoints[0].X > crossingPoints[1].X
+                                ? crossingPoints[0]
+                                : crossingPoints[1];
                             break;
                     }
 
-                    foreach (Point prospectiveCommonPoint in crossingPoints)
-                    {
-                        bool validCommonPoint = true;
-                        for (int k = 0; k < n; k++)
-                        {
-                            if (k == i || k == j)
-                                continue;
-
-                            if (!disks[k].ContainsPoint(prospectiveCommonPoint))
-                            {
-                                validCommonPoint = false;
-                                break;
-                            }
-                        }
-
-                        if (validCommonPoint)
-                            return prospectiveCommonPoint;
-                    }
+                    // Can be optimized to compare against the leftmost point instead of adding to the list and comparing outside this loop
+                    rightmostPoints.Add(rightmostPoint.Value);
                 }
             }
-            return null;
+
+            Point leftmostPoint = rightmostPoints[0];
+            for (int i = 1; i < rightmostPoints.Count; i++)
+            {
+                if (leftmostPoint.X > rightmostPoints[i].X)
+                    leftmostPoint = rightmostPoints[i];
+            }
+
+            foreach (Disk disk in disks)
+            {
+                if (!disk.ContainsPoint(leftmostPoint))
+                    return null;
+            }
+
+            return leftmostPoint;
         }
 
     }
