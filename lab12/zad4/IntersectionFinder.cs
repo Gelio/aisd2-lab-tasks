@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace discs
 {
@@ -89,16 +90,16 @@ namespace discs
              */
             crossingPoints = new Point[0];
 
-            if (Radius == other.Radius && Center.Equals(other.Center))
+            if (Math.Abs(Radius - other.Radius) < Program.epsilon && Center.Equals(other.Center))
                 return IntersectionType.Identical;
 
             double radiusSum = Radius + other.Radius;
-            if (dist > radiusSum)
+            if (dist - radiusSum > Program.epsilon)
                 return IntersectionType.Disjoint;
-            
-            if (Radius >= dist + other.Radius)
+
+            if (Radius - (dist + other.Radius) + Program.epsilon >= 0)
                 return IntersectionType.Contains;
-            if (other.Radius >= dist + Radius)
+            if (other.Radius - (dist + Radius) + Program.epsilon >= 0)
                 return IntersectionType.IsContained;
 
 
@@ -120,7 +121,7 @@ namespace discs
              */
             if (h < Program.epsilon)
             {
-                crossingPoints = new Point[1] {new Point(px, py)};
+                crossingPoints = new Point[1] { new Point(px, py) };
                 return IntersectionType.Touches;
             }
 
@@ -148,9 +149,22 @@ namespace discs
 
         public static Point? FindCommonPoint(Disk[] disks)
         {
-            /*
-             * uzupełnij
-             */
+            int n = disks.Length;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i; j < n; j++)
+                {
+                    IntersectionType intersectionType = disks[i].GetIntersectionType(disks[j], out Point[] crossingPoints);
+                    switch (intersectionType)
+                    {
+                        case IntersectionType.Disjoint:
+                            return null;
+
+                        case IntersectionType.Identical:
+                            break;
+                    }
+                }
+            }
             return null;
         }
 
