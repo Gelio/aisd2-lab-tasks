@@ -141,7 +141,18 @@ namespace discs
          * dopisz wszystkie inne metody, które uznasz za stosowne         
          * 
          */
+        public bool ContainsPoint(Point point)
+        {
+            return (Distance2FromPoint(point) <= Radius * Radius + Program.epsilon);
+        }
 
+        public double Distance2FromPoint(Point point)
+        {
+            double dX = point.X - Center.X;
+            double dY = point.Y - Center.Y;
+
+            return dX * dX + dY * dY;
+        }
     }
 
     static class IntersectionFinder
@@ -150,9 +161,13 @@ namespace discs
         public static Point? FindCommonPoint(Disk[] disks)
         {
             int n = disks.Length;
+
+            if (n == 1)
+                return disks[0].Center;
+
             for (int i = 0; i < n; i++)
             {
-                for (int j = i; j < n; j++)
+                for (int j = i + 1; j < n; j++)
                 {
                     IntersectionType intersectionType = disks[i].GetIntersectionType(disks[j], out Point[] crossingPoints);
                     switch (intersectionType)
@@ -161,7 +176,34 @@ namespace discs
                             return null;
 
                         case IntersectionType.Identical:
+                            crossingPoints = new Point[] { disks[i].Center };
                             break;
+
+                        case IntersectionType.Contains:
+                            crossingPoints = new Point[] { disks[j].Center };
+                            break;
+                        case IntersectionType.IsContained:
+                            crossingPoints = new Point[] { disks[i].Center };
+                            break;
+                    }
+
+                    foreach (Point prospectiveCommonPoint in crossingPoints)
+                    {
+                        bool validCommonPoint = true;
+                        for (int k = 0; k < n; k++)
+                        {
+                            if (k == i || k == j)
+                                continue;
+
+                            if (!disks[k].ContainsPoint(prospectiveCommonPoint))
+                            {
+                                validCommonPoint = false;
+                                break;
+                            }
+                        }
+
+                        if (validCommonPoint)
+                            return prospectiveCommonPoint;
                     }
                 }
             }
