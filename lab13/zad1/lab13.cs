@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using Point = ASD.Geometry.Point;
 using Triangle = ASD.Geometry.Triangle;
@@ -36,56 +37,52 @@ namespace ASD
         /// 
         public static bool isMonotone(Point[] polygon, out Point[] sortedPolygon)
         {
-            // Use Graham's algorithm to check if the polygon is convex or not.
-            // Every convex polygon is monotonic
-
-            Point startingPoint = polygon[0];
-            for (int i = 1; i < polygon.Length; i++)
+            int leftmostPointIndex = 0,
+                rightmostPointIndex = 0,
+                n = polygon.Length;
+            for (int i = 1; i < n; i++)
             {
-                if (polygon[i].y < startingPoint.y ||
-                    (polygon[i].y == startingPoint.y && polygon[i].x < startingPoint.x))
-                    startingPoint = polygon[i];
+                if (polygon[i].x < polygon[leftmostPointIndex].x)
+                    leftmostPointIndex = i;
+                if (polygon[i].x > polygon[rightmostPointIndex].x)
+                    rightmostPointIndex = i;
             }
 
-            List<Point> otherPoints = Geometry.AngleSort(startingPoint, polygon.Where(p => p != startingPoint).ToArray())
-                .ToList();
-            
-            List<Point> convexHull = new List<Point>();
-            convexHull.Add(startingPoint);
-            convexHull.Add(otherPoints[0]);
+            sortedPolygon = new Point[n];
 
-            bool isConvexHull = true;
-
-            for (int i = 1; i < otherPoints.Count; i++)
+            int currentPoint = leftmostPointIndex,
+                j = 0;
+            while (currentPoint != rightmostPointIndex)
             {
-                if (Point.CrossProduct(convexHull[convexHull.Count - 1] - convexHull[convexHull.Count - 2],
-                           otherPoints[i] - convexHull[convexHull.Count - 1]) <= 0)
+                // Lower trail
+                int nextPoint = (currentPoint + 1) % n;
+
+                if (polygon[nextPoint].x <= polygon[currentPoint].x)
                 {
-                    isConvexHull = false;
-                    break;
+                    sortedPolygon = null;
+                    return false;
                 }
-                convexHull.Add(otherPoints[i]);
+
+                sortedPolygon[j++] = polygon[currentPoint];
+                currentPoint = nextPoint;
             }
 
-            if (isConvexHull)
+            while (currentPoint != leftmostPointIndex)
             {
-                // I have no idea how to sort those points. They're not all sorted by x, I see no pattern
-                sortedPolygon = new Point[polygon.Length];
-                sortedPolygon[0] = startingPoint;
-                for (int i = 0, j = 1; i < polygon.Length; i++)
+                // Upper tail (reverse)
+                int nextPoint = (currentPoint + 1) % n;
+
+                if (polygon[nextPoint].x >= polygon[currentPoint].x)
                 {
-                    if (polygon[i] == startingPoint)
-                        continue;
-
-                    sortedPolygon[j++] = polygon[i];
+                    sortedPolygon = null;
+                    return false;
                 }
-                return true;
+
+                sortedPolygon[j++] = polygon[currentPoint];
+                currentPoint = nextPoint;
             }
-            else
-            {
-                sortedPolygon = null;
-                return false;
-            }   
+
+            return true;
         }
 
 
@@ -121,7 +118,7 @@ namespace ASD
         /// 
         public static int triangulateMonotone(Point[] polygon, out Triangle[] triangulation)
         {
-
+            
 
 
             triangulation = null;
