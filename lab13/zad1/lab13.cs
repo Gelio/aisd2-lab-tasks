@@ -144,9 +144,11 @@ namespace ASD
         /// 
         public static double polygonArea(Triangle[] triangulation)
         {
+            double area = 0;
+            foreach (Triangle triangle in triangulation)
+                area += Math.Abs(Point.CrossProduct(triangle.b - triangle.a, triangle.c - triangle.a)) / 2;
 
-
-            return 0;
+            return area;
         }
     }
 }
