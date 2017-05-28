@@ -34,7 +34,7 @@ namespace ASD
         /// <returns>True jeśli wielokąt jest monotoniczny, False - w p.p.</returns>  
         /// 
         public static bool isMonotone(Point[] polygon, out Point[] sortedPolygon)
-        {            
+        {
 
 
 
@@ -78,8 +78,8 @@ namespace ASD
 
 
 
-                triangulation = null;
-                return 0;            
+            triangulation = null;
+            return 0;
         }
 
 
