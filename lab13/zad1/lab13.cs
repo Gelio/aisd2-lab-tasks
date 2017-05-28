@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Point = ASD.Geometry.Point;
@@ -35,11 +36,56 @@ namespace ASD
         /// 
         public static bool isMonotone(Point[] polygon, out Point[] sortedPolygon)
         {
+            // Use Graham's algorithm to check if the polygon is convex or not.
+            // Every convex polygon is monotonic
 
+            Point startingPoint = polygon[0];
+            for (int i = 1; i < polygon.Length; i++)
+            {
+                if (polygon[i].y < startingPoint.y ||
+                    (polygon[i].y == startingPoint.y && polygon[i].x < startingPoint.x))
+                    startingPoint = polygon[i];
+            }
 
+            List<Point> otherPoints = Geometry.AngleSort(startingPoint, polygon.Where(p => p != startingPoint).ToArray())
+                .ToList();
+            
+            List<Point> convexHull = new List<Point>();
+            convexHull.Add(startingPoint);
+            convexHull.Add(otherPoints[0]);
 
-            sortedPolygon = new Point[0];
-            return false;
+            bool isConvexHull = true;
+
+            for (int i = 1; i < otherPoints.Count; i++)
+            {
+                if (Point.CrossProduct(convexHull[convexHull.Count - 1] - convexHull[convexHull.Count - 2],
+                           otherPoints[i] - convexHull[convexHull.Count - 1]) <= 0)
+                {
+                    isConvexHull = false;
+                    break;
+                }
+                convexHull.Add(otherPoints[i]);
+            }
+
+            if (isConvexHull)
+            {
+                // I have no idea how to sort those points. They're not all sorted by x, I see no pattern
+                sortedPolygon = new Point[polygon.Length];
+                sortedPolygon[0] = startingPoint;
+                for (int i = 0, j = 1; i < polygon.Length; i++)
+                {
+                    if (polygon[i] == startingPoint)
+                        continue;
+
+                    sortedPolygon[j++] = polygon[i];
+                }
+                return true;
+            }
+            else
+            {
+                sortedPolygon = null;
+                return false;
+            }   
         }
 
 
