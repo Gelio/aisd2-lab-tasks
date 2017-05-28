@@ -118,7 +118,75 @@ namespace ASD
         /// 
         public static int triangulateMonotone(Point[] polygon, out Triangle[] triangulation)
         {
-            
+            List<Triangle> triangles = new List<Triangle>();
+
+            int n = polygon.Length;
+            HashSet<Point> lowerTrail = new HashSet<Point>(),
+                upperTrail = new HashSet<Point>();
+
+            lowerTrail.Add(polygon[0]);
+            upperTrail.Add(polygon[0]);
+
+            bool firstTimeUpperTrail = true;
+
+            for (int i = 1; i < n; i++)
+            {
+                if (polygon[i].x > polygon[i - 1].x)
+                {
+                    lowerTrail.Add(polygon[i]);
+                }
+                else
+                {
+                    if (firstTimeUpperTrail)
+                    {   
+                        // the rightmost point is both in lower and upper trail (as is the leftmost one)
+                        upperTrail.Add(polygon[i - 1]);
+                        firstTimeUpperTrail = false;
+                    }
+
+                    upperTrail.Add(polygon[i]);
+                }
+            }
+
+            List<Point> currentPoints = new List<Point>(n);
+            foreach (Point p in polygon.OrderBy(p => p.x))
+            {
+                if (lowerTrail.Contains(p))
+                {
+                    foreach (Point p1 in currentPoints)
+                    {
+                        if (!lowerTrail.Contains(p1))
+                            continue;
+
+                        foreach (Point p2 in currentPoints)
+                        {
+                            if (p1 == p2 || !lowerTrail.Contains(p2))
+                                continue;
+
+                            // check if three of those make a triangle inside the polygon
+                            // if yes, then make triangles from the end of the currentPoints
+                        }
+                    }
+                }
+
+                if (upperTrail.Contains(p))
+                {
+                    foreach (Point p1 in currentPoints)
+                    {
+                        if (!upperTrail.Contains(p1))
+                            continue;
+
+                        foreach (Point p2 in currentPoints)
+                        {
+                            if (p1 == p2 || !upperTrail.Contains(p2))
+                                continue;
+
+                            // check if three of those make a triangle inside the polygon
+                            // if yes, then make triangles from the end of the currentPoints
+                        }
+                    }
+                }
+            }
 
 
             triangulation = null;
