@@ -118,8 +118,6 @@ namespace ASD
         /// 
         public static int triangulateMonotone(Point[] polygon, out Triangle[] triangulation)
         {
-            List<Triangle> triangles = new List<Triangle>();
-
             int n = polygon.Length;
             HashSet<Point> lowerTrail = new HashSet<Point>(),
                 upperTrail = new HashSet<Point>();
@@ -148,49 +146,142 @@ namespace ASD
                 }
             }
 
+            List<Triangle> triangles = new List<Triangle>();
             List<Point> currentPoints = new List<Point>(n);
             foreach (Point p in polygon.OrderBy(p => p.x))
             {
+                bool triangleConstructed = false;
+
+                // Try to construct a triangle from the same trail as the current point
                 if (lowerTrail.Contains(p))
                 {
-                    foreach (Point p1 in currentPoints)
+                    for (int i = 0; i < currentPoints.Count; i++)
                     {
+                        if (triangleConstructed)
+                            break;
+                        Point p1 = currentPoints[i];
+
                         if (!lowerTrail.Contains(p1))
                             continue;
-
-                        foreach (Point p2 in currentPoints)
-                        {
-                            if (p1 == p2 || !lowerTrail.Contains(p2))
-                                continue;
-
-                            // check if three of those make a triangle inside the polygon
-                            // if yes, then make triangles from the end of the currentPoints
-                        }
-                    }
-                }
-
-                if (upperTrail.Contains(p))
-                {
-                    foreach (Point p1 in currentPoints)
-                    {
-                        if (!upperTrail.Contains(p1))
+                        if (upperTrail.Contains(p1))
                             continue;
 
-                        foreach (Point p2 in currentPoints)
+                        for (int j = i + 1; j < currentPoints.Count; j++)
                         {
-                            if (p1 == p2 || !upperTrail.Contains(p2))
+                            if (i == j)
+                                continue;
+                            Point p2 = currentPoints[j];
+                            if (!lowerTrail.Contains(p2))
                                 continue;
 
-                            // check if three of those make a triangle inside the polygon
-                            // if yes, then make triangles from the end of the currentPoints
+                            if (Point.CrossProduct(p1 - p, p2 - p1) > 0)
+                            {
+                                triangleConstructed = true;
+                                triangles.Add(new Triangle(p1, p2, p));
+                                currentPoints.Remove(p1);
+                                break;
+                            }
                         }
                     }
                 }
+
+                // Same, but for the upper trail
+                if (!triangleConstructed && upperTrail.Contains(p))
+                {
+                    for (int i = 0; i < currentPoints.Count; i++)
+                    {
+                        if (triangleConstructed)
+                            break;
+                        Point p1 = currentPoints[i];
+
+                        if (!upperTrail.Contains(p1))
+                            continue;
+                        if (lowerTrail.Contains(p1))
+                            continue;
+
+                        for (int j = i + 1; j < currentPoints.Count; j++)
+                        {
+                            if (i == j)
+                                continue;
+                            Point p2 = currentPoints[j];
+                            if (!upperTrail.Contains(p2))
+                                continue;
+
+                            if (Point.CrossProduct(p1 - p, p2 - p1) < 0)
+                            {
+                                triangleConstructed = true;
+                                triangles.Add(new Triangle(p1, p2, p));
+                                currentPoints.Remove(p1);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                // Now try to construct the triangle from points from different trails
+                // This part is for when the current point is in the lower trail
+                if (!triangleConstructed && lowerTrail.Contains(p))
+                {
+                    for (int i = 0; i < currentPoints.Count; i++)
+                    {
+                        if (triangleConstructed)
+                            break;
+
+                        Point pL = currentPoints[i];
+                        if (!lowerTrail.Contains(pL))
+                            continue;
+
+                        for (int j = 0; j < currentPoints.Count; j++)
+                        {
+                            if (i == j)
+                                continue;
+                            Point pU = currentPoints[j];
+                            if (!upperTrail.Contains(pU))
+                                continue;
+
+                            triangleConstructed = true;
+                            triangles.Add(new Triangle(pL, pU, p));
+                            currentPoints.Remove(pL);
+                            break;
+                        }
+                    }
+                }
+
+                // Same, but for the upper trail
+                if (!triangleConstructed && upperTrail.Contains(p))
+                {
+                    for (int i = 0; i < currentPoints.Count; i++)
+                    {
+                        if (triangleConstructed)
+                            break;
+
+                        Point pL = currentPoints[i];
+                        if (!lowerTrail.Contains(pL))
+                            continue;
+
+                        for (int j = 0; j < currentPoints.Count; j++)
+                        {
+                            if (i == j)
+                                continue;
+                            Point pU = currentPoints[j];
+                            if (!upperTrail.Contains(pU))
+                                continue;
+
+                            triangleConstructed = true;
+                            triangles.Add(new Triangle(pL, pU, p));
+                            currentPoints.Remove(pU);
+                            break;
+                        }
+                    }
+                }
+
+                currentPoints.Add(p);
             }
 
 
-            triangulation = null;
-            return 0;
+            triangulation = triangles.ToArray();
+            return triangles.Count;
         }
 
 
