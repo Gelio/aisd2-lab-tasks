@@ -109,9 +109,39 @@ namespace ASD2
         /// </returns>
         public static int? CyclicEquivalenceDirect(string text1, string text2)
         {
-            return null;
-        }
+            int i,
+                j,
+                n = text1.Length,
+                k = 0;
 
+            if (n != text2.Length)
+                return null;
+
+            i = j = 0;
+
+            while (i < n && j < n && k <= n)
+            {
+                for (k = 0; k < n; k++)
+                {
+                    if (text1[(i + k) % n] != text2[(j + k) % n])
+                        break;
+                }
+                k++;
+
+                if (k <= n)
+                {
+                    if (text1[(i + k) % n] > text2[(j + k) % n])
+                        i += k;
+                    else
+                        j += k;
+                }
+            }
+
+            if (k <= n)
+                return null;
+
+            return (i + (n - j)) % n;
+        }
     }
 
 }
