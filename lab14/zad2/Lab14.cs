@@ -117,6 +117,9 @@ namespace ASD2
             if (n != text2.Length)
                 return null;
 
+            if (text1 == text2)
+                return 0;
+
             i = j = 0;
 
             while (i < n && j < n && k <= n)
