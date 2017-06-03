@@ -70,6 +70,23 @@ namespace Teksty
 
             // ETAP 2  - tu należy zaimplementować generowanie kodów poszczególnych znaków oraz wypełnianie mapy codesMap
 
+            if (node.character != default(char))
+            {
+                if (node == root) // Special case, there is only one character, so we should add a 0 to the code
+                    code.Append(false);
+
+                codesMap.Add(node.character, code);
+            }
+            else
+            {
+                // Not a leaf, continue down the path
+                BitList rightSubtreeBitList = new BitList(code);
+                code.Append(false);
+                buildCodesMap(node.left, code);
+                rightSubtreeBitList.Append(true);
+                buildCodesMap(node.right, rightSubtreeBitList);
+            }
+
         }
 
         public BitList Compress(string content)
@@ -77,7 +94,11 @@ namespace Teksty
 
             // ETAP 2 - wykorzystując dane w codesMap należy zakodować napis przekazany jako parametr content
 
-            return null;
+            BitList compressedContent = new BitList();
+            foreach (char c in content)
+                compressedContent.Append(codesMap[c]);
+
+            return compressedContent;
         }
 
         public string Decompress(BitList compressed)
