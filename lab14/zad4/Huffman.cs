@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text;
 using ASD;
 
@@ -32,6 +34,7 @@ namespace Teksty
 
         private Node root;
         private Dictionary<char, BitList> codesMap;
+        private Dictionary<BitList, char> reverseCodesMap;
 
         public Huffman(string content)
         {
@@ -63,6 +66,9 @@ namespace Teksty
 
             codesMap = new Dictionary<char, BitList>();
             buildCodesMap(root, new BitList());
+            reverseCodesMap = new Dictionary<BitList, char>();
+            foreach (var entry in codesMap)
+                reverseCodesMap.Add(entry.Value, entry.Key);
         }
 
         private void buildCodesMap(Node node, BitList code)
@@ -106,7 +112,32 @@ namespace Teksty
 
             // ETAP 3 - należy zwrócić zdekodowane dane
 
-            return null;
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < compressed.Count; )
+            {
+                bool matchFound = false;
+
+                foreach (BitList currentBitList in reverseCodesMap.Keys.Reverse())
+                {
+                    int j = 0;
+                    while (j < currentBitList.Count && j + i < compressed.Count && currentBitList[j] == compressed[i + j])
+                        j++;
+
+                    if (j == currentBitList.Count)
+                    {
+                        sb.Append(reverseCodesMap[currentBitList]);
+                        i += j;
+                        matchFound = true;
+                        break;
+                    }
+                }
+
+                if (!matchFound)
+                    break;
+            }
+
+            return sb.ToString();
         }
 
     }
