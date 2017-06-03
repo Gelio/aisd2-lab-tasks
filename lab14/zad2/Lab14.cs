@@ -19,50 +19,56 @@ namespace ASD2
         public static int MinPattern(string text, out int[] indexes)
         {
             int[] P = StringMatching.ComputeP(text);
-            int shortestPattern = -1;
-            List<int> shortestPatternMatches = null;
-            int previousPrefixLength = -1;
-            foreach (int prefixLength in P.OrderByDescending(x => x))
-            {
-                if (prefixLength == previousPrefixLength)
-                    continue;
-                previousPrefixLength = prefixLength;
-                if (prefixLength == 0)
-                    break;
+            int textLength = text.Length;
+            int shortestPatternLength = textLength;
+            List<int> shortestPatternMatches = new List<int>() { 0 };
 
-                List<int> patternMatches = IsPattern(text, text.Substring(0, prefixLength));
-                if (patternMatches != null)
-                {
-                    shortestPattern = prefixLength;
-                    shortestPatternMatches = patternMatches;
-                }
+            foreach (int prefixLength in P.Where(x => x > 0).Distinct().OrderByDescending(x => x))
+            {
+                //if (shortestPatternLength < textLength && shortestPatternLength <= 2 * prefixLength)
+                //{
+                //    // Using "tip 2"
+                //    shortestPatternLength = prefixLength;
+                //    shortestPatternMatches = null;
+                //}
+                //else
+                //{
+                    // Check if the pattern matches
+                    string prefix = text.Substring(0, prefixLength);
+                    int[] prefixP = StringMatching.ComputeP(prefix);
+                    List<int> matches = StringMatching.KMP(text, prefix, prefixP);
+
+                    bool patternMatches = IsPattern(text, prefix, matches);
+                    if (patternMatches)
+                    {
+                        shortestPatternLength = prefixLength;
+                        shortestPatternMatches = matches;
+                    }
+                //}
             }
 
-            if (shortestPattern == -1)
+            if (shortestPatternMatches == null)
             {
-                indexes = new int[0];
-                return 0;
+                string prefix = text.Substring(0, shortestPatternLength);
+                shortestPatternMatches = StringMatching.KMP(text, prefix, StringMatching.ComputeP(prefix));
             }
 
             indexes = shortestPatternMatches.ToArray();
-            return shortestPattern;
+            return shortestPatternLength;
         }
 
-        private static List<int> IsPattern(string text, string prefix)
+        private static bool IsPattern(string text, string prefix, List<int> matches)
         {
-            int[] prefixP = StringMatching.ComputeP(prefix);
-            List<int> matches = StringMatching.KMP(text, prefix, prefixP);
-
             for (int i = 1; i < matches.Count; i++)
             {
                 if (matches[i] - matches[i - 1] > prefix.Length)
-                    return null;
+                    return false;
             }
 
             if (matches.Last() + prefix.Length < text.Length)
-                return null;
+                return false;
 
-            return matches;
+            return true;
         }
 
         /// <summary>
