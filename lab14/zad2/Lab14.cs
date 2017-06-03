@@ -83,7 +83,18 @@ namespace ASD2
         /// </returns>
         public static int? CyclicEquivalenceKMP(string text1, string text2)
         {
-            return null;
+            int n = text1.Length;
+
+            if (n != text2.Length)
+                return null;
+
+            if (text1 == text2)
+                return 0;
+
+            int[] P = StringMatching.ComputeP(text1 + text2);
+            if (P.Last() == 0)
+                return null;
+            return P.Last();
         }
 
         /// <summary>
